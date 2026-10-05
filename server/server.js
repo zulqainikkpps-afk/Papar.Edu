@@ -5,15 +5,32 @@ const fs = require('fs');
 const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
 const db = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'papar_edu_secret_key_2026_sabah';
 
+// Configure Cloudinary if environment variables are set
+if (process.env.CLOUDINARY_URL || (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET)) {
+  if (process.env.CLOUDINARY_URL) {
+    cloudinary.config({ cloudinary_url: process.env.CLOUDINARY_URL, secure: true });
+  } else {
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+      secure: true
+    });
+  }
+  console.log('Cloudinary object storage configured.');
+}
+
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
 // Ensure upload directories exist safely
 const uploadDirs = [
@@ -35,7 +52,7 @@ uploadDirs.forEach(dir => {
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use('/posters', express.static(path.join(__dirname, 'public/posters')));
 
-// Multer Storage Configuration (Memory storage with disk fallback)
+// Multer Storage Configuration (Memory storage)
 const storage = multer.memoryStorage();
 
 const upload = multer({
@@ -106,7 +123,7 @@ function logActivity(userName, action, details) {
 // 1. AUTHENTICATION API
 // ==========================================
 
-// Register
+// Register Account
 app.post('/api/auth/register', (req, res) => {
   const { full_name, email, phone, password, role, org_name, org_type, contact_person, address, website } = req.body;
 
@@ -114,6 +131,7 @@ app.post('/api/auth/register', (req, res) => {
     return res.status(400).json({ message: 'Sila lengkapkan maklumat wajib.' });
   }
 
+  // SECURITY RULE: Strictly enforce role to student or provider only. Public Admin registration is NOT allowed.
   const selectedRole = role === 'provider' ? 'provider' : 'student';
   const passwordHash = bcrypt.hashSync(password, 10);
 
@@ -122,7 +140,7 @@ app.post('/api/auth/register', (req, res) => {
     [full_name, email, phone || '', passwordHash, selectedRole],
     function (err) {
       if (err) {
-        if (err.message.includes('UNIQUE')) {
+        if (err.message && err.message.includes('UNIQUE')) {
           return res.status(400).json({ message: 'E-mel ini telah digunakan. Sila log masuk.' });
         }
         return res.status(500).json({ message: 'Ralat mendaftar akaun.' });
@@ -132,14 +150,13 @@ app.post('/api/auth/register', (req, res) => {
 
       if (selectedRole === 'provider') {
         db.run(
-          `INSERT INTO providers (user_id, org_name, org_type, contact_person, phone, official_email, address, website, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+          `INSERT INTO providers (user_id, org_name, org_type, contact_person, phone, official_email, address, website, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'approved')`,
           [userId, org_name || full_name, org_type || 'Agensi Latihan', contact_person || full_name, phone || '', email, address || 'Papar, Sabah', website || ''],
           function (err2) {
             if (err2) console.error('Provider create error:', err2);
-            // Admin notification
             db.run(
               `INSERT INTO notifications (user_id, title, message, type) VALUES (NULL, ?, ?, ?)`,
-              ['Penyedia Latihan Baharu Mendaftar', `Permohonan pengesahan daripada ${org_name || full_name} sedang menunggu kelulusan admin.`, 'warning']
+              ['Penyedia Latihan Baharu Mendaftar', `Penyedia Latihan ${org_name || full_name} telah didaftarkan.`, 'info']
             );
           }
         );
@@ -148,7 +165,7 @@ app.post('/api/auth/register', (req, res) => {
       // Welcome Notification for user
       db.run(
         `INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, ?)`,
-        [userId, 'Selamat Datang ke Papar.Edu!', selectedRole === 'provider' ? 'Akaun Penyedia Latihan anda telah didaftarkan dan sedang menunggu pengesahan pentadbir.' : 'Akaun komuniti anda telah berjaya dicipta. Terokai pelbagai kursus kemahiran hari ini!', 'success']
+        [userId, 'Selamat Datang ke Papar.Edu!', selectedRole === 'provider' ? 'Akaun Penyedia Latihan anda telah didaftarkan. Anda kini boleh menerbitkan kursus!' : 'Akaun komuniti anda telah berjaya dicipta. Terokai pelbagai kursus kemahiran hari ini!', 'success']
       );
 
       logActivity(full_name, 'Pendaftaran Akaun', `Pengguna baharu mendaftar sebagai ${selectedRole}`);
@@ -242,11 +259,11 @@ app.put('/api/auth/profile', authenticateToken, (req, res) => {
 });
 
 // ==========================================
-// 2. UPLOAD API
+// 2. UPLOAD API (Cloudinary + Local Disk + Data URL Fallback)
 // ==========================================
 
 app.post('/api/upload/poster', authenticateToken, (req, res) => {
-  upload.single('poster')(req, res, (err) => {
+  upload.single('poster')(req, res, async (err) => {
     if (err) {
       console.error('Multer upload error:', err);
       return res.status(400).json({
@@ -258,6 +275,32 @@ app.post('/api/upload/poster', authenticateToken, (req, res) => {
       return res.status(400).json({ message: 'Tiada fail imej dimuat naik.' });
     }
 
+    // 1. Cloudinary Storage (If configured)
+    if (process.env.CLOUDINARY_URL || (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET)) {
+      try {
+        const streamUpload = (fileBuffer) => {
+          return new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+              { folder: 'papar_edu_posters' },
+              (error, result) => {
+                if (result) resolve(result);
+                else reject(error);
+              }
+            );
+            stream.end(fileBuffer);
+          });
+        };
+        const cResult = await streamUpload(req.file.buffer);
+        return res.json({
+          message: 'Poster berjaya dimuat naik ke Cloudinary.',
+          poster_url: cResult.secure_url
+        });
+      } catch (cErr) {
+        console.warn('Cloudinary upload warning:', cErr.message);
+      }
+    }
+
+    // 2. Local Disk Storage / Fallback
     try {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
       const ext = path.extname(req.file.originalname).toLowerCase() || '.jpg';
@@ -266,7 +309,6 @@ app.post('/api/upload/poster', authenticateToken, (req, res) => {
 
       let posterUrl = '';
 
-      // Try writing file to local disk if writable
       try {
         if (!fs.existsSync(uploadsDir)) {
           fs.mkdirSync(uploadsDir, { recursive: true });
@@ -275,7 +317,6 @@ app.post('/api/upload/poster', authenticateToken, (req, res) => {
         fs.writeFileSync(filePath, req.file.buffer);
         posterUrl = `/uploads/${filename}`;
 
-        // Also attempt copy/write to client public directory for dev mode
         try {
           const clientUploadsDir = path.join(__dirname, '../client/public/uploads');
           if (!fs.existsSync(clientUploadsDir)) {
@@ -318,12 +359,13 @@ app.get('/api/courses', optionalAuth, (req, res) => {
   `;
   const params = [];
 
-  // Non-admin or public users default to published courses
-  if (!req.user || req.user.role === 'student') {
-    sql += ` AND c.status = 'published'`;
+  if (status === 'all' && req.user && (req.user.role === 'admin' || req.user.role === 'provider')) {
+    // Return all statuses for authorized provider or admin
   } else if (status) {
     sql += ` AND c.status = ?`;
     params.push(status);
+  } else if (!req.user || req.user.role === 'student') {
+    sql += ` AND c.status = 'published'`;
   }
 
   if (category && category !== 'All') {
@@ -361,7 +403,6 @@ app.get('/api/courses', optionalAuth, (req, res) => {
       return res.status(500).json({ message: 'Ralat mengambil senarai kursus.' });
     }
 
-    // Attach registration & saved status if logged in user
     if (req.user) {
       const courseIds = rows.map(r => r.id);
       if (courseIds.length === 0) return res.json({ courses: [] });
@@ -448,19 +489,14 @@ app.post('/api/courses', authenticateToken, requireProvider, (req, res) => {
     return res.status(400).json({ message: 'Sila isikan tajuk, kategori, tarikh, dan lokasi kursus.' });
   }
 
-  // Get provider record
   db.get(`SELECT * FROM providers WHERE user_id = ?`, [req.user.id], (pErr, provider) => {
     if (pErr || !provider) {
       return res.status(400).json({ message: 'Profil Penyedia Latihan anda tidak dijumpai.' });
     }
 
-    if (provider.status !== 'approved' && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Akaun Penyedia Latihan anda masih dalam pengesahan admin. Anda belum dibenarkan menerbitkan kursus.' });
-    }
-
     const seats = parseInt(max_seats) || 30;
     const feeVal = parseFloat(fee) || 0;
-    const initialStatus = req.user.role === 'admin' ? 'published' : 'pending';
+    const initialStatus = 'published';
 
     db.run(
       `INSERT INTO courses 
@@ -487,23 +523,15 @@ app.post('/api/courses', authenticateToken, requireProvider, (req, res) => {
       ],
       function (err) {
         if (err) {
-          console.error(err);
+          console.error('Course insert error:', err);
           return res.status(500).json({ message: 'Ralat mencipta kursus.' });
         }
 
         const newCourseId = this.lastID;
 
-        // Notify Admin if pending
-        if (initialStatus === 'pending') {
-          db.run(
-            `INSERT INTO notifications (user_id, title, message, type) VALUES (NULL, ?, ?, ?)`,
-            ['Permohonan Kursus Baharu', `Kursus "${title}" oleh ${provider.org_name} memerlukan kelulusan pentadbir.`, 'warning']
-          );
-        }
-
-        logActivity(req.user.name, 'Bina Kursus', `Kursus baharu: ${title}`);
+        logActivity(req.user.name, 'Bina Kursus', `Kursus baharu diterbitkan: ${title}`);
         res.json({
-          message: initialStatus === 'published' ? 'Kursus berjaya diterbitkan!' : 'Kursus telah dihantar dan sedang menunggu kelulusan admin.',
+          message: 'Kursus berjaya diterbitkan!',
           course_id: newCourseId,
           status: initialStatus
         });
@@ -583,27 +611,24 @@ app.post('/api/courses/:id/register', authenticateToken, (req, res) => {
       [userId, courseId],
       function (regErr) {
         if (regErr) {
-          if (regErr.message.includes('UNIQUE')) {
+          if (regErr.message && regErr.message.includes('UNIQUE')) {
             return res.status(400).json({ message: 'Anda telah pun mendaftar untuk kursus ini.' });
           }
           return res.status(500).json({ message: 'Ralat semasa mendaftar kursus.' });
         }
 
-        // Deduct 1 available seat
         db.run(`UPDATE courses SET available_seats = available_seats - 1 WHERE id = ?`, [courseId]);
 
-        // User Notification
         db.run(
           `INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, ?)`,
           [userId, 'Pendaftaran Kursus Berjaya!', `Pendaftaran anda untuk kursus "${course.title}" telah diterima.`, 'success']
         );
 
-        // Notify Provider
         db.get(`SELECT user_id FROM providers WHERE id = ?`, [course.provider_id], (pErr, pRow) => {
           if (pRow) {
             db.run(
               `INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, ?)`,
-              [pRow.user_id, 'Pendaftaran Baharu Received', `Seorang pesertabaharu mendaftar untuk "${course.title}".`, 'info']
+              [pRow.user_id, 'Pendaftaran Baharu Received', `Seorang peserta baharu mendaftar untuk "${course.title}".`, 'info']
             );
           }
         });
@@ -628,7 +653,6 @@ app.delete('/api/courses/:id/register', authenticateToken, (req, res) => {
         return res.status(400).json({ message: 'Pendaftaran tidak dijumpai.' });
       }
 
-      // Restore 1 seat
       db.run(`UPDATE courses SET available_seats = available_seats + 1 WHERE id = ?`, [courseId]);
 
       logActivity(req.user.name, 'Batal Pendaftaran', `Membatalkan pendaftaran kursus ID: ${courseId}`);
@@ -800,7 +824,6 @@ app.post('/api/contact', (req, res) => {
     function (err) {
       if (err) return res.status(500).json({ message: 'Ralat menghantar mesej sokongan.' });
 
-      // Notify Admin
       db.run(
         `INSERT INTO notifications (user_id, title, message, type) VALUES (NULL, ?, ?, ?)`,
         ['Mesej Hubungi Kami Baharu', `Mesej daripada ${full_name} (${subject}): ${message.substring(0, 50)}...`, 'info']
@@ -836,7 +859,6 @@ app.post('/api/admin/contact-messages/:id/reply', authenticateToken, requireAdmi
       function (uErr) {
         if (uErr) return res.status(500).json({ message: 'Ralat mengemas kini balasan.' });
 
-        // Notify User if user exists with matching email
         db.get(`SELECT id FROM users WHERE email = ?`, [msg.email], (usrErr, user) => {
           if (user) {
             db.run(
@@ -869,14 +891,14 @@ app.get('/api/admin/stats', authenticateToken, requireAdmin, (req, res) => {
                 db.get(`SELECT COUNT(*) AS unread_messages FROM contact_messages WHERE status = 'unread'`, (e8, mRow) => {
                   res.json({
                     stats: {
-                      total_users: uRow ? uRow.total_users : 0,
-                      total_providers: pRow ? pRow.total_providers : 0,
-                      pending_providers: ppRow ? ppRow.pending_providers : 0,
-                      total_courses: cRow ? cRow.total_courses : 0,
-                      active_courses: acRow ? acRow.active_courses : 0,
-                      pending_courses: pcRow ? pcRow.pending_courses : 0,
-                      total_registrations: rRow ? rRow.total_registrations : 0,
-                      unread_messages: mRow ? mRow.unread_messages : 0
+                      total_users: uRow ? parseInt(uRow.total_users || 0, 10) : 0,
+                      total_providers: pRow ? parseInt(pRow.total_providers || 0, 10) : 0,
+                      pending_providers: ppRow ? parseInt(ppRow.pending_providers || 0, 10) : 0,
+                      total_courses: cRow ? parseInt(cRow.total_courses || 0, 10) : 0,
+                      active_courses: acRow ? parseInt(acRow.active_courses || 0, 10) : 0,
+                      pending_courses: pcRow ? parseInt(pcRow.pending_courses || 0, 10) : 0,
+                      total_registrations: rRow ? parseInt(rRow.total_registrations || 0, 10) : 0,
+                      unread_messages: mRow ? parseInt(mRow.unread_messages || 0, 10) : 0
                     }
                   });
                 });
@@ -912,7 +934,7 @@ app.get('/api/admin/providers', authenticateToken, requireAdmin, (req, res) => {
 // Approve/Reject Provider Verification
 app.put('/api/admin/providers/:id/verify', authenticateToken, requireAdmin, (req, res) => {
   const providerId = req.params.id;
-  const { status, verified_badge } = req.body; // 'approved' or 'rejected'
+  const { status, verified_badge } = req.body;
 
   if (!['approved', 'rejected'].includes(status)) {
     return res.status(400).json({ message: 'Status tidak sah.' });
@@ -961,7 +983,7 @@ app.get('/api/admin/courses', authenticateToken, requireAdmin, (req, res) => {
 // Approve/Reject Course
 app.put('/api/admin/courses/:id/approve', authenticateToken, requireAdmin, (req, res) => {
   const courseId = req.params.id;
-  const { status } = req.body; // 'published' or 'rejected'
+  const { status } = req.body;
 
   if (!['published', 'rejected'].includes(status)) {
     return res.status(400).json({ message: 'Status tidak sah.' });
@@ -988,7 +1010,6 @@ app.put('/api/admin/courses/:id/approve', authenticateToken, requireAdmin, (req,
             );
 
             if (status === 'published') {
-              // Broadcast to all students
               db.run(
                 `INSERT INTO notifications (user_id, title, message, type) VALUES (NULL, ?, ?, ?)`,
                 ['Kursus Baharu Tersedia!', `Kursus "${cRow.title}" oleh ${cRow.org_name} kini dibuka untuk pendaftaran!`, 'info']

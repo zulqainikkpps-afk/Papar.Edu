@@ -42,14 +42,15 @@ export default function ProviderDashboard({ token, user, lang, onLogout, navigat
   const fetchProviderData = async () => {
     setLoading(true);
     try {
-      // Fetch provider courses
-      const cRes = await fetch('/api/courses');
+      // Fetch provider courses with authorization token
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const providerId = user?.provider?.id;
+      const url = providerId ? `/api/courses?provider_id=${providerId}&status=all` : '/api/courses';
+      const cRes = await fetch(url, { headers });
       const cData = await cRes.json();
-      
-      // Filter for this provider's courses
-      if (cRes.ok && user?.provider) {
-        const myCourses = (cData.courses || []).filter(c => c.provider_id === user.provider.id);
-        setCourses(myCourses);
+
+      if (cRes.ok && providerId) {
+        setCourses(cData.courses || []);
       }
 
       // Fetch participants list

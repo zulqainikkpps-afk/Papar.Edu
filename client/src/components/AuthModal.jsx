@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { GraduationCap, User, Building2, Lock, Mail, Phone, MapPin, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
-const API_URL = 'https://papar-edu-api.onrender.com';
+const getApiBaseUrl = () => {
+  if (typeof window === 'undefined') return '';
+  if (import.meta.env && import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return '';
+  }
+  return 'https://papar-edu-api.onrender.com';
+};
 
 export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, navigate }) {
   const [mode, setMode] = useState(initialMode); // 'login' or 'signup'
@@ -29,18 +36,41 @@ export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, 
 
   const isBm = lang === 'bm';
 
+  const fetchAuth = async (endpoint, bodyPayload) => {
+    const baseUrl = getApiBaseUrl();
+    try {
+      let res = await fetch(`/api/auth/${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyPayload)
+      });
+      if (res.status === 404 && baseUrl) {
+        res = await fetch(`${baseUrl}/api/auth/${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bodyPayload)
+        });
+      }
+      return res;
+    } catch (err) {
+      if (baseUrl) {
+        return await fetch(`${baseUrl}/api/auth/${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bodyPayload)
+        });
+      }
+      throw err;
+    }
+  };
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: loginEmail, password: loginPassword })
-      });
-
+      const res = await fetchAuth('login', { email: loginEmail, password: loginPassword });
       const data = await res.json();
       if (res.ok) {
         onAuthSuccess(data.token, data.user);
@@ -81,12 +111,7 @@ export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, 
         address
       };
 
-      const res = await fetch(`${API_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
+      const res = await fetchAuth('register', payload);
       const data = await res.json();
       if (res.ok) {
         onAuthSuccess(data.token, data.user);
@@ -99,20 +124,6 @@ export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, 
       setError(isBm ? 'Ralat sambungan pelayan.' : 'Server connection error.');
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Quick Demo Autofill helpers for seamless demonstration during presentation
-  const handleQuickFill = (demoType) => {
-    if (demoType === 'admin') {
-      setLoginEmail('admin@papar.edu');
-      setLoginPassword('admin123');
-    } else if (demoType === 'provider') {
-      setLoginEmail('kolej.komuniti@papar.edu');
-      setLoginPassword('provider123');
-    } else if (demoType === 'student') {
-      setLoginEmail('zulqainikkpps@gmail.com');
-      setLoginPassword('student123');
     }
   };
 
@@ -144,36 +155,6 @@ export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, 
         {/* LOGIN FORM */}
         {mode === 'login' ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4">
-            
-            {/* Quick Demo Login Preset Buttons */}
-            <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 text-center">
-              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                ⚡ {isBm ? 'Akses Pantas Demo Presentation:' : 'Demo Quick Fill Preset:'}
-              </p>
-              <div className="grid grid-cols-3 gap-1.5 text-[10px] font-bold">
-                <button
-                  type="button"
-                  onClick={() => handleQuickFill('student')}
-                  className="py-1.5 bg-sky-100 text-sky-800 rounded-lg hover:bg-sky-200 transition"
-                >
-                  Komuniti
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickFill('provider')}
-                  className="py-1.5 bg-indigo-100 text-indigo-800 rounded-lg hover:bg-indigo-200 transition"
-                >
-                  Provider
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickFill('admin')}
-                  className="py-1.5 bg-amber-100 text-amber-800 rounded-lg hover:bg-amber-200 transition"
-                >
-                  Admin
-                </button>
-              </div>
-            </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">

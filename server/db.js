@@ -1,37 +1,126 @@
 const sqlite3 = require('sqlite3').verbose();
+const { Pool } = require('pg');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 
-const dbPath = path.join(__dirname, 'papar_edu.db');
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Error opening SQLite database:', err);
-  } else {
-    console.log('Connected to Papar.Edu SQLite database.');
-  }
-});
+const usePostgres = !!(process.env.DATABASE_URL || process.env.POSTGRES_URL);
 
-db.serialize(() => {
-  // Enforce foreign keys
-  db.run('PRAGMA foreign_keys = ON');
+let dbWrapper;
+
+if (usePostgres) {
+  console.log('Connecting to Papar.Edu PostgreSQL database...');
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL || process.env.POSTGRES_URL,
+    ssl: process.env.NODE_ENV === 'production' || process.env.PGSSLMODE === 'require' ? { rejectUnauthorized: false } : false
+  });
+
+  const convertQuery = (sql, params = []) => {
+    let paramIndex = 1;
+    let convertedSql = sql.replace(/\?/g, () => `$${paramIndex++}`);
+    // Convert DATETIME/AUTOINCREMENT syntax if present in dynamic queries
+    convertedSql = convertedSql.replace(/INTEGER PRIMARY KEY AUTOINCREMENT/gi, 'SERIAL PRIMARY KEY');
+    convertedSql = convertedSql.replace(/DATETIME/gi, 'TIMESTAMP');
+
+    const isInsert = /^\s*INSERT\s+INTO/i.test(convertedSql);
+    if (isInsert && !/RETURNING/i.test(convertedSql)) {
+      convertedSql += ' RETURNING id';
+    }
+    return { sql: convertedSql, params };
+  };
+
+  dbWrapper = {
+    isPostgres: true,
+    serialize: (fn) => {
+      if (fn) fn();
+    },
+    run: function (sql, params, callback) {
+      if (typeof params === 'function') {
+        callback = params;
+        params = [];
+      }
+      const { sql: convertedSql, params: convertedParams } = convertQuery(sql, params);
+      pool.query(convertedSql, convertedParams, (err, res) => {
+        if (err) {
+          if (callback) callback.call({ lastID: null, changes: 0 }, err);
+          return;
+        }
+        const lastID = (res.rows && res.rows.length > 0 && res.rows[0].id) ? res.rows[0].id : null;
+        const changes = res.rowCount || 0;
+        if (callback) callback.call({ lastID, changes }, null);
+      });
+    },
+    get: function (sql, params, callback) {
+      if (typeof params === 'function') {
+        callback = params;
+        params = [];
+      }
+      const { sql: convertedSql, params: convertedParams } = convertQuery(sql, params);
+      pool.query(convertedSql, convertedParams, (err, res) => {
+        if (err) {
+          if (callback) callback(err, null);
+          return;
+        }
+        if (callback) callback(null, res.rows[0] || null);
+      });
+    },
+    all: function (sql, params, callback) {
+      if (typeof params === 'function') {
+        callback = params;
+        params = [];
+      }
+      const { sql: convertedSql, params: convertedParams } = convertQuery(sql, params);
+      pool.query(convertedSql, convertedParams, (err, res) => {
+        if (err) {
+          if (callback) callback(err, []);
+          return;
+        }
+        if (callback) callback(null, res.rows || []);
+      });
+    }
+  };
+} else {
+  const dbPath = path.join(__dirname, 'papar_edu.db');
+  console.log('Connecting to Papar.Edu SQLite database at:', dbPath);
+  const sqliteDb = new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+      console.error('Error opening SQLite database:', err);
+    } else {
+      console.log('Connected to Papar.Edu SQLite database.');
+    }
+  });
+
+  dbWrapper = {
+    isPostgres: false,
+    serialize: (fn) => sqliteDb.serialize(fn),
+    run: (sql, params, callback) => sqliteDb.run(sql, params, callback),
+    get: (sql, params, callback) => sqliteDb.get(sql, params, callback),
+    all: (sql, params, callback) => sqliteDb.all(sql, params, callback)
+  };
+}
+
+// Initialize tables and seed default data
+dbWrapper.serialize(() => {
+  if (!usePostgres) {
+    dbWrapper.run('PRAGMA foreign_keys = ON');
+  }
 
   // 1. Users Table
-  db.run(`
+  dbWrapper.run(`
     CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id ${usePostgres ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
       full_name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       phone TEXT,
       password_hash TEXT NOT NULL,
       role TEXT CHECK(role IN ('student', 'provider', 'admin')) NOT NULL DEFAULT 'student',
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'} DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
   // 2. Training Providers Table
-  db.run(`
+  dbWrapper.run(`
     CREATE TABLE IF NOT EXISTS providers (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id ${usePostgres ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
       user_id INTEGER UNIQUE NOT NULL,
       org_name TEXT NOT NULL,
       org_type TEXT,
@@ -42,15 +131,15 @@ db.serialize(() => {
       website TEXT,
       status TEXT CHECK(status IN ('pending', 'approved', 'rejected')) NOT NULL DEFAULT 'pending',
       verified_badge INTEGER DEFAULT 0,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      created_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'} DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
   `);
 
   // 3. Courses Table
-  db.run(`
+  dbWrapper.run(`
     CREATE TABLE IF NOT EXISTS courses (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id ${usePostgres ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
       provider_id INTEGER NOT NULL,
       title TEXT NOT NULL,
       description TEXT,
@@ -59,7 +148,7 @@ db.serialize(() => {
       course_time TEXT,
       duration TEXT,
       location TEXT NOT NULL,
-      fee REAL DEFAULT 0,
+      fee ${usePostgres ? 'DOUBLE PRECISION' : 'REAL'} DEFAULT 0,
       max_seats INTEGER DEFAULT 30,
       available_seats INTEGER DEFAULT 30,
       registration_deadline TEXT,
@@ -69,19 +158,19 @@ db.serialize(() => {
       status TEXT CHECK(status IN ('draft', 'pending', 'approved', 'published', 'rejected', 'expired', 'cancelled')) NOT NULL DEFAULT 'pending',
       is_sample INTEGER DEFAULT 0,
       what_you_will_learn TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      created_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'} DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (provider_id) REFERENCES providers (id) ON DELETE CASCADE
     )
   `);
 
   // 4. Course Registrations Table
-  db.run(`
+  dbWrapper.run(`
     CREATE TABLE IF NOT EXISTS registrations (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id ${usePostgres ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
       user_id INTEGER NOT NULL,
       course_id INTEGER NOT NULL,
       status TEXT CHECK(status IN ('registered', 'cancelled', 'attended')) DEFAULT 'registered',
-      registered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      registered_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'} DEFAULT CURRENT_TIMESTAMP,
       UNIQUE(user_id, course_id),
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
       FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE CASCADE
@@ -89,12 +178,12 @@ db.serialize(() => {
   `);
 
   // 5. Saved/Bookmarked Courses Table
-  db.run(`
+  dbWrapper.run(`
     CREATE TABLE IF NOT EXISTS saved_courses (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id ${usePostgres ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
       user_id INTEGER NOT NULL,
       course_id INTEGER NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      created_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'} DEFAULT CURRENT_TIMESTAMP,
       UNIQUE(user_id, course_id),
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
       FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE CASCADE
@@ -102,23 +191,23 @@ db.serialize(() => {
   `);
 
   // 6. System Notifications Table
-  db.run(`
+  dbWrapper.run(`
     CREATE TABLE IF NOT EXISTS notifications (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER, -- NULL means broadcast to all users
+      id ${usePostgres ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
+      user_id INTEGER,
       title TEXT NOT NULL,
       message TEXT NOT NULL,
       type TEXT DEFAULT 'info',
       is_read INTEGER DEFAULT 0,
       link TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'} DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
   // 7. Contact Admin Messages Table
-  db.run(`
+  dbWrapper.run(`
     CREATE TABLE IF NOT EXISTS contact_messages (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id ${usePostgres ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
       full_name TEXT NOT NULL,
       email TEXT NOT NULL,
       subject TEXT NOT NULL,
@@ -126,81 +215,80 @@ db.serialize(() => {
       message TEXT NOT NULL,
       status TEXT CHECK(status IN ('unread', 'replied')) DEFAULT 'unread',
       admin_reply TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      replied_at DATETIME
+      created_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'} DEFAULT CURRENT_TIMESTAMP,
+      replied_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'}
     )
   `);
 
   // 8. Activity Logs Table
-  db.run(`
+  dbWrapper.run(`
     CREATE TABLE IF NOT EXISTS activity_logs (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id ${usePostgres ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
       user_name TEXT,
       action TEXT NOT NULL,
       details TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at ${usePostgres ? 'TIMESTAMP' : 'DATETIME'} DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
-  // Seed default admin and sample accounts if database is empty
   seedInitialData();
 });
 
 function seedInitialData() {
-  const adminPassword = bcrypt.hashSync('admin123', 10);
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@papar.edu';
+  const adminPasswordRaw = process.env.ADMIN_PASSWORD || 'admin123';
+  const adminPassword = bcrypt.hashSync(adminPasswordRaw, 10);
   const providerPassword = bcrypt.hashSync('provider123', 10);
   const studentPassword = bcrypt.hashSync('student123', 10);
 
-  db.get("SELECT COUNT(*) AS count FROM users", (err, row) => {
+  dbWrapper.get("SELECT COUNT(*) AS count FROM users", [], (err, row) => {
     if (err) return;
-    if (row.count === 0) {
+    const count = row ? parseInt(row.count, 10) : 0;
+    if (count === 0) {
       console.log('Seeding initial Papar.Edu accounts and course data...');
 
-      // 1. Admin Account
-      db.run(
+      // 1. Owner Administrator Account
+      dbWrapper.run(
         `INSERT INTO users (full_name, email, phone, password_hash, role) VALUES (?, ?, ?, ?, ?)`,
-        ['Pentadbir Papar.Edu', 'admin@papar.edu', '088-912345', adminPassword, 'admin'],
+        ['Pentadbir Papar.Edu', adminEmail, '088-912345', adminPassword, 'admin'],
         function (err) {
           if (err) return;
 
           // 2. Training Provider Accounts
-          db.run(
+          dbWrapper.run(
             `INSERT INTO users (full_name, email, phone, password_hash, role) VALUES (?, ?, ?, ?, ?)`,
             ['Kolej Komuniti Papar', 'kolej.komuniti@papar.edu', '088-911223', providerPassword, 'provider'],
             function () {
               const kolejkId = this.lastID;
-              db.run(
+              dbWrapper.run(
                 `INSERT INTO providers (user_id, org_name, org_type, contact_person, phone, official_email, address, status, verified_badge) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [kolejkId, 'Kolej Komuniti Papar', 'IPTA / Kolej Komuniti', 'Pn. Noraini Hassan', '088-911223', 'kolej.komuniti@papar.edu', 'Pekan Papar, 89600 Papar, Sabah', 'approved', 1],
                 function () {
                   const providerObjId1 = this.lastID;
-
-                  // Insert Sample Courses for Provider 1
                   insertSampleCourses(providerObjId1);
                 }
               );
             }
           );
 
-          db.run(
+          dbWrapper.run(
             `INSERT INTO users (full_name, email, phone, password_hash, role) VALUES (?, ?, ?, ?, ?)`,
             ['Pusat GiatMARA Papar', 'giatmara.papar@papar.edu', '088-914455', providerPassword, 'provider'],
             function () {
               const giatId = this.lastID;
-              db.run(
+              dbWrapper.run(
                 `INSERT INTO providers (user_id, org_name, org_type, contact_person, phone, official_email, address, status, verified_badge) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [giatId, 'Pusat GiatMARA Papar', 'Pusat Latihan Kemahiran', 'En. Azman Rosli', '088-914455', 'giatmara.papar@papar.edu', 'Jalan Kinarut, 89600 Papar, Sabah', 'approved', 1]
               );
             }
           );
 
-          // Pending Provider for demonstration
-          db.run(
+          dbWrapper.run(
             `INSERT INTO users (full_name, email, phone, password_hash, role) VALUES (?, ?, ?, ?, ?)`,
             ['Akademi Usahawan Papar', 'info@akademi-papar.com', '013-8899776', providerPassword, 'provider'],
             function () {
               const pendingId = this.lastID;
-              db.run(
+              dbWrapper.run(
                 `INSERT INTO providers (user_id, org_name, org_type, contact_person, phone, official_email, address, status, verified_badge) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [pendingId, 'Akademi Usahawan Papar', 'IPTS / Swasta', 'En. Haziq Haiqal', '013-8899776', 'info@akademi-papar.com', 'Bandar Sabindo Papar, Sabah', 'pending', 0]
               );
@@ -208,13 +296,12 @@ function seedInitialData() {
           );
 
           // 3. Demo Student Account
-          db.run(
+          dbWrapper.run(
             `INSERT INTO users (full_name, email, phone, password_hash, role) VALUES (?, ?, ?, ?, ?)`,
             ['Muhammad Zulqaini', 'zulqainikkpps@gmail.com', '012-3456789', studentPassword, 'student'],
-            function() {
+            function () {
               const studentId = this.lastID;
-              // Add initial notification for user
-              db.run(
+              dbWrapper.run(
                 `INSERT INTO notifications (user_id, title, message, type, is_read) VALUES (?, ?, ?, ?, ?)`,
                 [studentId, 'Selamat Datang ke Papar.Edu!', 'Akaun anda telah berjaya didaftarkan. Terokai pelbagai kursus kemahiran komuniti Papar hari ini.', 'success', 0]
               );
@@ -222,25 +309,25 @@ function seedInitialData() {
           );
 
           // Broadcast Notifications
-          db.run(
+          dbWrapper.run(
             `INSERT INTO notifications (user_id, title, message, type) VALUES (NULL, ?, ?, ?)`,
             ['Kursus Baharu Diterbitkan!', 'Kursus Asas Pembuatan Kek & Roti oleh Kolej Komuniti Papar kini dibuka untuk pendaftaran.', 'info']
           );
-          db.run(
+          dbWrapper.run(
             `INSERT INTO notifications (user_id, title, message, type) VALUES (NULL, ?, ?, ?)`,
             ['Papar.Edu Dilancarkan', 'Selamat datang ke portal latihan kemahiran komuniti Papar, Sabah.', 'success']
           );
 
           // Initial Contact Messages
-          db.run(
+          dbWrapper.run(
             `INSERT INTO contact_messages (full_name, email, subject, category, message, status) VALUES (?, ?, ?, ?, ?, ?)`,
             ['Haziq Haiqal', 'mhaziqhaiqal94@gmail.com', 'Pertanyaan Pendaftaran Penyedia Latihan', 'Training Provider Support', 'Bagaimana cara mendaftar akademi kami sebagai penyedia latihan rasmi di Papar.Edu?', 'unread']
           );
 
           // Initial Activity Logs
-          db.run(
+          dbWrapper.run(
             `INSERT INTO activity_logs (user_name, action, details) VALUES (?, ?, ?)`,
-            ['Sistem Papar.Edu', 'Sistem Diaktifkan', 'Pangkalan data SQLite Papar.Edu dan data demo berjaya diwujudkan.']
+            ['Sistem Papar.Edu', 'Sistem Diaktifkan', 'Pangkalan data Papar.Edu dan data awal berjaya diwujudkan.']
           );
         }
       );
@@ -348,7 +435,7 @@ function insertSampleCourses(providerId) {
   ];
 
   sampleCourses.forEach((c) => {
-    db.run(
+    dbWrapper.run(
       `INSERT INTO courses 
       (provider_id, title, description, category, course_date, course_time, duration, location, fee, max_seats, available_seats, registration_deadline, contact_phone, registration_link, poster_url, status, is_sample, what_you_will_learn) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -376,4 +463,4 @@ function insertSampleCourses(providerId) {
   });
 }
 
-module.exports = db;
+module.exports = dbWrapper;
