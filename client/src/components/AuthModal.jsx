@@ -4,7 +4,6 @@ import { GraduationCap, User, Building2, Lock, Mail, Phone, MapPin, ArrowRight, 
 const API_URL = 'https://papar-edu-api.onrender.com';
 
 export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, navigate }) {
-export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, navigate }) {
   const [mode, setMode] = useState(initialMode); // 'login' or 'signup'
   const [role, setRole] = useState('student'); // 'student' or 'provider'
   
