@@ -3,6 +3,14 @@
     {
       "source": "/api/:path*",
       "destination": "https://papar-edu-api.onrender.com/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://papar-edu-api.onrender.com/uploads/:path*"
+    },
+    {
+      "source": "/posters/:path*",
+      "destination": "https://papar-edu-api.onrender.com/posters/:path*"
     }
   ]
 }
