@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { GraduationCap, User, Building2, Lock, Mail, Phone, MapPin, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
+const API_URL = 'https://papar-edu-api.onrender.com';
+
+export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, navigate }) {
 export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, navigate }) {
   const [mode, setMode] = useState(initialMode); // 'login' or 'signup'
   const [role, setRole] = useState('student'); // 'student' or 'provider'
@@ -33,7 +36,7 @@ export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, 
     setLoading(true);
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: loginEmail, password: loginPassword })
@@ -79,7 +82,7 @@ export default function AuthModal({ initialMode = 'login', lang, onAuthSuccess, 
         address
       };
 
-      const res = await fetch('/api/auth/register', {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
