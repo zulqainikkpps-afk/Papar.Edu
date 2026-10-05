@@ -33,6 +33,15 @@ export default function PosterUploader({ value, onChange, token, lang = 'bm' }) 
     }
   };
 
+  const getApiBaseUrl = () => {
+    if (typeof window === 'undefined') return '';
+    if (import.meta.env && import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return '';
+    }
+    return 'https://papar-edu-api.onrender.com';
+  };
+
   const uploadFile = async (file) => {
     setError('');
     // Validate file type
@@ -51,22 +60,53 @@ export default function PosterUploader({ value, onChange, token, lang = 'bm' }) 
     const formData = new FormData();
     formData.append('poster', file);
 
+    const baseUrl = getApiBaseUrl();
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
     try {
-      const res = await fetch('/api/upload/poster', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        body: formData
-      });
+      let res;
+      try {
+        res = await fetch('/api/upload/poster', {
+          method: 'POST',
+          headers,
+          body: formData
+        });
+        // If relative request returns 404 HTML (no proxy setup), try absolute URL
+        if (res.status === 404 && baseUrl) {
+          res = await fetch(`${baseUrl}/api/upload/poster`, {
+            method: 'POST',
+            headers,
+            body: formData
+          });
+        }
+      } catch (networkErr) {
+        if (baseUrl) {
+          res = await fetch(`${baseUrl}/api/upload/poster`, {
+            method: 'POST',
+            headers,
+            body: formData
+          });
+        } else {
+          throw networkErr;
+        }
+      }
+
+      const contentType = res.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await res.text();
+        console.error('Upload endpoint returned non-JSON response:', text);
+        setError(isBm ? 'Gagal memuat naik imej (Respons pelayan tidak sah).' : 'Failed to upload image (Invalid server response).');
+        return;
+      }
 
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.poster_url) {
         onChange(data.poster_url);
       } else {
         setError(data.message || (isBm ? 'Gagal memuat naik imej.' : 'Failed to upload image.'));
       }
     } catch (err) {
+      console.error('Poster upload error:', err);
       setError(isBm ? 'Ralat sambungan rangkaian semasa memuat naik.' : 'Network error uploading file.');
     } finally {
       setUploading(false);

@@ -11,6 +11,10 @@
     {
       "source": "/posters/:path*",
       "destination": "https://papar-edu-api.onrender.com/posters/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

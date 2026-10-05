@@ -15,15 +15,19 @@ const JWT_SECRET = process.env.JWT_SECRET || 'papar_edu_secret_key_2026_sabah';
 app.use(cors());
 app.use(express.json());
 
-// Ensure upload directories exist
+// Ensure upload directories exist safely
 const uploadDirs = [
   path.join(__dirname, 'public/uploads'),
   path.join(__dirname, '../client/public/uploads')
 ];
 
 uploadDirs.forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+  try {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  } catch (e) {
+    console.warn(`Could not create directory ${dir}:`, e.message);
   }
 });
 
@@ -31,17 +35,8 @@ uploadDirs.forEach(dir => {
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use('/posters', express.static(path.join(__dirname, 'public/posters')));
 
-// Multer Storage Configuration for Drag & Drop Poster Upload
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, 'public/uploads'));
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
-    cb(null, 'poster-' + uniqueSuffix + ext);
-  }
-});
+// Multer Storage Configuration (Memory storage with disk fallback)
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
@@ -250,23 +245,60 @@ app.put('/api/auth/profile', authenticateToken, (req, res) => {
 // 2. UPLOAD API
 // ==========================================
 
-app.post('/api/upload/poster', authenticateToken, upload.single('poster'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: 'Tiada fail imej dimuat naik.' });
-  }
+app.post('/api/upload/poster', authenticateToken, (req, res) => {
+  upload.single('poster')(req, res, (err) => {
+    if (err) {
+      console.error('Multer upload error:', err);
+      return res.status(400).json({
+        message: err.message || 'Ralat semasa memuat naik imej.'
+      });
+    }
 
-  // Copy to client public upload directory as well for immediate dev server hot serve
-  const clientDest = path.join(__dirname, '../client/public/uploads', req.file.filename);
-  try {
-    fs.copyFileSync(req.file.path, clientDest);
-  } catch (e) {
-    console.error('Failed copying to client public folder:', e);
-  }
+    if (!req.file) {
+      return res.status(400).json({ message: 'Tiada fail imej dimuat naik.' });
+    }
 
-  const posterUrl = `/uploads/${req.file.filename}`;
-  res.json({
-    message: 'Poster berjaya dimuat naik.',
-    poster_url: posterUrl
+    try {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const ext = path.extname(req.file.originalname).toLowerCase() || '.jpg';
+      const filename = 'poster-' + uniqueSuffix + ext;
+      const uploadsDir = path.join(__dirname, 'public/uploads');
+
+      let posterUrl = '';
+
+      // Try writing file to local disk if writable
+      try {
+        if (!fs.existsSync(uploadsDir)) {
+          fs.mkdirSync(uploadsDir, { recursive: true });
+        }
+        const filePath = path.join(uploadsDir, filename);
+        fs.writeFileSync(filePath, req.file.buffer);
+        posterUrl = `/uploads/${filename}`;
+
+        // Also attempt copy/write to client public directory for dev mode
+        try {
+          const clientUploadsDir = path.join(__dirname, '../client/public/uploads');
+          if (!fs.existsSync(clientUploadsDir)) {
+            fs.mkdirSync(clientUploadsDir, { recursive: true });
+          }
+          fs.writeFileSync(path.join(clientUploadsDir, filename), req.file.buffer);
+        } catch (clientErr) {
+          // ignore client folder write errors
+        }
+      } catch (diskErr) {
+        console.warn('Disk write unsucessful (serverless/read-only environment), using base64 image URL fallback:', diskErr.message);
+        const b64 = req.file.buffer.toString('base64');
+        posterUrl = `data:${req.file.mimetype || 'image/jpeg'};base64,${b64}`;
+      }
+
+      return res.json({
+        message: 'Poster berjaya dimuat naik.',
+        poster_url: posterUrl
+      });
+    } catch (processErr) {
+      console.error('Error processing upload:', processErr);
+      return res.status(500).json({ message: 'Ralat pemprosesan imej.' });
+    }
   });
 });
 
