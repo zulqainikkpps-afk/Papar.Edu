@@ -6,7 +6,7 @@ import {
 
 const API_URL = 'https://papar-edu-api.onrender.com';
 
-export default function AdminDashboard({ token, lang, onLogout, navigate }) {export default function AdminDashboard({ token, lang, onLogout, navigate }) {
+export default function AdminDashboard({ token, lang, onLogout, navigate }) {
   const [stats, setStats] = useState({});
   const [usersList, setUsersList] = useState([]);
   const [providersList, setProvidersList] = useState([]);
