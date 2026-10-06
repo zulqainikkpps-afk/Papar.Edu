@@ -4,7 +4,9 @@ import {
   Send, MessageSquare, Activity, RefreshCw, X, ShieldCheck, ThumbsUp, ThumbsDown, UserCheck 
 } from 'lucide-react';
 
-export default function AdminDashboard({ token, lang, onLogout, navigate }) {
+const API_URL = 'https://papar-edu-api.onrender.com';
+
+export default function AdminDashboard({ token, lang, onLogout, navigate }) {export default function AdminDashboard({ token, lang, onLogout, navigate }) {
   const [stats, setStats] = useState({});
   const [usersList, setUsersList] = useState([]);
   const [providersList, setProvidersList] = useState([]);
@@ -35,14 +37,14 @@ export default function AdminDashboard({ token, lang, onLogout, navigate }) {
     try {
       const headers = { Authorization: `Bearer ${token}` };
 
-      const [sRes, uRes, pRes, cRes, mRes, aRes] = await Promise.all([
-        fetch('/api/admin/stats', { headers }),
-        fetch('/api/admin/users', { headers }),
-        fetch('/api/admin/providers', { headers }),
-        fetch('/api/admin/courses', { headers }),
-        fetch('/api/admin/contact-messages', { headers }),
-        fetch('/api/admin/activity-logs', { headers })
-      ]);
+     const [sRes, uRes, pRes, cRes, mRes, aRes] = await Promise.all([
+  fetch(`${API_URL}/api/admin/stats`, { headers }),
+  fetch(`${API_URL}/api/admin/users`, { headers }),
+  fetch(`${API_URL}/api/admin/providers`, { headers }),
+  fetch(`${API_URL}/api/admin/courses`, { headers }),
+  fetch(`${API_URL}/api/admin/contact-messages`, { headers }),
+  fetch(`${API_URL}/api/admin/activity-logs`, { headers })
+]);
 
       if (sRes.ok) setStats((await sRes.json()).stats || {});
       if (uRes.ok) setUsersList((await uRes.json()).users || []);
@@ -59,7 +61,7 @@ export default function AdminDashboard({ token, lang, onLogout, navigate }) {
 
   const handleVerifyProvider = async (providerId, status) => {
     try {
-      const res = await fetch(`/api/admin/providers/${providerId}/verify`, {
+      const res = await fetch(`${API_URL}/api/admin/providers/${providerId}/verify`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ export default function AdminDashboard({ token, lang, onLogout, navigate }) {
 
   const handleApproveCourse = async (courseId, status) => {
     try {
-      const res = await fetch(`/api/admin/courses/${courseId}/approve`, {
+      const res = await fetch(`${API_URL}/api/admin/courses/${courseId}/approve`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +100,7 @@ export default function AdminDashboard({ token, lang, onLogout, navigate }) {
     if (!broadcastTitle || !broadcastMessage) return;
 
     try {
-      const res = await fetch('/api/admin/notifications/broadcast', {
+      const res = await fetch(`${API_URL}/api/admin/notifications/broadcast`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +124,7 @@ export default function AdminDashboard({ token, lang, onLogout, navigate }) {
     setReplying(true);
 
     try {
-      const res = await fetch(`/api/admin/contact-messages/${selectedMsg.id}/reply`, {
+      const res = await fetch(`${API_URL}/api/admin/contact-messages/${selectedMsg.id}/reply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
