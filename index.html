@@ -3525,44 +3525,41 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-
-
-
-
-
   async function loadCoursesFinal() {
 
 
 
     const grid = $(".course-grid");
-
-
-
     if (grid) grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:35px">Memuatkan kursus...</div>`;
-
-
 
     try {
 
 
 
-      const r = await fetch(API + "/api/courses/approved");
+      const r = await fetch("/api/courses");
 
+if (!r.ok) throw new Error("HTTP " + r.status);
 
+const data = await r.json();
 
-      if (!r.ok) throw new Error("HTTP " + r.status);
+approvedCourses = Array.isArray(data)
+  ? data
+  : (data.courses || []);
 
-
-
-      approvedCourses = await r.json();
-
-
-
-      if (!Array.isArray(approvedCourses)) approvedCourses = [];
-
-
-
-      renderCourses(approvedCourses);
+approvedCourses = approvedCourses
+  .filter(course => course.status === "published")
+  .map(course => ({
+    ...course,
+    poster: course.poster_url
+      ? "https://papar-edu-api.onrender.com" + course.poster_url
+      : "",
+    providerName: course.provider_name,
+    date: course.course_date,
+    time: course.course_time,
+    capacity: course.max_seats,
+    learning: course.what_you_will_learn
+  }));
+renderCourses(approvedCourses);
 
 
 
@@ -3578,7 +3575,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        <h3>Kursus tidak dapat dimuatkan.</h3><p>Pastikan backend berjalan di localhost:3000.</p></div>`;
+        <h3>Kursus tidak dapat dimuatkan.</h3><p>Gagal mendapatkan data kursus. Sila cuba sebentar lagi.</p></div>`;
 
 
 
@@ -3587,12 +3584,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   }
-
-
-
-
-
-
 
   function wireSearch() {
 
