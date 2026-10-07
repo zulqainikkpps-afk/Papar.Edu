@@ -1,0 +1,650 @@
+/* =========================
+   PAPAR.EDU REGISTER PAGE
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f8fc;
+    color: #172033;
+}
+
+
+/* =========================
+   MAIN PAGE
+========================= */
+
+.register-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+/* =========================
+   LEFT SIDE
+========================= */
+
+.register-left {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    padding: 48px 8%;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    color: #fff;
+    background: #07162e;
+}
+
+
+/* =========================
+   VIDEO BACKGROUND
+========================= */
+
+.register-video {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    z-index: 0;
+}
+
+
+/* =========================
+   VIDEO OVERLAY
+========================= */
+
+.register-video-overlay {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+        135deg,
+        rgba(7, 22, 46, 0.80),
+        rgba(22, 25, 75, 0.72),
+        rgba(9, 40, 68, 0.75)
+    );
+
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+/* =========================
+   BRAND / LOGO
+========================= */
+
+.brand {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    color: #fff;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: #fff;
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+    object-fit: contain;
+}
+
+.brand strong {
+    font-size: 25px;
+}
+
+.brand strong span {
+    color: #5cc8ff;
+}
+
+.brand small {
+    display: block;
+
+    margin-top: 3px;
+
+    opacity: 0.8;
+}
+
+
+/* =========================
+   LEFT WELCOME
+========================= */
+
+.welcome {
+    position: relative;
+    z-index: 2;
+
+    max-width: 570px;
+
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.welcome-tag,
+.small-label {
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+
+    color: #56c8ff;
+}
+
+.welcome h1 {
+    margin: 18px 0;
+
+    font-size: 52px;
+    line-height: 1.08;
+
+    color: #fff;
+}
+
+.welcome h1 span {
+    color: #61caff;
+}
+
+.welcome p {
+    margin-bottom: 25px;
+
+    font-size: 17px;
+    line-height: 1.7;
+
+    color: #dce9fa;
+}
+
+
+/* =========================
+   BENEFITS
+========================= */
+
+.benefit {
+    margin: 14px 0;
+
+    font-size: 15px;
+}
+
+.benefit span {
+    width: 25px;
+    height: 25px;
+
+    display: inline-grid;
+    place-items: center;
+
+    margin-right: 9px;
+
+    border-radius: 50%;
+
+    background: #19b67a;
+}
+
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.register-right {
+    min-height: 100vh;
+
+    padding: 40px 8%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f7f9fc;
+}
+
+
+/* =========================
+   REGISTER CARD
+========================= */
+
+.register-card {
+    width: 100%;
+    max-width: 560px;
+
+    padding: 38px;
+
+    border-radius: 24px;
+
+    background: #fff;
+
+    box-shadow:
+        0 20px 55px rgba(18, 45, 90, 0.10);
+}
+
+
+/* =========================
+   BACK
+========================= */
+
+.back {
+    display: inline-block;
+
+    margin-bottom: 25px;
+
+    color: #64748b;
+
+    text-decoration: none;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.register-title h2 {
+    margin: 8px 0;
+
+    font-size: 34px;
+
+    color: #172033;
+}
+
+.register-title p {
+    margin-bottom: 24px;
+
+    color: #6b7280;
+}
+
+
+/* =========================
+   ROLE
+========================= */
+
+.role-title {
+    margin-bottom: 10px;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.role-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+}
+
+.role {
+    padding: 13px;
+
+    border: 1px solid #d9e0ea;
+    border-radius: 12px;
+
+    background: #fff;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.role.active {
+    border-color: #1769d2;
+
+    background: #eef6ff;
+
+    color: #1769d2;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 14px;
+}
+
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.input-box {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 13px;
+
+    border: 1px solid #d9e0ea;
+    border-radius: 12px;
+
+    background: #fff;
+}
+
+.input-box:focus-within {
+    border-color: #1769d2;
+
+    box-shadow:
+        0 0 0 3px rgba(23, 105, 210, 0.08);
+}
+
+.input-box input {
+    width: 100%;
+
+    padding: 14px 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   SHOW PASSWORD
+========================= */
+
+.show-password {
+    border: 0;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   TERMS
+========================= */
+
+.terms {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 9px;
+
+    margin: 4px 0 20px;
+
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   REGISTER BUTTON
+========================= */
+
+.register-button {
+    width: 100%;
+
+    padding: 15px;
+
+    border: 0;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        90deg,
+        #009fe8,
+        #2867f5
+    );
+
+    color: #fff;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.register-button:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(23, 105, 210, 0.20);
+}
+
+
+/* =========================
+   LOGIN TEXT
+========================= */
+
+.login-text {
+    margin-top: 22px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.login-text a {
+    color: #1769d2;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message {
+    display: none;
+
+    margin-bottom: 16px;
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+}
+
+.message.error {
+    display: block;
+
+    background: #fff1f2;
+
+    color: #be123c;
+}
+
+.message.success {
+    display: block;
+
+    background: #ecfdf5;
+
+    color: #047857;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .register-page {
+        display: block;
+    }
+
+    .register-left {
+        display: none;
+    }
+
+    .register-right {
+        width: 100%;
+        min-height: 100vh;
+
+        padding: 25px 16px;
+    }
+
+    .register-card {
+        padding: 26px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================================
+   PROVIDER REGISTER
+========================================= */
+
+.provider-notice {
+    margin-bottom: 20px;
+    padding: 13px 15px;
+
+    background: #fff9e8;
+    border: 1px solid #f0c94d;
+    border-radius: 12px;
+
+    color: #8a5700;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* PROVIDER ANIMATION */
+
+#providerFields {
+    animation: providerOpen 0.25s ease;
+}
+
+@keyframes providerOpen {
+
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* SELECT */
+
+.input-box select {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #172033;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+/* ROLE BUTTON */
+
+.role-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.role {
+    min-height: 42px;
+}
+
+.role.active {
+    border-color: #4c55ff;
+}
+
+
+/* PROVIDER FIELD SPACING */
+
+#providerFields .input-group {
+    margin-bottom: 17px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .role-selector {
+        grid-template-columns: 1fr;
+    }
+
+}

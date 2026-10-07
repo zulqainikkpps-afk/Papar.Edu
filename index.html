@@ -1,0 +1,3956 @@
+<!DOCTYPE html>
+
+
+
+<html lang="ms">
+
+
+
+<head>
+
+
+
+<meta charset="utf-8"/>
+
+
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
+
+
+<title>Papar.Edu</title>
+
+
+
+<link href="css/style.css" rel="stylesheet"/>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+<!-- NAVBAR -->
+
+
+
+<header class="navbar">
+
+
+
+<div class="nav-container">
+
+
+
+<a class="logo" href="index.html">
+
+
+
+<div class="logo-icon">
+
+
+
+<img alt="Papar.Edu" src="images/logo-papar-edu.png.png"/>
+
+
+
+</div>
+
+
+
+<div>
+
+
+
+<strong>Papar.<span>Edu</span></strong>
+
+
+
+<small>Portal Pendidikan Komuniti</small>
+
+
+
+</div>
+
+
+
+<div class="language-switch">
+
+
+
+<button class="lang-btn active" id="btnBM" type="button">BM</button>
+
+
+
+<button class="lang-btn" id="btnEN" type="button">EN</button>
+
+
+
+</div>
+
+
+
+</a>
+
+
+
+<nav class="menu">
+
+
+
+<a class="active" href="#">Utama</a>
+
+
+
+<a href="#kursus">Kursus</a>
+
+
+
+<a href="#kategori">Kategori</a>
+
+
+
+<a href="#">Penyedia Latihan</a>
+
+
+
+<a href="#">Tentang Kami</a>
+
+
+
+<a href="#">Contact</a>
+
+
+
+</nav>
+
+
+
+<div class="nav-right">
+
+
+
+<button class="language">🇲🇾 BM</button>
+
+
+
+<a class="login" href="login.html">Log Masuk</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</header>
+
+
+
+<!-- HERO -->
+
+
+
+<section class="hero">
+
+
+
+<!-- VIDEO BACKGROUND -->
+
+
+
+<video autoplay="" class="hero-video" loop="" muted="" playsinline="">
+
+
+
+<source src="videos/papar-video.mp4.mp4" type="video/mp4"/>
+
+
+
+</video>
+
+
+
+<div class="hero-overlay"></div>
+
+
+
+<div class="hero-content">
+
+
+
+<div class="hero-badge">
+
+
+
+
+
+
+
+            🏆 Portal Pembelajaran &amp; Kemahiran Komuniti Papar
+
+
+
+
+
+
+
+        </div>
+
+
+
+<h1>
+
+
+
+
+
+
+
+            Terokai. Belajar.<br/>
+
+
+
+
+
+
+
+            Berkembang.
+
+
+
+
+
+
+
+        </h1>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Temui kursus pendek dan peluang latihan kemahiran
+
+
+
+
+
+
+
+            di sekitar Papar.
+
+
+
+
+
+
+
+        </p>
+
+
+
+<div class="hero-buttons">
+
+
+
+<a class="btn-blue" href="#kursus">
+
+
+
+
+
+
+
+                Terokai Kursus →
+
+
+
+
+
+
+
+            </a>
+
+
+
+<a class="btn-outline" href="#">
+
+
+
+
+
+
+
+                ♙ Jadi Penyedia Latihan
+
+
+
+
+
+
+
+            </a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+<!-- SEARCH PANEL -->
+
+
+
+<section class="search-wrapper">
+
+
+
+<div class="search-panel">
+
+
+
+<div class="main-search">
+
+
+
+<div class="search-input">
+
+
+
+
+
+
+
+                🔍
+
+
+
+
+
+
+
+                <input id="searchInput" placeholder="Apa yang anda ingin pelajari? (contoh: Bakery, Jahitan, Canva, Digital)" type="text"/>
+
+
+
+</div>
+
+
+
+<button class="search-button" onclick="searchCourse()">
+
+
+
+
+
+
+
+                🔍 Cari Kursus
+
+
+
+
+
+
+
+            </button>
+
+
+
+</div>
+
+
+
+<div class="popular">
+
+
+
+<span class="popular-title">
+
+
+
+
+
+
+
+                🔥 CARIAN POPULAR DI KOMUNITI PAPAR
+
+
+
+
+
+
+
+            </span>
+
+
+
+<div class="chips">
+
+
+
+<button>🍰 Bakery</button>
+
+
+
+<button>🧵 Sewing</button>
+
+
+
+<button>💻 ICT</button>
+
+
+
+<button>📱 Digital Skills</button>
+
+
+
+<button>💰 Entrepreneurship</button>
+
+
+
+<button>💄 Beauty</button>
+
+
+
+<button>🍳 Cooking</button>
+
+
+
+<button>📷 Photography</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="filters">
+
+
+
+<div class="filter-item">
+
+
+
+<label>Kategori</label>
+
+
+
+<select>
+
+
+
+<option>Semua Kategori</option>
+
+
+
+<option>Bakery &amp; Pastry</option>
+
+
+
+<option>Jahitan &amp; Fesyen</option>
+
+
+
+<option>ICT &amp; Kemahiran Digital</option>
+
+
+
+<option>Perniagaan &amp; Kewangan</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+<div class="filter-item">
+
+
+
+<label>Lokasi</label>
+
+
+
+<select>
+
+
+
+<option>Semua Lokasi Papar</option>
+
+
+
+<option>Papar</option>
+
+
+
+<option>Kinarut</option>
+
+
+
+<option>Kimani</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+<div class="filter-item">
+
+
+
+<label>Masa Kursus</label>
+
+
+
+<select>
+
+
+
+<option>Semua Masa</option>
+
+
+
+<option>Pagi</option>
+
+
+
+<option>Petang</option>
+
+
+
+<option>Malam</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+<div class="filter-item">
+
+
+
+<label>Penyedia Latihan</label>
+
+
+
+<select>
+
+
+
+<option>Semua Penyedia Latihan</option>
+
+
+
+<option>Kolej Komuniti</option>
+
+
+
+<option>Institut Latihan</option>
+
+
+
+<option>Penyedia Swasta</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+<!-- =========================
+
+
+
+
+
+
+
+     KURSUS PILIHAN
+
+
+
+
+
+
+
+========================= -->
+
+
+
+<section class="course-section" id="kursus">
+
+
+
+<div class="course-heading-row">
+
+
+
+<div>
+
+
+
+<span class="section-tag">KURSUS PILIHAN</span>
+
+
+
+<h2>Kursus Pilihan Komuniti</h2>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Pilihan kursus kemahiran terkini yang ditawarkan
+
+
+
+
+
+
+
+                untuk komuniti Papar.
+
+
+
+
+
+
+
+            </p>
+
+
+
+</div>
+
+
+
+<a class="view-all" href="#">
+
+
+
+
+
+
+
+            Lihat Semua Kursus →
+
+
+
+
+
+
+
+        </a>
+
+
+
+</div>
+
+
+
+<div class="course-grid"><div id="courseLoading" style="grid-column:1/-1;text-align:center;padding:35px;color:#667085;">Memuatkan kursus terkini...</div></div>
+
+
+
+</section>
+
+
+
+<div class="category-grid">
+
+
+
+<!-- 1 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon orange">🍰</div>
+
+
+
+<span class="course-count">5+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Bakeri &amp; Pastri</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Pembuatan kek, roti, biskut &amp; hiasan
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle orange-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 2 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon pink">🧵</div>
+
+
+
+<span class="course-count">3+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Jahitan &amp; Fesyen</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Pola pakaian, jahit baju kurung &amp; kraf
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle pink-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 3 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon blue">💻</div>
+
+
+
+<span class="course-count">8+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>ICT &amp; Kemahiran Digital</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Canva, komputer, pengaturcaraan &amp; AI
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle blue-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 4 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon green">📊</div>
+
+
+
+<span class="course-count">4+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Perniagaan &amp; Kewangan</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Akaun perniagaan, lesen SSM &amp; cukai
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle green-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 5 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon purple">🏢</div>
+
+
+
+<span class="course-count">6+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Keusahawanan</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Perniagaan mikro, modal &amp; pemasaran
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle purple-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 6 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon red">🍳</div>
+
+
+
+<span class="course-count">4+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Masakan &amp; Kulinari</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Masakan tradisional Sabah, katering &amp; sos
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle red-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 7 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon cyan">📷</div>
+
+
+
+<span class="course-count">3+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Fotografi &amp; Videografi</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Gambar produk, TikTok Reels &amp; kamera
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle cyan-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 8 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon beauty">💄</div>
+
+
+
+<span class="course-count">3+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Solekan &amp; Kecantikan</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Asas solekan, spa, dandanan &amp; kuku
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle pink-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 9 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon dark">🚗</div>
+
+
+
+<span class="course-count">2+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Automotif &amp; Penyelenggaraan</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Penyelenggaraan enjin &amp; kenderaan
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle gray-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 10 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon agriculture">🌱</div>
+
+
+
+<span class="course-count">3+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3 class="blue-title">Pertanian &amp; Akuaponik</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Tanaman hidroponik, cili &amp; kebun
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle green-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 11 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon language">🗣️</div>
+
+
+
+<span class="course-count">2+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Bahasa &amp; Komunikasi</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Bahasa Inggeris komunikasi &amp; Jepun
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle purple-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 12 -->
+
+
+
+<div class="category-card">
+
+
+
+<div class="category-top">
+
+
+
+<div class="category-icon craft">🎨</div>
+
+
+
+<span class="course-count">4+ Kursus</span>
+
+
+
+</div>
+
+
+
+<h3>Kraf &amp; Seni Kreatif</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Batik, kraf tangan &amp; hiasan dalaman
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="category-bottom">
+
+
+
+<a href="#">Lihat Kursus</a>
+
+
+
+<span class="circle orange-light">→</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =========================
+
+
+
+
+
+
+
+     ABOUT PAPAR EDU
+
+
+
+
+
+
+
+========================= -->
+
+
+
+<section class="about-section" id="tentang">
+
+
+
+<div class="about-box">
+
+
+
+<span class="about-label">
+
+
+
+
+
+
+
+            MENGENAI INISIATIF KOMUNITI
+
+
+
+
+
+
+
+        </span>
+
+
+
+<h2>
+
+
+
+
+
+
+
+            Papar<span>.Edu</span>
+
+
+
+</h2>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Papar.Edu merupakan platform berpusat yang menghubungkan
+
+
+
+
+
+
+
+            komuniti Papar dengan kursus pendek, latihan kemahiran dan
+
+
+
+
+
+
+
+            peluang pembelajaran sepanjang hayat yang ditawarkan oleh
+
+
+
+
+
+
+
+            institusi pendidikan dan penyedia latihan.
+
+
+
+
+
+
+
+        </p>
+
+
+
+<div class="about-buttons">
+
+
+
+<a class="about-primary" href="#kursus">
+
+
+
+
+
+
+
+                Terokai Kursus Papar
+
+
+
+
+
+
+
+            </a>
+
+
+
+<a class="about-secondary" href="#hubungi">
+
+
+
+
+
+
+
+                Hubungi Pentadbir
+
+
+
+
+
+
+
+            </a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- =========================
+
+
+
+
+
+
+
+     WHY PAPAR EDU
+
+
+
+
+
+
+
+========================= -->
+
+
+
+<section class="why-section">
+
+
+
+<div class="why-heading">
+
+
+
+<span class="why-label">
+
+
+
+
+
+
+
+            KELEBIHAN PLATFORM
+
+
+
+
+
+
+
+        </span>
+
+
+
+<h2>Mengapa Memilih Papar.Edu?</h2>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Platform komuniti yang memudahkan anda mencari
+
+
+
+
+
+
+
+            peluang pembelajaran dan latihan kemahiran.
+
+
+
+
+
+
+
+        </p>
+
+
+
+</div>
+
+
+
+<div class="why-grid">
+
+
+
+<div class="why-card">
+
+
+
+<div class="why-icon blue-icon">🔍</div>
+
+
+
+<h3>Terokai Kursus</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Cari pelbagai kursus kemahiran dengan mudah
+
+
+
+
+
+
+
+            dalam satu platform berpusat.
+
+
+
+
+
+
+
+        </p>
+
+
+
+</div>
+
+
+
+<div class="why-card">
+
+
+
+<div class="why-icon green-icon">📍</div>
+
+
+
+<h3>Peluang Tempatan</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Akses peluang pembelajaran dan latihan
+
+
+
+
+
+
+
+            yang ditawarkan sekitar daerah Papar, Sabah.
+
+
+
+
+
+
+
+        </p>
+
+
+
+</div>
+
+
+
+<div class="why-card">
+
+
+
+<div class="why-icon purple-icon">🏫</div>
+
+
+
+<h3>Penyedia Dipercayai</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Kursus daripada institusi pendidikan,
+
+
+
+
+
+
+
+            Kolej Komuniti, IPTS, IPTA dan penyedia latihan.
+
+
+
+
+
+
+
+        </p>
+
+
+
+</div>
+
+
+
+<div class="why-card">
+
+
+
+<div class="why-icon orange-icon">📈</div>
+
+
+
+<h3>Bina Kemahiran Baharu</h3>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Tingkatkan kemahiran dan cipta peluang
+
+
+
+
+
+
+
+            pekerjaan serta perniagaan baharu.
+
+
+
+
+
+
+
+        </p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- =========================
+
+
+
+
+
+
+
+     CONTACT ADMIN
+
+
+
+
+
+
+
+========================= -->
+
+
+
+<section class="contact-section" id="hubungi">
+
+
+
+<div class="contact-heading">
+
+
+
+<span class="contact-label">HUBUNGI ADMIN PAPAR.EDU</span>
+
+
+
+<h2>Perlukan Bantuan Menggunakan Papar.Edu?</h2>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Jika anda mempunyai soalan, mengalami masalah teknikal,
+
+
+
+
+
+
+
+            mendapati maklumat kursus tidak betul, atau memerlukan bantuan akaun,
+
+
+
+
+
+
+
+            sila hubungi pentadbir.
+
+
+
+
+
+
+
+        </p>
+
+
+
+</div>
+
+
+
+<div class="contact-container">
+
+
+
+<!-- BORANG -->
+
+
+
+<div class="contact-form-box">
+
+
+
+<h3>💬 Hantar Mesej Kepada Admin</h3>
+
+
+
+<form id="adminForm">
+
+
+
+<div class="form-group">
+
+
+
+<label>Nama Penuh <span>*</span></label>
+
+
+
+<input id="nama" placeholder="Masukkan nama penuh anda" required="" type="text"/>
+
+
+
+</div>
+
+
+
+<div class="form-group">
+
+
+
+<label>Alamat E-mel <span>*</span></label>
+
+
+
+<input id="email" placeholder="contoh@email.com" required="" type="email"/>
+
+
+
+</div>
+
+
+
+<div class="form-row">
+
+
+
+<div class="form-group">
+
+
+
+<label>Kategori Pertanyaan</label>
+
+
+
+<select id="kategoriPertanyaan">
+
+
+
+<option>Pertanyaan Am</option>
+
+
+
+<option>Masalah Akaun</option>
+
+
+
+<option>Masalah Pendaftaran Kursus</option>
+
+
+
+<option>Maklumat Kursus</option>
+
+
+
+<option>Penyedia Latihan</option>
+
+
+
+<option>Masalah Teknikal</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+<div class="form-group">
+
+
+
+<label>Subjek</label>
+
+
+
+<input id="subjek" placeholder="Pertanyaan Am" type="text"/>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="form-group">
+
+
+
+<label>Mesej Anda <span>*</span></label>
+
+
+
+<textarea id="mesej" placeholder="Huraikan soalan atau masalah anda di sini..." required="" rows="5"></textarea>
+
+
+
+</div>
+
+
+
+<button class="send-button" type="submit">
+
+
+
+
+
+
+
+                    ✈ Hantar Mesej
+
+
+
+
+
+
+
+                </button>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+<!-- MAKLUMAT HUBUNGAN -->
+
+
+
+<div class="contact-info">
+
+
+
+<h3>Maklumat Hubungan</h3>
+
+
+
+<div class="info-item">
+
+
+
+<div class="info-icon">📍</div>
+
+
+
+<div>
+
+
+
+<strong>Papar.Edu Support</strong>
+
+
+
+<p>Papar, Sabah, Malaysia</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="info-item">
+
+
+
+<div class="info-icon">✉</div>
+
+
+
+<div>
+
+
+
+<strong>Email Support</strong>
+
+
+
+<p>admin@papar.edu</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="info-item">
+
+
+
+<div class="info-icon">◷</div>
+
+
+
+<div>
+
+
+
+<strong>Waktu Sokongan</strong>
+
+
+
+<p>
+
+
+
+
+
+
+
+                        Isnin – Jumaat<br/>
+
+
+
+
+
+
+
+                        8:00 AM – 5:00 PM
+
+
+
+
+
+
+
+                    </p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="info-line"></div>
+
+
+
+<p class="info-note">
+
+
+
+
+
+
+
+                Pentadbir kami sedia membantu memberikan
+
+
+
+
+
+
+
+                bimbingan kepada komuniti Papar dan penyedia latihan.
+
+
+
+
+
+
+
+            </p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+<!-- =========================
+
+
+
+
+
+
+
+     FOOTER
+
+
+
+
+
+
+
+========================= -->
+
+
+
+<footer class="footer">
+
+
+
+<div class="footer-container">
+
+
+
+<div class="footer-about">
+
+
+
+<h2>🎓 Papar<span>.Edu</span></h2>
+
+
+
+<p>
+
+
+
+
+
+
+
+                Papar.Edu merupakan platform berpusat yang menghubungkan
+
+
+
+
+
+
+
+                komuniti Papar dengan kursus pendek, latihan kemahiran
+
+
+
+
+
+
+
+                dan peluang pembelajaran sepanjang hayat.
+
+
+
+
+
+
+
+            </p>
+
+
+
+<div class="social-links">
+
+
+
+<a href="#">FB</a>
+
+
+
+<a href="#">IG</a>
+
+
+
+<a href="#">TT</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="footer-column">
+
+
+
+<h3>PAUTAN PANTAS</h3>
+
+
+
+<a href="#">Utama</a>
+
+
+
+<a href="#kursus">Kursus</a>
+
+
+
+<a href="#">Penyedia Latihan</a>
+
+
+
+<a href="#tentang">Tentang Kami</a>
+
+
+
+<a href="#hubungi">Hubungi Kami</a>
+
+
+
+</div>
+
+
+
+<div class="footer-column">
+
+
+
+<h3>KATEGORI KURSUS</h3>
+
+
+
+<a href="#">🍰 Bakery &amp; Pastry</a>
+
+
+
+<a href="#">🧵 Jahitan &amp; Fesyen</a>
+
+
+
+<a href="#">💻 ICT &amp; Digital Skills</a>
+
+
+
+<a href="#">🏢 Keusahawanan</a>
+
+
+
+<a href="#">📊 Perniagaan &amp; Akaun</a>
+
+
+
+</div>
+
+
+
+<div class="footer-column">
+
+
+
+<h3>SOKONGAN &amp; BANTUAN</h3>
+
+
+
+<a href="#">Soalan Lazim (FAQ)</a>
+
+
+
+<a href="#hubungi">Hubungi Admin</a>
+
+
+
+<a href="#">Dasar Privasi</a>
+
+
+
+<a href="#">Terma &amp; Syarat</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="footer-bottom">
+
+
+
+<p>
+
+
+
+
+
+
+
+            © 2026 Papar.Edu. Hak Cipta Terpelihara.
+
+
+
+
+
+
+
+        </p>
+
+
+
+<p>
+
+
+
+
+
+
+
+            Papar, Sabah, Malaysia
+
+
+
+
+
+
+
+        </p>
+
+
+
+</div>
+
+
+
+</footer>
+
+
+
+<script src="js/main.js"></script>
+
+
+
+</section></section>
+
+
+
+<script>
+
+
+
+const PAPAR_EDU_API = "http\://localhost:3000";
+
+
+
+
+
+
+
+function escapeHTML(value) {
+
+
+
+    return String(value ?? "")
+
+
+
+        .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
+
+
+
+        .replaceAll(">", "&gt;").replaceAll('"', "&quot;")
+
+
+
+        .replaceAll("'", "&#039;");
+
+
+
+}
+
+
+
+function formatCourseDate(value) {
+
+
+
+    if (!value) return "-";
+
+
+
+    const d = new Date(value + "T00:00:00");
+
+
+
+    if (Number.isNaN(d.getTime())) return value;
+
+
+
+    return d.toLocaleDateString("ms-MY", {
+
+
+
+        day:"numeric", month:"short", year:"numeric"
+
+
+
+    }).toUpperCase();
+
+
+
+}
+
+
+
+function feeHTML(fee) {
+
+
+
+    const n = Number(fee || 0);
+
+
+
+    return n <= 0
+
+
+
+        ? '<span class="free-price">PERCUMA</span>'
+
+
+
+        : '<span class="course-price">RM ' + n.toFixed(2) + '</span>';
+
+
+
+}
+
+
+
+function posterStyle(poster) {
+
+
+
+    if (!poster) return "";
+
+
+
+    const safe = String(poster).replaceAll('"', "%22");
+
+
+
+    return 'style="background-image:url(&quot;' + safe +
+
+
+
+           '&quot;);background-size:cover;background-position:center;"';
+
+
+
+}
+
+
+
+
+
+
+
+async function loadApprovedCourses() {
+
+
+
+    const grid = document.querySelector(".course-grid");
+
+
+
+    if (!grid) return;
+
+
+
+    try {
+
+
+
+        const response = await fetch(PAPAR_EDU_API + "/api/courses/approved");
+
+
+
+        if (!response.ok) throw new Error("Gagal mengambil kursus");
+
+
+
+        const courses = await response.json();
+
+
+
+
+
+
+
+        if (!Array.isArray(courses) || courses.length === 0) {
+
+
+
+            grid.innerHTML = `
+
+
+
+                <div style="grid-column:1/-1;text-align:center;padding:40px;color:#667085;">
+
+
+
+                    <h3>Belum ada kursus yang diterbitkan.</h3>
+
+
+
+                    <p>Kursus yang diluluskan Admin akan dipaparkan di sini.</p>
+
+
+
+                </div>`;
+
+
+
+            return;
+
+
+
+        }
+
+
+
+
+
+
+
+        grid.innerHTML = courses.map(course => `
+
+
+
+            <article class="course-card" data-course-id="${escapeHTML(course.id)}">
+
+
+
+                <div class="course-image" ${posterStyle(course.poster)}>
+
+
+
+                    <span class="course-status">PENDAFTARAN DIBUKA</span>
+
+
+
+                    <button class="favorite" type="button">♡</button>
+
+
+
+                    ${feeHTML(course.fee)}
+
+
+
+                </div>
+
+
+
+                <div class="course-content">
+
+
+
+                    <span class="provider">${escapeHTML(course.providerName || "Penyedia Latihan")} ✓</span>
+
+
+
+                    <h3>${escapeHTML(course.title || "Kursus")}</h3>
+
+
+
+                    <p>${escapeHTML(course.description || "Kursus kemahiran untuk komuniti Papar.")}</p>
+
+
+
+                    <div class="course-meta">
+
+
+
+                        <span>📅 ${escapeHTML(formatCourseDate(course.date))}</span>
+
+
+
+                        <span>⏰ ${escapeHTML(course.time || "-")}</span>
+
+
+
+                    </div>
+
+
+
+                    <div class="course-meta">
+
+
+
+                        <span>📍 ${escapeHTML(course.location || "-")}</span>
+
+
+
+                        <span>👥 ${escapeHTML(course.capacity || "-")} Peserta</span>
+
+
+
+                    </div>
+
+
+
+                    <button class="course-button" type="button"
+
+
+
+                        onclick="window.location.href='login.html'">
+
+
+
+                        Lihat Kursus →
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+            </article>
+
+
+
+        `).join("");
+
+
+
+    } catch (error) {
+
+
+
+        console.error(error);
+
+
+
+        grid.innerHTML = `
+
+
+
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:#b42318;">
+
+
+
+                <h3>Kursus tidak dapat dimuatkan.</h3>
+
+
+
+                <p>Pastikan backend Papar.Edu sedang berjalan di localhost:3000.</p>
+
+
+
+            </div>`;
+
+
+
+    }
+
+
+
+}
+
+
+
+document.addEventListener("DOMContentLoaded", loadApprovedCourses);
+
+
+
+</script>
+
+
+
+
+
+
+
+<script>
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+
+    const links = document.querySelectorAll(".menu a");
+
+
+
+    links.forEach(link => {
+
+
+
+        const label = link.textContent.trim().toLowerCase();
+
+
+
+        if (label.includes("utama")) link.href = "#top";
+
+
+
+        if (label === "kursus") link.href = "#kursus";
+
+
+
+        if (label.includes("kategori")) link.href = "#kategori";
+
+
+
+        if (label.includes("tentang")) link.href = "#tentang";
+
+
+
+        if (label.includes("contact")) link.href = "#hubungi";
+
+
+
+        if (label.includes("penyedia")) link.href = "login.html";
+
+
+
+    });
+
+
+
+
+
+
+
+    if (!document.body.id) document.body.id = "top";
+
+
+
+
+
+
+
+    const categoryGrid = document.querySelector(".category-grid");
+
+
+
+    if (categoryGrid && !categoryGrid.id) categoryGrid.id = "kategori";
+
+
+
+
+
+
+
+    document.querySelectorAll(".category-card").forEach(card => {
+
+
+
+        const categoryName = card.querySelector("h3")?.textContent.trim() || "";
+
+
+
+        card.querySelectorAll("a, .circle").forEach(control => {
+
+
+
+            control.style.cursor = "pointer";
+
+
+
+            control.addEventListener("click", function (event) {
+
+
+
+                event.preventDefault();
+
+
+
+                const search = document.getElementById("searchInput");
+
+
+
+                if (search) search.value = categoryName;
+
+
+
+                document.getElementById("kursus")?.scrollIntoView({behavior:"smooth"});
+
+
+
+                if (typeof searchCourse === "function") searchCourse();
+
+
+
+            });
+
+
+
+        });
+
+
+
+    });
+
+
+
+});
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+/* ===== PAPAR.EDU FINAL FUNCTION CONTROLLER ===== */
+
+
+
+(() => {
+
+
+
+  const API = "http\://localhost:3000";
+
+
+
+  let approvedCourses = [];
+
+
+
+
+
+
+
+  const $ = (sel) => document.querySelector(sel);
+
+
+
+  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+
+
+
+
+
+
+  function currentUser() {
+
+
+
+    try { return JSON.parse(localStorage.getItem("paparEduCurrentUser")); }
+
+
+
+    catch { return null; }
+
+
+
+  }
+
+
+
+
+
+
+
+  function dashboardUrl(user = currentUser()) {
+
+
+
+    if (!user) return "login.html";
+
+
+
+    if (user.role === "student") return "student-dashboard.html";
+
+
+
+    if (user.role === "provider") return "provider-dashboard.html";
+
+
+
+    if (user.role === "admin") return "admin-dashboard.html";
+
+
+
+    return "login.html";
+
+
+
+  }
+
+
+
+
+
+
+
+  function safe(v) {
+
+
+
+    return String(v ?? "").replace(/[&<>"']/g, c => ({
+
+
+
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+
+
+
+    })[c]);
+
+
+
+  }
+
+
+
+
+
+
+
+  function formatDate(v) {
+
+
+
+    if (!v) return "-";
+
+
+
+    const d = new Date(v + "T00:00:00");
+
+
+
+    return Number.isNaN(d.getTime()) ? v : d.toLocaleDateString("ms-MY", {
+
+
+
+      day:"numeric", month:"short", year:"numeric"
+
+
+
+    });
+
+
+
+  }
+
+
+
+
+
+
+
+  function renderCourses(list) {
+
+
+
+    const grid = $(".course-grid");
+
+
+
+    if (!grid) return;
+
+
+
+    if (!list.length) {
+
+
+
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#667085">
+
+
+
+        <h3>Tiada kursus dijumpai.</h3><p>Cuba carian atau kategori lain.</p></div>`;
+
+
+
+      return;
+
+
+
+    }
+
+
+
+    const user = currentUser();
+
+
+
+    grid.innerHTML = list.map(c => {
+
+
+
+      const fee = Number(c.fee || 0);
+
+
+
+      const poster = c.poster ? `background-image:url("${String(c.poster).replaceAll('"', "%22")}");background-size:cover;background-position:center;` : "";
+
+
+
+      return `<article class="course-card">
+
+
+
+        <div class="course-image" style='${poster}'>
+
+
+
+          <span class="course-status">PENDAFTARAN DIBUKA</span>
+
+
+
+          <span class="${fee <= 0 ? "free-price" : "course-price"}">${fee <= 0 ? "PERCUMA" : "RM " + fee.toFixed(2)}</span>
+
+
+
+        </div>
+
+
+
+        <div class="course-content">
+
+
+
+          <span class="provider">${safe(c.providerName || "Penyedia Latihan")} ✓</span>
+
+
+
+          <h3>${safe(c.title || "Kursus")}</h3>
+
+
+
+          <p>${safe(c.description || "Kursus kemahiran untuk komuniti Papar.")}</p>
+
+
+
+          <div class="course-meta"><span>📅 ${safe(formatDate(c.date))}</span><span>⏰ ${safe(c.time || "-")}</span></div>
+
+
+
+          <div class="course-meta"><span>📍 ${safe(c.location || "-")}</span><span>👥 ${safe(c.capacity || "-")} Peserta</span></div>
+
+
+
+          <button class="course-button js-course-open" data-course-id="${safe(c.id)}" type="button">
+
+
+
+            ${user?.role === "student" ? "Daftar / Lihat Kursus →" : "Lihat Kursus →"}
+
+
+
+          </button>
+
+
+
+        </div>
+
+
+
+      </article>`;
+
+
+
+    }).join("");
+
+
+
+
+
+
+
+    $$(".js-course-open").forEach(btn => btn.addEventListener("click", () => {
+
+
+
+      const u = currentUser();
+
+
+
+      if (!u) {
+
+
+
+        localStorage.setItem("paparEduSelectedCourse", btn.dataset.courseId);
+
+
+
+        location.href = "login.html";
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      location.href = dashboardUrl(u);
+
+
+
+    }));
+
+
+
+  }
+
+
+
+
+
+
+
+  function normalize(v) { return String(v || "").toLowerCase(); }
+
+
+
+
+
+
+
+  function filterCourses(keyword = "") {
+
+
+
+    const q = normalize(keyword).trim();
+
+
+
+    if (!q) return renderCourses(approvedCourses);
+
+
+
+    const aliases = {
+
+
+
+      "bakery & pastri":["bakery","bakeri","pastri","roti","kek"],
+
+
+
+      "jahitan & fesyen":["jahitan","fesyen","sewing"],
+
+
+
+      "ict & kemahiran digital":["ict","digital","komputer","canva","ai","teknologi"],
+
+
+
+      "perniagaan & kewangan":["perniagaan","kewangan","akaun","business"],
+
+
+
+      "keusahawanan":["keusahawanan","usahawan"],
+
+
+
+      "masakan & kulinari":["masakan","kulinari","cooking","makanan"],
+
+
+
+      "fotografi & videografi":["fotografi","videografi","foto","video"],
+
+
+
+      "solekan & kecantikan":["solekan","kecantikan","beauty"],
+
+
+
+      "automotif & penyelenggaraan":["automotif","penyelenggaraan","kereta"],
+
+
+
+      "pertanian & akuaponik":["pertanian","akuaponik"],
+
+
+
+      "bahasa & komunikasi":["bahasa","komunikasi"],
+
+
+
+      "kraf & seni kreatif":["kraf","seni","kreatif"]
+
+
+
+    };
+
+
+
+    const terms = aliases[q] || [q];
+
+
+
+    const filtered = approvedCourses.filter(c => {
+
+
+
+      const hay = normalize([c.title,c.category,c.providerName,c.location,c.description,c.learning].join(" "));
+
+
+
+      return terms.some(t => hay.includes(t));
+
+
+
+    });
+
+
+
+    renderCourses(filtered);
+
+
+
+    $("#kursus")?.scrollIntoView({behavior:"smooth"});
+
+
+
+  }
+
+
+
+
+
+
+
+  async function loadCoursesFinal() {
+
+
+
+    const grid = $(".course-grid");
+
+
+
+    if (grid) grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:35px">Memuatkan kursus...</div>`;
+
+
+
+    try {
+
+
+
+      const r = await fetch(API + "/api/courses/approved");
+
+
+
+      if (!r.ok) throw new Error("HTTP " + r.status);
+
+
+
+      approvedCourses = await r.json();
+
+
+
+      if (!Array.isArray(approvedCourses)) approvedCourses = [];
+
+
+
+      renderCourses(approvedCourses);
+
+
+
+    } catch (e) {
+
+
+
+      console.error("Papar.Edu course error:", e);
+
+
+
+      if (grid) grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:35px;color:#b42318">
+
+
+
+        <h3>Kursus tidak dapat dimuatkan.</h3><p>Pastikan backend berjalan di localhost:3000.</p></div>`;
+
+
+
+    }
+
+
+
+  }
+
+
+
+
+
+
+
+  function wireSearch() {
+
+
+
+    const input = $("#searchInput") || $('input[type="search"]');
+
+
+
+    if (input) {
+
+
+
+      input.addEventListener("input", () => filterCourses(input.value));
+
+
+
+      input.addEventListener("keydown", e => {
+
+
+
+        if (e.key === "Enter") { e.preventDefault(); filterCourses(input.value); }
+
+
+
+      });
+
+
+
+    }
+
+
+
+    $$("button,a").forEach(el => {
+
+
+
+      const t = normalize(el.textContent);
+
+
+
+      if ((t.includes("cari") || t.includes("search")) && el.closest("form, .search-box, .search-panel")) {
+
+
+
+        el.addEventListener("click", e => { e.preventDefault(); filterCourses(input?.value || ""); });
+
+
+
+      }
+
+
+
+    });
+
+
+
+  }
+
+
+
+
+
+
+
+  function wireCategories() {
+
+
+
+    $$(".category-card").forEach(card => {
+
+
+
+      card.style.cursor = "pointer";
+
+
+
+      card.addEventListener("click", e => {
+
+
+
+        e.preventDefault();
+
+
+
+        const title = card.querySelector("h3")?.textContent?.trim() || card.textContent.trim();
+
+
+
+        filterCourses(title);
+
+
+
+      });
+
+
+
+    });
+
+
+
+  }
+
+
+
+
+
+
+
+  function wireNavigation() {
+
+
+
+    document.body.id = document.body.id || "top";
+
+
+
+    const map = {
+
+
+
+      "utama":"#top", "kursus":"#kursus", "kategori":"#kategori",
+
+
+
+      "tentang kami":"#tentang", "contact":"#hubungi", "hubungi":"#hubungi"
+
+
+
+    };
+
+
+
+    $$("a,button").forEach(el => {
+
+
+
+      const t = normalize(el.textContent).trim();
+
+
+
+      if (map[t]) {
+
+
+
+        el.addEventListener("click", e => {
+
+
+
+          e.preventDefault();
+
+
+
+          document.querySelector(map[t])?.scrollIntoView({behavior:"smooth"});
+
+
+
+        });
+
+
+
+      }
+
+
+
+      if (t.includes("penyedia latihan") && !el.closest(".course-card")) {
+
+
+
+        el.addEventListener("click", e => {
+
+
+
+          e.preventDefault();
+
+
+
+          const u = currentUser();
+
+
+
+          location.href = u?.role === "provider" ? "provider-dashboard.html" : "login.html";
+
+
+
+        });
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    const u = currentUser();
+
+
+
+    if (u) {
+
+
+
+      $$("a,button").forEach(el => {
+
+
+
+        const t = normalize(el.textContent).trim();
+
+
+
+        if (t === "log masuk" || t === "login") {
+
+
+
+          el.textContent = "Dashboard";
+
+
+
+          el.addEventListener("click", e => { e.preventDefault(); location.href = dashboardUrl(u); });
+
+
+
+        }
+
+
+
+      });
+
+
+
+    }
+
+
+
+  }
+
+
+
+
+
+
+
+  function wireContact() {
+    const form = document.getElementById("adminForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const name = document.getElementById("nama").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const category = document.getElementById("kategoriPertanyaan").value.trim();
+      const subject = document.getElementById("subjek").value.trim() || "Pertanyaan Papar.Edu";
+      const message = document.getElementById("mesej").value.trim();
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      if (!name || !email || !message) {
+        alert("Sila lengkapkan Nama, E-mel dan Mesej.");
+        return;
+      }
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert("Sila masukkan alamat e-mel yang sah.");
+        return;
+      }
+
+      const oldText = submitButton ? submitButton.textContent : "";
+
+      try {
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Menghantar...";
+        }
+
+        const response = await fetch("https://papar-edu-backend.onrender.com/api/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            category: category,
+            subject: subject,
+            message: message
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Mesej gagal dihantar.");
+        }
+
+        alert("Mesej berjaya dihantar kepada Admin Papar.Edu!");
+        form.reset();
+      } catch (error) {
+        console.error("Papar.Edu message error:", error);
+        alert("Mesej gagal dihantar. Pastikan backend Papar.Edu sedang berjalan.");
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = oldText;
+        }
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+
+
+    const cat = $(".category-grid");
+
+
+
+    if (cat && !cat.id) cat.id = "kategori";
+
+
+
+    wireNavigation();
+
+
+
+    wireSearch();
+
+
+
+    wireCategories();
+
+
+
+    wireContact();
+
+
+
+    loadCoursesFinal();
+
+
+
+  });
+
+
+
+})();
+
+
+
+</script>
+
+</body>
+
+</html>

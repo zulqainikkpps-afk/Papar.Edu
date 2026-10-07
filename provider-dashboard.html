@@ -1,0 +1,9922 @@
+<!DOCTYPE html>
+
+
+
+<html lang="ms">
+
+
+<head>
+
+
+
+    <meta charset="UTF-8">
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+
+
+
+    <title>Dashboard Penyedia | Papar.Edu</title>
+
+
+
+
+
+
+
+    <style>
+
+
+
+        * {
+
+
+
+            box-sizing: border-box;
+
+
+
+            margin: 0;
+
+
+
+            padding: 0;
+
+
+
+        }
+
+
+
+
+
+
+
+        body {
+
+
+
+            font-family: Arial, Helvetica, sans-serif;
+
+
+
+            background: #f5f7fb;
+
+
+
+            color: #08152f;
+
+
+
+        }
+
+
+
+
+
+
+
+        /* =========================
+
+
+
+           SIDEBAR
+
+
+
+        ========================= */
+
+
+
+
+
+
+
+        .sidebar {
+
+
+
+            position: fixed;
+
+
+
+            top: 0;
+
+
+
+            left: 0;
+
+
+
+
+
+
+
+            width: 222px;
+
+
+
+            height: 100vh;
+
+
+
+
+
+
+
+            padding: 18px 14px;
+
+
+
+
+
+
+
+            background: #101a31;
+
+
+
+            color: white;
+
+
+
+        }
+
+
+
+
+
+
+
+        .provider-profile {
+
+
+
+            display: flex;
+
+
+
+            align-items: center;
+
+
+
+            gap: 11px;
+
+
+
+
+
+
+
+            padding-bottom: 22px;
+
+
+
+            margin-bottom: 22px;
+
+
+
+
+
+
+
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+
+
+
+        }
+
+
+
+
+
+
+
+        .provider-icon {
+
+
+
+            width: 38px;
+
+
+
+            height: 38px;
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+            align-items: center;
+
+
+
+            justify-content: center;
+
+
+
+
+
+
+
+            flex-shrink: 0;
+
+
+
+
+
+
+
+            border-radius: 11px;
+
+
+
+
+
+
+
+            background: #533cff;
+
+
+
+
+
+
+
+            font-size: 17px;
+
+
+
+            font-weight: bold;
+
+
+
+        }
+
+
+
+
+
+
+
+        .provider-profile h3 {
+
+
+
+            max-width: 135px;
+
+
+
+
+
+
+
+            font-size: 12px;
+
+
+
+            line-height: 1.3;
+
+
+
+
+
+
+
+            white-space: nowrap;
+
+
+
+            overflow: hidden;
+
+
+
+            text-overflow: ellipsis;
+
+
+
+        }
+
+
+
+
+
+
+
+        .provider-profile small {
+
+
+
+            display: block;
+
+
+
+
+
+
+
+            margin-top: 4px;
+
+
+
+
+
+
+
+            color: #7284ff;
+
+
+
+            font-size: 9px;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* MENU */
+
+
+
+
+
+
+
+        .menu {
+
+
+
+            display: flex;
+
+
+
+            flex-direction: column;
+
+
+
+            gap: 7px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .menu-item {
+
+
+
+            width: 100%;
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+            align-items: center;
+
+
+
+            gap: 13px;
+
+
+
+
+
+
+
+            padding: 13px 15px;
+
+
+
+
+
+
+
+            border: none;
+
+
+
+            border-radius: 12px;
+
+
+
+
+
+
+
+            background: transparent;
+
+
+
+            color: #b8c4dc;
+
+
+
+
+
+
+
+            font-size: 12px;
+
+
+
+            font-weight: 600;
+
+
+
+
+
+
+
+            text-align: left;
+
+
+
+            cursor: pointer;
+
+
+
+
+
+
+
+            transition: 0.2s;
+
+
+
+        }
+
+
+
+
+
+
+
+        .menu-item:hover* {
+
+
+
+            background: rgba(255,255,255,0.07);
+
+
+
+            color: white;
+
+
+
+        }
+
+
+
+
+
+
+
+        .menu-item.active {
+
+
+
+            background: linear-gradient(
+
+
+
+                90deg,
+
+
+
+                #4938f5,
+
+
+
+                #5b3eff
+
+
+
+            );
+
+
+
+
+
+
+
+            color: white;
+
+
+
+        }
+
+
+
+
+
+
+
+        .menu-icon {
+
+
+
+            width: 18px;
+
+
+
+            text-align: center;
+
+
+
+            font-size: 15px;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* LOGOUT */
+
+
+
+
+
+
+
+        .logout {
+
+
+
+            position: absolute;
+
+
+
+
+
+
+
+            left: 14px;
+
+
+
+            right: 14px;
+
+
+
+            bottom: 20px;
+
+
+
+
+
+
+
+            color: #ff9b9b;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* =========================
+
+
+
+           MAIN
+
+
+
+        ========================= */
+
+
+
+
+
+
+
+        .main {
+
+
+
+            margin-left: 222px;
+
+
+
+            min-height: 100vh;
+
+
+
+
+
+
+
+            padding: 36px 38px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .page {
+
+
+
+            display: none;
+
+
+
+        }
+
+
+
+
+
+
+
+        .page.active {
+
+
+
+            display: block;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* HEADER */
+
+
+
+
+
+
+
+        .page-header {
+
+
+
+            margin-bottom: 30px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .page-header h1 {
+
+
+
+            font-size: 29px;
+
+
+
+            font-weight: 800;
+
+
+
+        }
+
+
+
+
+
+
+
+        .page-header p {
+
+
+
+            margin-top: 6px;
+
+
+
+
+
+
+
+            color: #71809a;
+
+
+
+
+
+
+
+            font-size: 12px;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* =========================
+
+
+
+           STATS
+
+
+
+        ========================= */
+
+
+
+
+
+
+
+        .stats-grid {
+
+
+
+            display: grid;
+
+
+
+            grid-template-columns: repeat(4, 1fr);
+
+
+
+
+
+
+
+            gap: 18px;
+
+
+
+
+
+
+
+            margin-bottom: 30px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .stat-card {
+
+
+
+            min-height: 108px;
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+            align-items: center;
+
+
+
+            gap: 15px;
+
+
+
+
+
+
+
+            padding: 20px;
+
+
+
+
+
+
+
+            background: white;
+
+
+
+
+
+
+
+            border: 1px solid #e8edf5;
+
+
+
+            border-radius: 22px;
+
+
+
+
+
+
+
+            box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+
+
+
+        }
+
+
+
+
+
+
+
+        .stat-icon {
+
+
+
+            width: 48px;
+
+
+
+            height: 48px;
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+            align-items: center;
+
+
+
+            justify-content: center;
+
+
+
+
+
+
+
+            flex-shrink: 0;
+
+
+
+
+
+
+
+            border-radius: 15px;
+
+
+
+
+
+
+
+            font-size: 23px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .blue {
+
+
+
+            background: #ddf3ff;
+
+
+
+        }
+
+
+
+
+
+
+
+        .green {
+
+
+
+            background: #d5fae8;
+
+
+
+        }
+
+
+
+
+
+
+
+        .purple {
+
+
+
+            background: #e4e5ff;
+
+
+
+        }
+
+
+
+
+
+
+
+        .yellow {
+
+
+
+            background: #fff2c9;
+
+
+
+        }
+
+
+
+
+
+
+
+        .stat-card small {
+
+
+
+            color: #91a0bd;
+
+
+
+
+
+
+
+            font-size: 10px;
+
+
+
+            font-weight: bold;
+
+
+
+        }
+
+
+
+
+
+
+
+        .stat-card h2 {
+
+
+
+            margin-top: 5px;
+
+
+
+
+
+
+
+            font-size: 23px;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* =========================
+
+
+
+           BANNER
+
+
+
+        ========================= */
+
+
+
+
+
+
+
+        .course-banner {
+
+
+
+            min-height: 120px;
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+            align-items: center;
+
+
+
+            justify-content: space-between;
+
+
+
+
+
+
+
+            gap: 30px;
+
+
+
+
+
+
+
+            padding: 28px 30px;
+
+
+
+
+
+
+
+            border-radius: 22px;
+
+
+
+
+
+
+
+            background: linear-gradient(
+
+
+
+                110deg,
+
+
+
+                #0796d5,
+
+
+
+                #4d3dff,
+
+
+
+                #0875b5
+
+
+
+            );
+
+
+
+
+
+
+
+            color: white;
+
+
+
+
+
+
+
+            box-shadow: 0 15px 25px rgba(27,70,150,0.13);
+
+
+
+        }
+
+
+
+
+
+
+
+        .course-banner h2 {
+
+
+
+            margin-bottom: 7px;
+
+
+
+
+
+
+
+            font-size: 19px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .course-banner p {
+
+
+
+            max-width: 620px;
+
+
+
+
+
+
+
+            font-size: 11px;
+
+
+
+            line-height: 1.6;
+
+
+
+        }
+
+
+
+
+
+
+
+        .new-course-btn {
+
+
+
+            padding: 13px 22px;
+
+
+
+
+
+
+
+            border: none;
+
+
+
+            border-radius: 13px;
+
+
+
+
+
+
+
+            background: white;
+
+
+
+            color: #08152f;
+
+
+
+
+
+
+
+            font-size: 11px;
+
+
+
+            font-weight: bold;
+
+
+
+
+
+
+
+            cursor: pointer;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* =========================
+
+
+
+           CONTENT CARD
+
+
+
+        ========================= */
+
+
+
+
+
+
+
+        .content-card {
+
+
+
+            padding: 25px;
+
+
+
+
+
+
+
+            background: white;
+
+
+
+
+
+
+
+            border: 1px solid #e6ebf3;
+
+
+
+            border-radius: 18px;
+
+
+
+
+
+
+
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+
+
+
+        }
+
+
+
+
+
+
+
+        .empty {
+
+
+
+            min-height: 180px;
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+            flex-direction: column;
+
+
+
+            align-items: center;
+
+
+
+            justify-content: center;
+
+
+
+
+
+
+
+            color: #71809a;
+
+
+
+        }
+
+
+
+
+
+
+
+        .empty-icon {
+
+
+
+            margin-bottom: 12px;
+
+
+
+
+
+
+
+            font-size: 40px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .empty strong {
+
+
+
+            color: #17233d;
+
+
+
+
+
+
+
+            font-size: 13px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .empty p {
+
+
+
+            margin-top: 7px;
+
+
+
+
+
+
+
+            font-size: 11px;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* =========================
+
+
+
+           FORM
+
+
+
+        ========================= */
+
+
+
+
+
+
+
+        .form-card {
+
+
+
+            max-width: 760px;
+
+
+
+
+
+
+
+            margin: 0 auto;
+
+
+
+            padding: 30px;
+
+
+
+
+
+
+
+            background: white;
+
+
+
+
+
+
+
+            border: 1px solid #e3e8f1;
+
+
+
+            border-radius: 18px;
+
+
+
+
+
+
+
+            box-shadow: 0 3px 7px rgba(0,0,0,0.08);
+
+
+
+        }
+
+
+
+
+
+
+
+        .form-card h2 {
+
+
+
+            margin-bottom: 5px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .form-card > p {
+
+
+
+            margin-bottom: 25px;
+
+
+
+
+
+
+
+            color: #7c8aa3;
+
+
+
+            font-size: 11px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .input-group {
+
+
+
+            margin-bottom: 16px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .input-group label {
+
+
+
+            display: block;
+
+
+
+
+
+
+
+            margin-bottom: 7px;
+
+
+
+
+
+
+
+            font-size: 11px;
+
+
+
+            font-weight: bold;
+
+
+
+        }
+
+
+
+
+
+
+
+        .input-group input,
+
+
+
+        .input-group select,
+
+
+
+        .input-group textarea {
+
+
+
+            width: 100%;
+
+
+
+
+
+
+
+            padding: 12px 13px;
+
+
+
+
+
+
+
+            border: 1px solid #d9e1ed;
+
+
+
+            border-radius: 9px;
+
+
+
+
+
+
+
+            outline: none;
+
+
+
+
+
+
+
+            font-family: inherit;
+
+
+
+            font-size: 12px;
+
+
+
+
+
+
+
+            background: #f9fbfd;
+
+
+
+        }
+
+
+
+
+
+
+
+        .input-group input:focus*,
+
+
+
+        .input-group select:focus*,
+
+
+
+        .input-group textarea:focus* {
+
+
+
+            border-color: #5140ff;
+
+
+
+        }
+
+
+
+
+
+
+
+        .form-row {
+
+
+
+            display: grid;
+
+
+
+            grid-template-columns: 1fr 1fr;
+
+
+
+
+
+
+
+            gap: 15px;
+
+
+
+        }
+
+
+
+
+
+
+
+        .upload-box {
+
+
+
+    width: 100%;
+
+
+
+    min-height: 180px;
+
+
+
+
+
+
+
+    margin-bottom: 20px;
+
+
+
+    padding: 30px 20px;
+
+
+
+
+
+
+
+    display: flex;
+
+
+
+    flex-direction: column;
+
+
+
+    align-items: center;
+
+
+
+    justify-content: center;
+
+
+
+
+
+
+
+    border: 2px dashed #cad6e7;
+
+
+
+    border-radius: 13px;
+
+
+
+
+
+
+
+    background: #fbfcff;
+
+
+
+    text-align: center;
+
+
+
+
+
+
+
+    cursor: pointer;
+
+
+
+    overflow: hidden;
+
+
+
+}
+
+
+
+
+
+
+
+.upload-box span {
+
+
+
+    display: block;
+
+
+
+
+
+
+
+    margin-bottom: 10px;
+
+
+
+
+
+
+
+    font-size: 35px;
+
+
+
+    line-height: 1;
+
+
+
+}
+
+
+
+
+
+
+
+.upload-box strong {
+
+
+
+    display: block;
+
+
+
+
+
+
+
+    width: 100%;
+
+
+
+
+
+
+
+    margin-bottom: 7px;
+
+
+
+
+
+
+
+    font-size: 12px;
+
+
+
+    text-align: center;
+
+
+
+}
+
+
+
+
+
+
+
+.upload-box small {
+
+
+
+    display: block;
+
+
+
+
+
+
+
+    width: 100%;
+
+
+
+
+
+
+
+    color: #8290a7;
+
+
+
+
+
+
+
+    font-size: 11px;
+
+
+
+    text-align: center;
+
+
+
+}
+
+
+
+
+
+
+
+        #posterPreview {
+
+
+
+    display: none;
+
+
+
+
+
+
+
+    width: 180px;
+
+
+
+    height: 230px;
+
+
+
+
+
+
+
+    margin: 15px auto 0;
+
+
+
+
+
+
+
+    border-radius: 10px;
+
+
+
+    object-fit: cover;
+
+
+
+
+
+
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+        .submit-course {
+
+
+
+            display: block;
+
+
+
+
+
+
+
+            margin-left: auto;
+
+
+
+
+
+
+
+            padding: 13px 22px;
+
+
+
+
+
+
+
+            border: none;
+
+
+
+            border-radius: 10px;
+
+
+
+
+
+
+
+            background: linear-gradient(
+
+
+
+                90deg,
+
+
+
+                #058dd1,
+
+
+
+                #513bff
+
+
+
+            );
+
+
+
+
+
+
+
+            color: white;
+
+
+
+
+
+
+
+            font-weight: bold;
+
+
+
+
+
+
+
+            cursor: pointer;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* =========================
+
+
+
+   TABLE
+
+
+
+========================= */
+
+
+
+
+
+
+
+.table-wrap {
+
+
+
+    width: 100%;
+
+
+
+    overflow-x: auto;
+
+
+
+}
+
+
+
+
+
+
+
+table {
+
+
+
+    width: 100%;
+
+
+
+    border-collapse: collapse;
+
+
+
+    table-layout: fixed;
+
+
+
+    font-size: 11px;
+
+
+
+}
+
+
+
+
+
+
+
+thead,
+
+
+
+tbody {
+
+
+
+    width: 100%;
+
+
+
+}
+
+
+
+
+
+
+
+tr {
+
+
+
+    display: table-row;
+
+
+
+}
+
+
+
+
+
+
+
+th,
+
+
+
+td {
+
+
+
+    display: table-cell;
+
+
+
+    padding: 14px 13px;
+
+
+
+    text-align: left;
+
+
+
+    vertical-align: middle;
+
+
+
+}
+
+
+
+
+
+
+
+th {
+
+
+
+    background: #f7f9fc;
+
+
+
+    color: #8492ad;
+
+
+
+    font-weight: 700;
+
+
+
+}
+
+
+
+
+
+
+
+td {
+
+
+
+    color: #18233d;
+
+
+
+    border-top: 1px solid #edf0f5;
+
+
+
+}
+
+
+
+
+
+
+
+/* NAMA PESERTA */
+
+
+
+th:nth-child(1),
+
+
+
+td:nth-child(1) {
+
+
+
+    width: 18%;
+
+
+
+}
+
+
+
+
+
+
+
+/* TAJUK KURSUS */
+
+
+
+th:nth-child(2),
+
+
+
+td:nth-child(2) {
+
+
+
+    width: 25%;
+
+
+
+}
+
+
+
+
+
+
+
+/* EMAIL */
+
+
+
+th:nth-child(3),
+
+
+
+td:nth-child(3) {
+
+
+
+    width: 22%;
+
+
+
+}
+
+
+
+
+
+
+
+/* TELEFON */
+
+
+
+th:nth-child(4),
+
+
+
+td:nth-child(4) {
+
+
+
+    width: 17%;
+
+
+
+}
+
+
+
+
+
+
+
+/* TARIKH DAFTAR */
+
+
+
+th:nth-child(5),
+
+
+
+td:nth-child(5) {
+
+
+
+    width: 18%;
+
+
+
+}
+
+
+
+
+
+
+
+        /* =========================
+
+
+
+           RESPONSIVE
+
+
+
+        ========================= */
+
+
+
+
+
+
+
+        @media (max-width: 1000px) {
+
+
+
+
+
+
+
+            .stats-grid {
+
+
+
+                grid-template-columns: 1fr 1fr;
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        @media (max-width: 700px) {
+
+
+
+
+
+
+
+            .sidebar {
+
+
+
+                width: 70px;
+
+
+
+            }
+
+
+
+
+
+
+
+            .provider-profile div:not(.provider-icon),
+
+
+
+            .menu-text {
+
+
+
+                display: none;
+
+
+
+            }
+
+
+
+
+
+
+
+            .main {
+
+
+
+                margin-left: 70px;
+
+
+
+                padding: 25px 18px;
+
+
+
+            }
+
+
+
+
+
+
+
+            .stats-grid {
+
+
+
+                grid-template-columns: 1fr;
+
+
+
+            }
+
+
+
+
+
+
+
+            .form-row {
+
+
+
+                grid-template-columns: 1fr;
+
+
+
+            }
+
+
+
+
+
+
+
+            .course-banner {
+
+
+
+                flex-direction: column;
+
+
+
+                align-items: flex-start;
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+    </style>
+
+
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+
+
+
+
+
+
+<!-- =========================
+
+
+
+     SIDEBAR
+
+
+
+========================= -->
+
+
+
+
+
+
+
+<aside class="sidebar">
+
+
+
+
+
+
+
+    <div class="provider-profile">
+
+
+
+
+
+
+
+        <div class="provider-icon">
+
+
+
+            P
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div>
+
+
+
+            <h3 id="providerName">
+
+
+
+                Penyedia Latihan
+
+
+
+            </h3>
+
+
+
+
+
+
+
+            <small>
+
+
+
+                Penyedia Latihan
+
+
+
+            </small>
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <nav class="menu">
+
+
+
+
+
+
+
+        <button
+
+
+
+            class="menu-item active"
+
+
+
+            data-page="dashboard">
+
+
+
+
+
+
+
+            <span class="menu-icon">▦</span>
+
+
+
+            <span class="menu-text">
+
+
+
+                Papan Pemuka
+
+
+
+            </span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+
+
+
+
+        <button
+
+
+
+            class="menu-item"
+
+
+
+            data-page="courses">
+
+
+
+
+
+
+
+            <span class="menu-icon">▤</span>
+
+
+
+            <span class="menu-text">
+
+
+
+                Kursus Saya
+
+
+
+            </span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+
+
+
+
+        <button
+
+
+
+            class="menu-item"
+
+
+
+            data-page="addCourse">
+
+
+
+
+
+
+
+            <span class="menu-icon">⊕</span>
+
+
+
+            <span class="menu-text">
+
+
+
+                Tambah Kursus
+
+
+
+            </span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+
+
+
+
+        <button
+
+
+
+            class="menu-item"
+
+
+
+            data-page="participants">
+
+
+
+
+
+
+
+            <span class="menu-icon">♙</span>
+
+
+
+            <span class="menu-text">
+
+
+
+                Senarai Peserta
+
+
+
+            </span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+
+
+
+
+        <button
+
+
+
+            class="menu-item"
+
+
+
+            data-page="notifications">
+
+
+
+
+
+
+
+            <span class="menu-icon">♢</span>
+
+
+
+            <span class="menu-text">
+
+
+
+                Notifikasi
+
+
+
+            </span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+    <button class="menu-item" id="homeButton" type="button">
+
+        <span class="menu-icon">🏠</span>
+
+        <span class="menu-text">Homepage</span>
+
+    </button>
+
+
+
+    <button
+
+
+
+        class="menu-item logout"
+
+
+
+        id="logoutButton">
+
+
+
+
+
+
+
+        <span class="menu-icon">↪</span>
+
+
+
+
+
+
+
+        <span class="menu-text">
+
+
+
+            Log Keluar
+
+
+
+        </span>
+
+
+
+
+
+
+
+    </button>
+
+
+
+
+
+
+
+</aside>
+
+
+
+
+
+
+
+
+
+
+
+<!-- =========================
+
+
+
+     MAIN
+
+
+
+========================= -->
+
+
+
+
+
+
+
+<main class="main">
+
+
+
+
+
+
+
+
+
+
+
+    <!-- =========================
+
+
+
+         DASHBOARD
+
+
+
+    ========================== -->
+
+
+
+
+
+
+
+    <section
+
+
+
+        id="dashboard"
+
+
+
+        class="page active">
+
+
+
+
+
+
+
+        <div class="page-header">
+
+
+
+
+
+
+
+            <h1>
+
+
+
+                Papan Pemuka Penyedia Latihan
+
+
+
+            </h1>
+
+
+
+
+
+
+
+            <p>
+
+
+
+                Pengurusan kursus, peserta & aktiviti
+
+
+
+                latihan anda di daerah Papar.
+
+
+
+            </p>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="stats-grid">
+
+
+
+
+
+
+
+            <div class="stat-card">
+
+
+
+
+
+
+
+                <div class="stat-icon blue">
+
+
+
+                    📖
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div>
+
+
+
+                    <small>JUMLAH KURSUS</small>
+
+
+
+                    <h2 id="totalCourses">0</h2>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div class="stat-card">
+
+
+
+
+
+
+
+                <div class="stat-icon green">
+
+
+
+                    ✓
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div>
+
+
+
+                    <small>KURSUS AKTIF</small>
+
+
+
+                    <h2 id="activeCourses">0</h2>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div class="stat-card">
+
+
+
+
+
+
+
+                <div class="stat-icon purple">
+
+
+
+                    ♙
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div>
+
+
+
+                    <small>JUMLAH PESERTA</small>
+
+
+
+                    <h2 id="totalParticipants">0</h2>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div class="stat-card">
+
+
+
+
+
+
+
+                <div class="stat-icon yellow">
+
+
+
+                    ◷
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div>
+
+
+
+                    <small>MENUNGGU KELULUSAN</small>
+
+
+
+                    <h2 id="pendingCourses">0</h2>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="course-banner">
+
+
+
+
+
+
+
+            <div>
+
+
+
+
+
+
+
+                <h2>
+
+
+
+                    Mahu Menawarkan Kursus Baharu?
+
+
+
+                </h2>
+
+
+
+
+
+
+
+                <p>
+
+
+
+                    Gunakan borang mudah dan muat naik poster
+
+
+
+                    untuk menyiarkan kursus kepada komuniti Papar.
+
+
+
+                </p>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <button
+
+
+
+                class="new-course-btn"
+
+
+
+                onclick="openPage('addCourse')">
+
+
+
+
+
+
+
+                ⊕   Bina Kursus Baharu
+
+
+
+
+
+
+
+            </button>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- =========================
+
+
+
+         KURSUS SAYA
+
+
+
+    ========================== -->
+
+
+
+
+
+
+
+    <section
+
+
+
+        id="courses"
+
+
+
+        class="page">
+
+
+
+
+
+
+
+        <div class="page-header">
+
+
+
+
+
+
+
+            <h1>Kursus Saya</h1>
+
+
+
+
+
+
+
+            <p>
+
+
+
+                Senarai semua kursus yang telah anda cipta.
+
+
+
+            </p>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div
+
+
+
+            class="content-card"
+
+
+
+            id="courseList">
+
+
+
+
+
+
+
+            <div class="empty">
+
+
+
+
+
+
+
+                <div class="empty-icon">
+
+
+
+                    📖
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <strong>
+
+
+
+                    Tiada kursus dicipta lagi.
+
+
+
+                </strong>
+
+
+
+
+
+
+
+                <p>
+
+
+
+                    Cipta kursus pertama anda untuk bermula.
+
+
+
+                </p>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- =========================
+
+
+
+         TAMBAH KURSUS
+
+
+
+    ========================== -->
+
+
+
+
+
+
+
+    <section
+
+
+
+        id="addCourse"
+
+
+
+        class="page">
+
+
+
+
+
+
+
+        <div class="form-card">
+
+
+
+
+
+
+
+            <h2>
+
+
+
+                Tambah Kursus Baharu
+
+
+
+            </h2>
+
+
+
+
+
+
+
+            <p>
+
+
+
+                Sila isi maklumat kursus dan muat naik poster.
+
+
+
+            </p>
+
+
+
+
+
+
+
+
+
+
+
+            <form id="courseForm">
+
+
+
+
+
+
+
+
+
+
+
+                <!-- POSTER -->
+
+
+
+
+
+
+
+                <label
+
+
+
+                    class="upload-box"
+
+
+
+                    for="coursePoster">
+
+
+
+
+
+
+
+                    <span>☁️</span>
+
+
+
+
+
+
+
+                    <strong>
+
+
+
+                        Drag & Drop Course Poster Here
+
+
+
+                    </strong>
+
+
+
+
+
+
+
+                    <small>
+
+
+
+                        JPG, JPEG, PNG atau WEBP
+
+
+
+                    </small>
+
+
+
+
+
+
+
+                    <img
+
+
+
+                        id="posterPreview"
+
+
+
+                        alt="Poster Preview">
+
+
+
+
+
+
+
+                </label>
+
+
+
+
+
+
+
+
+
+
+
+                <input
+
+
+
+                    type="file"
+
+
+
+                    id="coursePoster"
+
+
+
+                    accept="image/*"
+
+
+
+                    hidden>
+
+
+
+
+
+
+
+
+
+
+
+                <!-- TITLE -->
+
+
+
+
+
+
+
+                <div class="input-group">
+
+
+
+
+
+
+
+                    <label>
+
+
+
+                        Tajuk Kursus *
+
+
+
+                    </label>
+
+
+
+
+
+
+
+                    <input
+
+
+
+                        type="text"
+
+
+
+                        id="courseTitle"
+
+
+
+                        placeholder="Contoh: Asas Pembuatan Kek & Roti"
+
+
+
+                        required>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="form-row">
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- CATEGORY -->
+
+
+
+
+
+
+
+                    <div class="input-group">
+
+
+
+
+
+
+
+                        <label>
+
+
+
+                            Kategori *
+
+
+
+                        </label>
+
+
+
+
+
+
+
+                        <select
+
+
+
+                            id="courseCategory"
+
+
+
+                            required>
+
+
+
+
+
+
+
+                            <option value="">
+
+
+
+                                Pilih kategori
+
+
+
+                            </option>
+
+
+
+
+
+
+
+                            <option>Bakery</option>
+
+
+
+                            <option>Jahitan</option>
+
+
+
+                            <option>ICT & Digital</option>
+
+
+
+                            <option>Keusahawanan</option>
+
+
+
+                            <option>Perniagaan</option>
+
+
+
+
+
+
+
+                        </select>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- DATE -->
+
+
+
+
+
+
+
+                    <div class="input-group">
+
+
+
+
+
+
+
+                        <label>
+
+
+
+                            Tarikh Kursus *
+
+
+
+                        </label>
+
+
+
+
+
+
+
+                        <input
+
+
+
+                            type="date"
+
+
+
+                            id="courseDate"
+
+
+
+                            required>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="form-row">
+
+
+
+
+
+
+
+                    <div class="input-group">
+
+
+
+
+
+
+
+                        <label>Masa</label>
+
+
+
+
+
+
+
+                        <input
+
+
+
+                            type="text"
+
+
+
+                            id="courseTime"
+
+
+
+                            placeholder="09:00 AM - 04:00 PM"
+
+
+
+                            required>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="input-group">
+
+
+
+
+
+
+
+                        <label>Tempoh</label>
+
+
+
+
+
+
+
+                        <input
+
+
+
+                            type="text"
+
+
+
+                            id="courseDuration"
+
+
+
+                            placeholder="1 Hari"
+
+
+
+                            required>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="form-row">
+
+
+
+
+
+
+
+                    <div class="input-group">
+
+
+
+
+
+
+
+                        <label>Lokasi *</label>
+
+
+
+
+
+
+
+                        <input
+
+
+
+                            type="text"
+
+
+
+                            id="courseLocation"
+
+
+
+                            placeholder="Papar, Sabah"
+
+
+
+                            required>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="input-group">
+
+
+
+
+
+
+
+                        <label>
+
+
+
+                            Yuran (RM)
+
+
+
+                        </label>
+
+
+
+
+
+
+
+                        <input
+
+
+
+                            type="number"
+
+
+
+                            id="courseFee"
+
+
+
+                            min="0"
+
+
+
+                            value="0">
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="form-row">
+
+
+
+
+
+
+
+                    <div class="input-group">
+
+
+
+
+
+
+
+                        <label>
+
+
+
+                            Jumlah Tempat (Kapasiti)
+
+
+
+                        </label>
+
+
+
+
+
+
+
+                        <input
+
+
+
+                            type="number"
+
+
+
+                            id="courseCapacity"
+
+
+
+                            min="1"
+
+
+
+                            value="30"
+
+
+
+                            required>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="input-group">
+
+
+
+
+
+
+
+                        <label>
+
+
+
+                            Tarikh Tutup Pendaftaran
+
+
+
+                        </label>
+
+
+
+
+
+
+
+                        <input
+
+
+
+                            type="date"
+
+
+
+                            id="closingDate"
+
+
+
+                            required>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="input-group">
+
+
+
+
+
+
+
+                    <label>
+
+
+
+                        Penerangan Kursus
+
+
+
+                    </label>
+
+
+
+
+
+
+
+                    <textarea
+
+
+
+                        id="courseDescription"
+
+
+
+                        rows="4"
+
+
+
+                        placeholder="Penerangan ringkas mengenai objektif kursus"></textarea>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="input-group">
+
+
+
+
+
+
+
+                    <label>
+
+
+
+                        Apa Yang Akan Dipelajari
+
+
+
+                    </label>
+
+
+
+
+
+
+
+                    <textarea
+
+
+
+                        id="courseLearning"
+
+
+
+                        rows="4"
+
+
+
+                        placeholder="• Teknik asas
+
+• Kemahiran praktikal
+
+• Hasil pembelajaran"></textarea>
+
+
+
+
+
+
+
+                </div>
+
+
+
+                        <div class="input-group">
+
+
+
+
+
+
+
+    <label>Link WhatsApp Penyedia *</label>
+
+
+
+
+
+
+
+    <input
+
+
+
+        type="url"
+
+
+
+        id="courseWhatsapp"
+
+
+
+        placeholder="Contoh: https://wa.me/60123456789"
+
+
+
+        required>
+
+
+
+
+
+
+
+    <small style="
+
+
+
+        display:block;
+
+
+
+        margin-top:6px;
+
+
+
+        color:#7c8aa3;
+
+
+
+        font-size:10px;
+
+
+
+    ">
+
+
+
+        Masukkan link WhatsApp untuk pertanyaan peserta.
+
+
+
+        Contoh: https://wa.me/60123456789
+
+
+
+    </small>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+                <button
+
+
+
+                    type="submit"
+
+
+
+                    class="submit-course">
+
+
+
+
+
+
+
+                    Hantar & Terbitkan Kursus
+
+
+
+
+
+
+
+                </button>
+
+
+
+
+
+
+
+            </form>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- =========================
+
+
+
+         PESERTA
+
+
+
+    ========================== -->
+
+
+
+
+
+
+
+    <section
+
+
+
+        id="participants"
+
+
+
+        class="page">
+
+
+
+
+
+
+
+        <div class="page-header">
+
+
+
+
+
+
+
+            <h1>
+
+
+
+                Senarai Peserta Mendaftar
+
+
+
+            </h1>
+
+
+
+
+
+
+
+            <p>
+
+
+
+                Senarai maklumat komuniti yang telah
+
+
+
+                mendaftar kursus anda.
+
+
+
+            </p>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="content-card">
+
+
+
+
+
+
+
+            <table>
+
+
+
+
+
+
+
+                <thead>
+
+
+
+
+
+
+
+                    <tr>
+
+
+
+                        <th>NAMA PESERTA</th>
+
+
+
+                        <th>TAJUK KURSUS</th>
+
+
+
+                        <th>E-MEL</th>
+
+
+
+                        <th>TELEFON</th>
+
+
+
+                        <th>TARIKH DAFTAR</th>
+
+
+
+                    </tr>
+
+
+
+
+
+
+
+                </thead>
+
+
+
+
+
+
+
+                <tbody id="participantTable">
+
+
+
+
+
+
+
+                    <tr>
+
+
+
+                        <td
+
+
+
+                            colspan="5"
+
+
+
+                            style="text-align:center;color:#8a98b1;">
+
+
+
+
+
+
+
+                            Belum ada pendaftaran peserta.
+
+
+
+
+
+
+
+                        </td>
+
+
+
+                    </tr>
+
+
+
+
+
+
+
+                </tbody>
+
+
+
+
+
+
+
+            </table>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- =========================
+
+
+
+         NOTIFICATION
+
+
+
+    ========================== -->
+
+
+
+
+
+
+
+    <section
+
+
+
+        id="notifications"
+
+
+
+        class="page">
+
+
+
+
+
+
+
+        <div class="page-header">
+
+
+
+
+
+
+
+            <h1>Notifikasi</h1>
+
+
+
+
+
+
+
+            <p>
+
+
+
+                Makluman berkaitan kursus dan
+
+
+
+                penyertaan anda.
+
+
+
+            </p>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="content-card">
+
+
+
+
+
+
+
+            <div class="empty">
+
+
+
+
+
+
+
+                <div class="empty-icon">
+
+
+
+                    🔔
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <strong>
+
+
+
+                    Tiada notifikasi baharu.
+
+
+
+                </strong>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+</main>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   CHECK PROVIDER LOGIN
+
+
+
+========================================= */
+
+
+
+
+
+
+
+const currentProvider =
+
+
+
+    JSON.parse(
+
+
+
+        localStorage.getItem(
+
+
+
+            "paparEduCurrentUser"
+
+
+
+        )
+
+
+
+    );
+
+
+
+
+
+
+
+if (
+
+
+
+    !currentProvider ||
+
+
+
+    currentProvider.role !== "provider"
+
+
+
+) {
+
+
+
+    alert(
+
+
+
+        "Sila log masuk sebagai Penyedia Latihan."
+
+
+
+    );
+
+
+
+
+
+
+
+    window.location.href =
+
+
+
+        "login.html";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   PROVIDER NAME
+
+
+
+========================================= */
+
+
+
+
+
+
+
+if (currentProvider) {
+
+
+
+
+
+
+
+    document.getElementById(
+
+
+
+        "providerName"
+
+
+
+    ).textContent =
+
+
+
+        currentProvider.organizationName ||
+
+
+
+        currentProvider.fullName ||
+
+
+
+        "Penyedia Latihan";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   MENU
+
+
+
+========================================= */
+
+
+
+
+
+
+
+const menuItems =
+
+
+
+    document.querySelectorAll(
+
+
+
+        ".menu-item[data-page]"
+
+
+
+    );
+
+
+
+
+
+
+
+const pages =
+
+
+
+    document.querySelectorAll(
+
+
+
+        ".page"
+
+
+
+    );
+
+
+
+
+
+
+
+
+
+
+
+menuItems.forEach(item => {
+
+
+
+
+
+
+
+    item.addEventListener(
+
+
+
+        "click",
+
+
+
+        function () {
+
+
+
+
+
+
+
+            openPage(
+
+
+
+                this.dataset.page
+
+
+
+            );
+
+
+
+
+
+
+
+        }
+
+
+
+    );
+
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+function openPage(pageId) {
+
+
+
+
+
+
+
+    pages.forEach(page => {
+
+
+
+
+
+
+
+        page.classList.remove(
+
+
+
+            "active"
+
+
+
+        );
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+    menuItems.forEach(item => {
+
+
+
+
+
+
+
+        item.classList.remove(
+
+
+
+            "active"
+
+
+
+        );
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+    const selectedPage =
+
+
+
+        document.getElementById(
+
+
+
+            pageId
+
+
+
+        );
+
+
+
+
+
+
+
+
+
+
+
+    if (selectedPage) {
+
+
+
+
+
+
+
+        selectedPage.classList.add(
+
+
+
+            "active"
+
+
+
+        );
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    const selectedMenu =
+
+
+
+        document.querySelector(
+
+
+
+            '.menu-item[data-page="' +
+
+
+
+            pageId +
+
+
+
+            '"]'
+
+
+
+        );
+
+
+
+
+
+
+
+
+
+
+
+    if (selectedMenu) {
+
+
+
+
+
+
+
+        selectedMenu.classList.add(
+
+
+
+            "active"
+
+
+
+        );
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    if (pageId === "participants") {
+
+
+
+
+
+
+
+        displayParticipants();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   GET COURSES
+
+
+
+========================================= */
+
+
+
+
+
+
+
+let coursesData = [];
+
+
+
+
+
+
+
+async function loadCourses() {
+
+
+
+    try {
+
+
+
+        const response = await fetch(
+
+
+
+            "https://papar-edu-backend.onrender.com/api/courses"
+
+
+
+        );
+
+
+
+
+
+
+
+        if (!response.ok) {
+
+
+
+            throw new Error("Gagal mengambil kursus");
+
+
+
+        }
+
+
+
+
+
+
+
+        coursesData = await response.json();
+
+
+
+
+
+
+
+        console.log("Kursus dari Supabase:", coursesData);
+
+
+
+
+
+
+
+    } catch (error) {
+
+
+
+        console.error(error);
+
+
+
+        coursesData = [];
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+function getCourses() {
+
+
+
+    return coursesData;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   GET MY COURSES
+
+
+
+========================================= */
+
+
+
+
+
+
+
+function getMyCourses() {
+
+
+
+
+
+
+
+    const courses =
+
+
+
+        getCourses();
+
+
+
+
+
+
+
+
+
+
+
+    return courses.filter(
+
+
+
+        course =>
+
+
+
+            course.providerEmail ===
+
+
+
+            currentProvider.email
+
+
+
+    );
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   GET ENROLLMENTS
+
+
+
+========================================= */
+
+
+
+
+
+
+
+function getEnrollments() {
+
+
+
+
+
+
+
+    return JSON.parse(
+
+
+
+        localStorage.getItem(
+
+
+
+            "paparEduEnrollments"
+
+
+
+        )
+
+
+
+    ) || [];
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   DASHBOARD STATISTICS
+
+
+
+========================================= */
+
+
+
+
+
+
+
+function updateStats() {
+
+
+
+
+
+
+
+    const courses =
+
+
+
+        getMyCourses();
+
+
+
+
+
+
+
+
+
+
+
+    const active =
+
+
+
+        courses.filter(
+
+
+
+            course =>
+
+
+
+                course.status ===
+
+
+
+                "approved"
+
+
+
+        );
+
+
+
+
+
+
+
+
+
+
+
+    const pending =
+
+
+
+        courses.filter(
+
+
+
+            course =>
+
+
+
+                course.status ===
+
+
+
+                "pending"
+
+
+
+        );
+
+
+
+
+
+
+
+
+
+
+
+    const enrollments =
+
+
+
+        getEnrollments();
+
+
+
+
+
+
+
+
+
+
+
+    const myCourseIds =
+
+
+
+        courses.map(
+
+
+
+            course =>
+
+
+
+                Number(course.id)
+
+
+
+        );
+
+
+
+
+
+
+
+
+
+
+
+    const myEnrollments =
+
+
+
+        enrollments.filter(
+
+
+
+            enrollment =>
+
+
+
+                myCourseIds.includes(
+
+
+
+                    Number(
+
+
+
+                        enrollment.courseId
+
+
+
+                    )
+
+
+
+                )
+
+
+
+        );
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+
+
+
+        "totalCourses"
+
+
+
+    ).textContent =
+
+
+
+        courses.length;
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+
+
+
+        "activeCourses"
+
+
+
+    ).textContent =
+
+
+
+        active.length;
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+
+
+
+        "pendingCourses"
+
+
+
+    ).textContent =
+
+
+
+        pending.length;
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+
+
+
+        "totalParticipants"
+
+
+
+    ).textContent =
+
+
+
+        myEnrollments.length;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   POSTER PREVIEW
+
+
+
+========================================= */
+
+
+
+
+
+
+
+const coursePoster =
+
+
+
+    document.getElementById(
+
+
+
+        "coursePoster"
+
+
+
+    );
+
+
+
+
+
+
+
+
+
+
+
+coursePoster.addEventListener(
+
+
+
+    "change",
+
+
+
+    function () {
+
+
+
+
+
+
+
+        const file =
+
+
+
+            this.files[0];
+
+
+
+
+
+
+
+
+
+
+
+        if (!file) {
+
+
+
+            return;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* CHECK IMAGE TYPE */
+
+
+
+
+
+
+
+        if (
+
+
+
+            !file.type.startsWith(
+
+
+
+                "image/"
+
+
+
+            )
+
+
+
+        ) {
+
+
+
+
+
+
+
+            alert(
+
+
+
+                "Sila pilih fail gambar sahaja."
+
+
+
+            );
+
+
+
+
+
+
+
+            this.value = "";
+
+
+
+
+
+
+
+            return;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        const reader =
+
+
+
+            new FileReader();
+
+
+
+
+
+
+
+
+
+
+
+        reader.onload =
+
+
+
+            function (event) {
+
+
+
+
+
+
+
+                const preview =
+
+
+
+                    document.getElementById(
+
+
+
+                        "posterPreview"
+
+
+
+                    );
+
+
+
+
+
+
+
+
+
+
+
+                preview.src =
+
+
+
+                    event.target.result;
+
+
+
+
+
+
+
+
+
+
+
+                preview.style.display =
+
+
+
+                    "block";
+
+
+
+
+
+
+
+            };
+
+
+
+
+
+
+
+
+
+
+
+        reader.readAsDataURL(
+
+
+
+            file
+
+
+
+        );
+
+
+
+
+
+
+
+    }
+
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   ADD COURSE
+
+
+
+========================================= */
+
+
+
+
+
+
+
+document
+
+
+
+    .getElementById(
+
+
+
+        "courseForm"
+
+
+
+    )
+
+
+
+    .addEventListener(
+
+
+
+        "submit",
+
+
+
+        function (event) {
+
+
+
+
+
+
+
+            event.preventDefault();
+
+
+
+
+
+
+
+
+
+
+
+            /* GET POSTER */
+
+
+
+
+
+
+
+            const posterFile =
+
+
+
+                coursePoster.files[0];
+
+
+
+
+
+
+
+
+
+
+
+            if (!posterFile) {
+
+
+
+
+
+
+
+                alert(
+
+
+
+                    "Sila muat naik poster kursus."
+
+
+
+                );
+
+
+
+
+
+
+
+                return;
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* GET VALUES */
+
+
+
+
+
+
+
+            const courseTitle =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseTitle"
+
+
+
+                ).value.trim();
+
+
+
+
+
+
+
+
+
+
+
+            const courseCategory =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseCategory"
+
+
+
+                ).value;
+
+
+
+
+
+
+
+
+
+
+
+            const courseDate =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseDate"
+
+
+
+                ).value;
+
+
+
+
+
+
+
+
+
+
+
+            const courseTime =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseTime"
+
+
+
+                ).value.trim();
+
+
+
+
+
+
+
+
+
+
+
+            const courseDuration =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseDuration"
+
+
+
+                ).value.trim();
+
+
+
+
+
+
+
+
+
+
+
+            const courseLocation =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseLocation"
+
+
+
+                ).value.trim();
+
+
+
+
+
+
+
+
+
+
+
+            const courseFee =
+
+
+
+                Number(
+
+
+
+                    document.getElementById(
+
+
+
+                        "courseFee"
+
+
+
+                    ).value
+
+
+
+                ) || 0;
+
+
+
+
+
+
+
+
+
+
+
+            const courseCapacity =
+
+
+
+                Number(
+
+
+
+                    document.getElementById(
+
+
+
+                        "courseCapacity"
+
+
+
+                    ).value
+
+
+
+                );
+
+
+
+
+
+
+
+
+
+
+
+            const closingDate =
+
+
+
+                document.getElementById(
+
+
+
+                    "closingDate"
+
+
+
+                ).value;
+
+
+
+
+
+
+
+
+
+
+
+            const description =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseDescription"
+
+
+
+                ).value.trim();
+
+
+
+
+
+
+
+
+
+
+
+            const learning =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseLearning"
+
+
+
+                ).value.trim();
+
+
+
+
+
+
+
+
+
+
+
+            const whatsapp =
+
+
+
+                document.getElementById(
+
+
+
+                    "courseWhatsapp"
+
+
+
+                ).value.trim();
+
+
+
+
+
+
+
+
+
+
+
+            /* VALIDATION */
+
+
+
+
+
+
+
+            if (
+
+
+
+                !courseTitle ||
+
+
+
+                !courseCategory ||
+
+
+
+                !courseDate ||
+
+
+
+                !courseTime ||
+
+
+
+                !courseDuration ||
+
+
+
+                !courseLocation ||
+
+
+
+                !closingDate ||
+
+
+
+                !whatsapp
+
+
+
+            ) {
+
+
+
+
+
+
+
+                alert(
+
+
+
+                    "Sila lengkapkan semua maklumat wajib."
+
+
+
+                );
+
+
+
+
+
+
+
+                return;
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            if (
+
+
+
+                !courseCapacity ||
+
+
+
+                courseCapacity < 1
+
+
+
+            ) {
+
+
+
+
+
+
+
+                alert(
+
+
+
+                    "Kapasiti kursus mesti sekurang-kurangnya 1 peserta."
+
+
+
+                );
+
+
+
+
+
+
+
+                return;
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* CHECK CLOSING DATE */
+
+
+
+
+
+
+
+            if (
+
+
+
+                closingDate >
+
+
+
+                courseDate
+
+
+
+            ) {
+
+
+
+
+
+
+
+                alert(
+
+
+
+                    "Tarikh tutup pendaftaran mesti sebelum atau sama dengan tarikh kursus."
+
+
+
+                );
+
+
+
+
+
+
+
+                return;
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* CHECK WHATSAPP */
+
+
+
+
+
+
+
+            if (
+
+
+
+    !whatsapp.startsWith("https://wa.me/") &&
+
+
+
+    !whatsapp.startsWith("https://chat.whatsapp.com/")
+
+
+
+) {
+
+
+
+
+
+
+
+    alert(
+
+
+
+        "Sila masukkan link WhatsApp yang sah sama ada nombor WhatsApp atau Group WhatsApp."
+
+
+
+    );
+
+
+
+
+
+
+
+    return;
+
+
+
+}
+
+
+
+
+
+
+
+            /* READ POSTER */
+
+
+
+
+
+
+
+            const reader = new FileReader();
+
+
+
+
+
+
+
+reader.onload = function (event) {
+
+
+
+    const img = new Image();
+
+
+
+
+
+
+
+    img.onload = function () {
+
+
+
+        const canvas = document.createElement("canvas");
+
+
+
+        const maxWidth = 900;
+
+
+
+        const maxHeight = 1200;
+
+
+
+
+
+
+
+        let width = img.width;
+
+
+
+        let height = img.height;
+
+
+
+
+
+
+
+        if (width > maxWidth || height > maxHeight) {
+
+
+
+            const ratio = Math.min(maxWidth / width, maxHeight / height);
+
+
+
+            width = Math.round(width * ratio);
+
+
+
+            height = Math.round(height * ratio);
+
+
+
+        }
+
+
+
+
+
+
+
+        canvas.width = width;
+
+
+
+        canvas.height = height;
+
+
+
+
+
+
+
+        const ctx = canvas.getContext("2d");
+
+
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+
+
+
+
+
+
+        const compressedPoster = canvas.toDataURL("image/webp", 0.65);
+
+
+
+
+
+
+
+        const newCourse = {
+
+
+
+            id: Date.now(),
+
+
+
+            providerEmail: currentProvider.email,
+
+
+
+            providerName:
+
+
+
+                currentProvider.organizationName ||
+
+
+
+                currentProvider.fullName ||
+
+
+
+                "Penyedia Latihan",
+
+
+
+            title: courseTitle,
+
+
+
+            category: courseCategory,
+
+
+
+            date: courseDate,
+
+
+
+            time: courseTime,
+
+
+
+            duration: courseDuration,
+
+
+
+            location: courseLocation,
+
+
+
+            whatsapp: whatsapp,
+
+
+
+            fee: courseFee,
+
+
+
+            capacity: courseCapacity,
+
+
+
+            closingDate: closingDate,
+
+
+
+            description: description,
+
+
+
+            learning: learning,
+
+
+
+            poster: compressedPoster,
+
+
+
+            status: "pending",
+
+
+
+            createdAt: new Date().toISOString()
+
+
+
+        };
+
+
+
+fetch("https://papar-edu-backend.onrender.com/api/courses", {
+
+
+
+    method: "POST",
+
+
+
+    headers: {
+
+
+
+        "Content-Type": "application/json"
+
+
+
+    },
+
+
+
+    body: JSON.stringify(newCourse)
+
+
+
+})
+
+
+
+.then(response => {
+
+
+
+    if (!response.ok) {
+
+
+
+        throw new Error("Gagal menghantar kursus");
+
+
+
+    }
+
+
+
+
+
+
+
+    return response.json();
+
+
+
+})
+
+
+
+.then(async data => {
+
+
+
+    console.log("Kursus disimpan:", data);
+
+
+
+
+
+
+
+    await loadCourses();
+
+
+
+
+
+
+
+    alert(
+
+
+
+        "Kursus berjaya dihantar dan sedang menunggu kelulusan Admin."
+
+
+
+    );
+
+
+
+
+
+
+
+    document.getElementById("courseForm").reset();
+
+
+
+
+
+
+
+    const preview =
+
+
+
+        document.getElementById("posterPreview");
+
+
+
+
+
+
+
+    preview.removeAttribute("src");
+
+
+
+    preview.style.display = "none";
+
+
+
+
+
+
+
+    updateStats();
+
+
+
+    displayCourses();
+
+
+
+    displayParticipants();
+
+
+
+
+
+
+
+    openPage("courses");
+
+
+
+})
+
+
+
+.catch(error => {
+
+
+
+    console.error(error);
+
+
+
+
+
+
+
+    alert(
+
+
+
+        "Kursus gagal dihantar. Pastikan backend sedang berjalan."
+
+
+
+    );
+
+
+
+
+
+
+
+    return;
+
+
+
+});
+
+
+
+    };
+
+
+
+    img.onerror = function () {
+
+
+
+        alert("Gambar poster tidak dapat diproses. Sila cuba fail gambar lain.");
+
+
+
+    };
+
+
+
+
+
+
+
+    img.src = event.target.result;
+
+
+
+};
+
+
+
+
+
+
+
+reader.onerror = function () {
+
+
+
+    alert("Poster gagal dibaca. Sila cuba gambar lain.");
+
+
+
+};
+
+
+
+
+
+
+
+reader.readAsDataURL(posterFile);
+
+
+
+
+
+
+
+    }
+
+
+
+);
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+
+
+
+
+   DISPLAY COURSES
+
+
+
+
+
+
+
+========================================= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function displayCourses() {
+
+
+
+
+
+
+
+    const courseList =
+
+
+
+        document.getElementById("courseList");
+
+
+
+
+
+
+
+    const courses =
+
+
+
+        getMyCourses();
+
+
+
+
+
+
+
+    const enrollments =
+
+
+
+        getEnrollments();
+
+
+
+
+
+
+
+
+
+
+
+    if (courses.length === 0) {
+
+
+
+
+
+
+
+        courseList.innerHTML = `
+
+
+
+
+
+
+
+            <div class="empty">
+
+
+
+
+
+
+
+                <div class="empty-icon">
+
+
+
+                    📖
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <strong>
+
+
+
+                    Tiada kursus dicipta lagi.
+
+
+
+                </strong>
+
+
+
+
+
+
+
+                <p>
+
+
+
+                    Cipta kursus pertama anda untuk bermula.
+
+
+
+                </p>
+
+
+
+
+
+
+
+            </div>
+
+
+
+        `;
+
+
+
+
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    courseList.innerHTML = "";
+
+
+
+
+
+
+
+
+
+
+
+    courses.forEach(course => {
+
+
+
+
+
+
+
+        const totalJoined =
+
+
+
+            enrollments.filter(
+
+
+
+                enrollment =>
+
+
+
+                    Number(enrollment.courseId) ===
+
+
+
+                    Number(course.id)
+
+
+
+            ).length;
+
+
+
+
+
+
+
+
+
+
+
+        const capacity =
+
+
+
+            Number(course.capacity) || 0;
+
+
+
+
+
+
+
+
+
+
+
+        let statusText =
+
+
+
+            "⏳ Menunggu Kelulusan";
+
+
+
+
+
+
+
+        let statusBackground =
+
+
+
+            "#fff4d6";
+
+
+
+
+
+
+
+        let statusColor =
+
+
+
+            "#a86400";
+
+
+
+
+
+
+
+
+
+
+
+        if (course.status === "approved") {
+
+
+
+
+
+
+
+            statusText =
+
+
+
+                "✓ Diluluskan";
+
+
+
+
+
+
+
+            statusBackground =
+
+
+
+                "#dcf8e9";
+
+
+
+
+
+
+
+            statusColor =
+
+
+
+                "#087b47";
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        if (course.status === "rejected") {
+
+
+
+
+
+
+
+            statusText =
+
+
+
+                "✕ Ditolak";
+
+
+
+
+
+
+
+            statusBackground =
+
+
+
+                "#ffe2e2";
+
+
+
+
+
+
+
+            statusColor =
+
+
+
+                "#b21d1d";
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        let participantText =
+
+
+
+            `${totalJoined} / ${capacity || "-"}`;
+
+
+
+
+
+
+
+
+
+
+
+        if (
+
+
+
+            capacity > 0 &&
+
+
+
+            totalJoined >= capacity
+
+
+
+        ) {
+
+
+
+
+
+
+
+            participantText +=
+
+
+
+                " • PENUH";
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        let feeText =
+
+
+
+            "PERCUMA";
+
+
+
+
+
+
+
+
+
+
+
+        if (Number(course.fee) > 0) {
+
+
+
+
+
+
+
+            feeText =
+
+
+
+                "RM " +
+
+
+
+                Number(course.fee).toFixed(2);
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        const card =
+
+
+
+            document.createElement("div");
+
+
+
+
+
+
+
+
+
+
+
+        card.style.cssText = `
+
+
+
+
+
+
+
+            display:grid;
+
+
+
+
+
+
+
+            grid-template-columns:
+
+
+
+                120px 1fr auto;
+
+
+
+
+
+
+
+            gap:20px;
+
+
+
+
+
+
+
+            align-items:center;
+
+
+
+
+
+
+
+            width:100%;
+
+
+
+
+
+
+
+            padding:18px;
+
+
+
+
+
+
+
+            margin-bottom:15px;
+
+
+
+
+
+
+
+            background:#ffffff;
+
+
+
+
+
+
+
+            border:1px solid #e4e9f1;
+
+
+
+
+
+
+
+            border-radius:16px;
+
+
+
+
+
+
+
+            box-shadow:
+
+
+
+                0 2px 8px rgba(0,0,0,0.05);
+
+
+
+
+
+
+
+        `;
+
+
+
+
+
+
+
+
+
+
+
+        let posterHTML = `
+
+
+
+
+
+
+
+            <div style="
+
+
+
+                width:120px;
+
+
+
+                height:150px;
+
+
+
+
+
+
+
+                display:flex;
+
+
+
+                align-items:center;
+
+
+
+                justify-content:center;
+
+
+
+
+
+
+
+                background:#eef1f6;
+
+
+
+
+
+
+
+                border-radius:12px;
+
+
+
+
+
+
+
+                font-size:35px;
+
+
+
+            ">
+
+
+
+                🖼️
+
+
+
+            </div>
+
+
+
+        `;
+
+
+
+
+
+
+
+
+
+
+
+        if (course.poster) {
+
+
+
+
+
+
+
+            posterHTML = `
+
+
+
+
+
+
+
+                <img
+
+
+
+                    src="${course.poster}"
+
+
+
+                    alt="Poster Kursus"
+
+
+
+
+
+
+
+                    style="
+
+
+
+                        width:120px;
+
+
+
+                        height:150px;
+
+
+
+
+
+
+
+                        display:block;
+
+
+
+
+
+
+
+                        object-fit:cover;
+
+
+
+
+
+
+
+                        border-radius:12px;
+
+
+
+                    "
+
+
+
+                >
+
+
+
+            `;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        card.innerHTML = `
+
+
+
+
+
+
+
+            ${posterHTML}
+
+
+
+
+
+
+
+
+
+
+
+            <div>
+
+
+
+
+
+
+
+                <span style="
+
+
+
+                    display:inline-block;
+
+
+
+
+
+
+
+                    padding:5px 9px;
+
+
+
+
+
+
+
+                    margin-bottom:8px;
+
+
+
+
+
+
+
+                    background:#eeeaff;
+
+
+
+                    color:#523cff;
+
+
+
+
+
+
+
+                    border-radius:7px;
+
+
+
+
+
+
+
+                    font-size:10px;
+
+
+
+                    font-weight:bold;
+
+
+
+                ">
+
+
+
+
+
+
+
+                    ${course.category || "KURSUS"}
+
+
+
+
+
+
+
+                </span>
+
+
+
+
+
+
+
+
+
+
+
+                <h3 style="
+
+
+
+                    margin:0 0 10px 0;
+
+
+
+
+
+
+
+                    color:#16213b;
+
+
+
+
+
+
+
+                    font-size:16px;
+
+
+
+                ">
+
+
+
+
+
+
+
+                    ${course.title || "Kursus"}
+
+
+
+
+
+
+
+                </h3>
+
+
+
+
+
+
+
+
+
+
+
+                <p style="
+
+
+
+                    margin:5px 0;
+
+
+
+
+
+
+
+                    color:#68758b;
+
+
+
+
+
+
+
+                    font-size:11px;
+
+
+
+                ">
+
+
+
+
+
+
+
+                    📅
+
+
+
+                    ${course.date || "-"}
+
+
+
+
+
+
+
+                </p>
+
+
+
+
+
+
+
+
+
+
+
+                <p style="
+
+
+
+                    margin:5px 0;
+
+
+
+
+
+
+
+                    color:#68758b;
+
+
+
+
+
+
+
+                    font-size:11px;
+
+
+
+                ">
+
+
+
+
+
+
+
+                    📍
+
+
+
+                    ${course.location || "-"}
+
+
+
+
+
+
+
+                </p>
+
+
+
+
+
+
+
+
+
+
+
+                <p style="
+
+
+
+                    margin:5px 0;
+
+
+
+
+
+
+
+                    color:#68758b;
+
+
+
+
+
+
+
+                    font-size:11px;
+
+
+
+                ">
+
+
+
+
+
+
+
+                    👥 Penyertaan:
+
+
+
+                    <strong>
+
+
+
+                        ${participantText}
+
+
+
+                    </strong>
+
+
+
+
+
+
+
+                </p>
+
+
+
+
+
+
+
+
+
+
+
+                <p style="
+
+
+
+                    margin:5px 0;
+
+
+
+
+
+
+
+                    color:#68758b;
+
+
+
+
+
+
+
+                    font-size:11px;
+
+
+
+                ">
+
+
+
+
+
+
+
+                    💰 Yuran:
+
+
+
+                    <strong>
+
+
+
+                        ${feeText}
+
+
+
+                    </strong>
+
+
+
+
+
+
+
+                </p>
+
+
+
+
+
+
+
+
+
+
+
+                ${
+
+
+
+                    course.whatsapp
+
+
+
+
+
+
+
+                    ? `
+
+
+
+
+
+
+
+                    <a
+
+
+
+                        href="${course.whatsapp}"
+
+
+
+
+
+
+
+                        target="_blank"
+
+
+
+
+
+
+
+                        rel="noopener noreferrer"
+
+
+
+
+
+
+
+                        style="
+
+
+
+                            display:inline-block;
+
+
+
+
+
+
+
+                            margin-top:7px;
+
+
+
+
+
+
+
+                            color:#07834d;
+
+
+
+
+
+
+
+                            font-size:11px;
+
+
+
+                            font-weight:bold;
+
+
+
+
+
+
+
+                            text-decoration:none;
+
+
+
+                        "
+
+
+
+                    >
+
+
+
+
+
+
+
+                        💬 WhatsApp
+
+
+
+
+
+
+
+                    </a>
+
+
+
+
+
+
+
+                    `
+
+
+
+
+
+
+
+                    : ""
+
+
+
+                }
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div style="
+
+
+
+                min-width:140px;
+
+
+
+
+
+
+
+                text-align:right;
+
+
+
+            ">
+
+
+
+
+
+
+
+                <span style="
+
+
+
+                    display:inline-block;
+
+
+
+
+
+
+
+                    padding:7px 10px;
+
+
+
+
+
+
+
+                    background:${statusBackground};
+
+
+
+                    color:${statusColor};
+
+
+
+
+
+
+
+                    border-radius:8px;
+
+
+
+
+
+
+
+                    font-size:10px;
+
+
+
+                    font-weight:bold;
+
+
+
+                ">
+
+
+
+
+
+
+
+                    ${statusText}
+
+
+
+
+
+
+
+                </span>
+
+
+
+
+
+
+
+
+
+
+
+                <p style="
+
+
+
+                    margin-top:10px;
+
+
+
+
+
+
+
+                    color:#8a96aa;
+
+
+
+
+
+
+
+                    font-size:9px;
+
+
+
+                ">
+
+
+
+
+
+
+
+                    Kapasiti:
+
+
+
+                    ${capacity || "-"} peserta
+
+
+
+
+
+
+
+                </p>
+
+
+
+
+
+
+
+            </div>
+
+
+
+        `;
+
+
+
+
+
+
+
+
+
+
+
+        courseList.appendChild(card);
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+
+
+
+
+   DISPLAY PARTICIPANTS
+
+
+
+
+
+
+
+========================================= */
+
+
+
+
+
+
+
+function displayParticipants() {
+
+
+
+
+
+
+
+    const participantTable =
+
+
+
+        document.getElementById("participantTable");
+
+
+
+
+
+
+
+    if (!participantTable) {
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+
+
+    const courses = getMyCourses();
+
+
+
+    const enrollments = getEnrollments();
+
+
+
+
+
+
+
+    const myCourseIds =
+
+
+
+        courses.map(course => Number(course.id));
+
+
+
+
+
+
+
+    const myEnrollments =
+
+
+
+        enrollments.filter(enrollment =>
+
+
+
+            myCourseIds.includes(
+
+
+
+                Number(enrollment.courseId)
+
+
+
+            )
+
+
+
+        );
+
+
+
+
+
+
+
+    if (myEnrollments.length === 0) {
+
+
+
+
+
+
+
+        participantTable.innerHTML = `
+
+
+
+            <tr>
+
+
+
+                <td colspan="5"
+
+
+
+                    style="
+
+
+
+                        text-align:center;
+
+
+
+                        padding:35px;
+
+
+
+                        color:#8a98b1;
+
+
+
+                    ">
+
+
+
+                    Belum ada pendaftaran peserta.
+
+
+
+                </td>
+
+
+
+            </tr>
+
+
+
+        `;
+
+
+
+
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+
+
+    participantTable.innerHTML = "";
+
+
+
+
+
+
+
+    myEnrollments.forEach(enrollment => {
+
+
+
+
+
+
+
+        const course =
+
+
+
+            courses.find(item =>
+
+
+
+                Number(item.id) ===
+
+
+
+                Number(enrollment.courseId)
+
+
+
+            );
+
+
+
+
+
+
+
+        let registerDate = "-";
+
+
+
+
+
+
+
+        if (enrollment.registeredAt) {
+
+
+
+            registerDate =
+
+
+
+                new Date(
+
+
+
+                    enrollment.registeredAt
+
+
+
+                ).toLocaleDateString("ms-MY");
+
+
+
+        }
+
+
+
+
+
+
+
+        const row =
+
+
+
+            document.createElement("tr");
+
+
+
+
+
+
+
+        row.innerHTML = `
+
+
+
+            <td>
+
+
+
+                ${enrollment.studentName || "-"}
+
+
+
+            </td>
+
+
+
+
+
+
+
+            <td>
+
+
+
+                ${
+
+
+
+                    course
+
+
+
+                        ? course.title
+
+
+
+                        : enrollment.courseTitle || "-"
+
+
+
+                }
+
+
+
+            </td>
+
+
+
+
+
+
+
+            <td>
+
+
+
+                ${enrollment.studentEmail || "-"}
+
+
+
+            </td>
+
+
+
+
+
+
+
+            <td>
+
+
+
+                ${enrollment.studentPhone || "-"}
+
+
+
+            </td>
+
+
+
+
+
+
+
+            <td>
+
+
+
+                ${registerDate}
+
+
+
+            </td>
+
+
+
+        `;
+
+
+
+
+
+
+
+        participantTable.appendChild(row);
+
+
+
+    });
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+const homeButton = document.getElementById("homeButton");
+
+if (homeButton) {
+
+    homeButton.addEventListener("click", function () {
+
+        window.location.href = "index.html";
+
+    });
+
+}
+
+
+
+/* =========================================
+
+
+
+   LOGOUT
+
+
+
+========================================= */
+
+
+
+
+
+
+
+const logoutButton =
+
+
+
+    document.getElementById("logoutButton");
+
+
+
+
+
+
+
+if (logoutButton) {
+
+
+
+
+
+
+
+    logoutButton.addEventListener(
+
+
+
+        "click",
+
+
+
+        function () {
+
+
+
+
+
+
+
+            const confirmLogout =
+
+
+
+                confirm(
+
+
+
+                    "Adakah anda pasti mahu log keluar?"
+
+
+
+                );
+
+
+
+
+
+
+
+            if (!confirmLogout) {
+
+
+
+                return;
+
+
+
+            }
+
+
+
+
+
+
+
+            localStorage.removeItem(
+
+
+
+                "paparEduCurrentUser"
+
+
+
+            );
+
+
+
+
+
+
+
+            window.location.href =
+
+
+
+                "login.html";
+
+
+
+        }
+
+
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+
+
+
+   START
+
+
+
+========================================= */
+
+
+
+
+
+
+
+loadCourses().then(() => {
+
+
+
+    updateStats();
+
+
+
+    displayCourses();
+
+
+
+    displayParticipants();
+
+
+
+});
+
+
+
+</script>
+
+
+
+
+
+
+
+</body>
+
+
+
+</html>

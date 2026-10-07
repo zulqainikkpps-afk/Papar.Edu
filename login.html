@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Log Masuk | Papar.Edu</title>
+
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <!-- =========================
+         LEFT SIDE
+    ========================== -->
+    <section class="login-left">
+
+        <!-- VIDEO BACKGROUND -->
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="videos/papar-video.mp4.mp4" type="video/mp4">
+        </video>
+
+        <!-- BLUE OVERLAY -->
+        <div class="login-video-overlay"></div>
+
+
+        <!-- BRAND -->
+        <a href="index.html" class="brand">
+
+            <div class="brand-icon">
+                <img src="images/logo-papar-edu.png.png" alt="Papar.Edu">
+            </div>
+
+            <div>
+                <strong>
+                    Papar<span>.Edu</span>
+                </strong>
+
+                <small>
+                    Portal Pendidikan Komuniti
+                </small>
+            </div>
+
+        </a>
+
+
+        <!-- WELCOME -->
+        <div class="welcome">
+
+            <span class="welcome-tag">
+                PORTAL KOMUNITI PAPAR
+            </span>
+
+            <h1>
+                Terokai. Belajar.<br>
+                <span>Berkembang.</span>
+            </h1>
+
+            <p>
+                Akses kursus pendek, latihan kemahiran dan
+                peluang pembelajaran komuniti melalui Papar.Edu.
+            </p>
+
+
+            <div class="benefit">
+                <span>✓</span>
+                Cari dan daftar kursus dengan mudah
+            </div>
+
+            <div class="benefit">
+                <span>✓</span>
+                Urus penyertaan kursus anda
+            </div>
+
+            <div class="benefit">
+                <span>✓</span>
+                Hubungi penyedia latihan
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         RIGHT SIDE
+    ========================== -->
+    <section class="login-right">
+
+        <div class="login-card">
+
+
+            <!-- BACK -->
+            <a href="index.html" class="back">
+                ← Kembali ke Utama
+            </a>
+
+
+            <!-- TITLE -->
+            <div class="login-title">
+
+                <span class="small-label">
+                    SELAMAT DATANG
+                </span>
+
+                <h2>Log Masuk</h2>
+
+                <p>
+                    Masukkan maklumat akaun Papar.Edu anda.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 ROLE
+            ========================== -->
+
+            <div class="role-title">
+                Log masuk sebagai
+            </div>
+
+
+            <div class="role-selector">
+
+                <button
+                    type="button"
+                    class="role active"
+                    data-role="student">
+
+                    <span>🎓</span>
+                    Pelajar
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="role"
+                    data-role="provider">
+
+                    <span>🏫</span>
+                    Penyedia
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="role"
+                    data-role="admin">
+
+                    <span>🛡️</span>
+                    Admin
+
+                </button>
+
+            </div>
+
+
+
+            <!-- =========================
+                 LOGIN FORM
+            ========================== -->
+
+            <form id="loginForm">
+
+
+                <!-- ROLE VALUE -->
+                <input
+                    type="hidden"
+                    id="loginRole"
+                    value="student">
+
+
+                <!-- EMAIL -->
+                <div class="input-group">
+
+                    <label for="loginEmail">
+                        Alamat E-mel
+                    </label>
+
+                    <div class="input-box">
+
+                        <span>✉</span>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            placeholder="nama@email.com"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+                <div class="input-group">
+
+                    <div class="password-label">
+
+                        <label for="loginPassword">
+                            Kata Laluan
+                        </label>
+
+                        <a href="#">
+                            Lupa kata laluan?
+                        </a>
+
+                    </div>
+
+
+                    <div class="input-box">
+
+                        <span>🔒</span>
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="Masukkan kata laluan"
+                            required>
+
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            id="showPassword">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- REMEMBER -->
+                <label class="remember">
+
+                    <input type="checkbox">
+
+                    Ingat saya
+
+                </label>
+
+
+
+                <!-- LOGIN BUTTON -->
+                <button
+                    type="submit"
+                    class="login-button">
+
+                    Log Masuk →
+
+                </button>
+
+            </form>
+
+
+
+            <!-- REGISTER -->
+            <div class="register-text">
+
+                Belum mempunyai akaun?
+
+                <a href="register.html">
+                    Daftar sekarang
+                </a>
+
+            </div>
+
+
+
+            <!-- HELP -->
+            <div class="login-help">
+
+                Perlukan bantuan?
+
+                <a href="index.html#hubungi">
+                    Hubungi Admin Papar.Edu
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
+
+<script>
+
+/* =========================
+   ELEMENT
+========================= */
+
+const roleButtons =
+    document.querySelectorAll(".role");
+
+const roleInput =
+    document.getElementById("loginRole");
+
+const passwordInput =
+    document.getElementById("loginPassword");
+
+const showPassword =
+    document.getElementById("showPassword");
+
+const loginForm =
+    document.getElementById("loginForm");
+
+
+/* =========================
+   PILIH ROLE
+========================= */
+
+roleButtons.forEach(button => {
+
+    button.addEventListener("click", function () {
+
+        roleButtons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        this.classList.add("active");
+
+        roleInput.value =
+            this.dataset.role;
+
+    });
+
+});
+
+
+/* =========================
+   SHOW / HIDE PASSWORD
+========================= */
+
+showPassword.addEventListener(
+    "click",
+    function () {
+
+        if (passwordInput.type === "password") {
+
+            passwordInput.type = "text";
+
+            this.textContent = "🙈";
+
+        } else {
+
+            passwordInput.type = "password";
+
+            this.textContent = "👁";
+
+        }
+
+    }
+);
+
+
+/* =========================
+   LOGIN
+========================= */
+
+loginForm.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const password =
+            document
+                .getElementById("loginPassword")
+                .value;
+
+
+        const role =
+            roleInput.value;
+
+
+        /* =========================
+           CHECK INPUT
+        ========================= */
+
+        if (!email || !password) {
+
+            alert(
+                "Sila lengkapkan e-mel dan kata laluan."
+            );
+
+            return;
+        }
+
+
+        /* =========================
+           ADMIN LOGIN
+        ========================= */
+
+        if (role === "admin") {
+
+            const adminEmail =
+                "admin@papar.edu";
+
+            const adminPassword =
+                "admin123";
+
+
+            if (
+                email === adminEmail &&
+                password === adminPassword
+            ) {
+
+                const adminSession = {
+
+                    fullName:
+                        "Admin Papar.Edu",
+
+                    email:
+                        adminEmail,
+
+                    role:
+                        "admin",
+
+                    status:
+                        "approved"
+
+                };
+
+
+                localStorage.setItem(
+                    "paparEduCurrentUser",
+                    JSON.stringify(adminSession)
+                );
+
+
+                window.location.href =
+                    "admin-dashboard.html";
+
+            } else {
+
+                alert(
+                    "E-mel atau kata laluan Admin tidak betul."
+                );
+
+            }
+
+            return;
+        }
+
+
+        /* =========================
+           GET REGISTERED USERS
+        ========================= */
+
+        const users =
+            JSON.parse(
+                localStorage.getItem(
+                    "paparEduUsers"
+                )
+            ) || [];
+
+
+        /* =========================
+           FIND USER
+        ========================= */
+
+        const user =
+            users.find(item =>
+
+                item.email &&
+                item.email.toLowerCase()
+                    === email &&
+
+                item.password
+                    === password &&
+
+                item.role
+                    === role
+
+            );
+
+
+        /* =========================
+           USER NOT FOUND
+        ========================= */
+
+        if (!user) {
+
+            alert(
+                "E-mel, kata laluan atau jenis akaun tidak betul."
+            );
+
+            return;
+        }
+
+
+        /* =========================
+           STUDENT
+        ========================= */
+
+        if (role === "student") {
+
+            localStorage.setItem(
+                "paparEduCurrentUser",
+                JSON.stringify(user)
+            );
+
+
+            window.location.href =
+                "student-dashboard.html";
+
+            return;
+        }
+
+
+        /* =========================
+           PROVIDER
+        ========================= */
+
+        if (role === "provider") {
+
+
+            /* PENDING */
+
+            if (user.status === "pending") {
+
+                alert(
+                    "Akaun Penyedia Latihan anda masih menunggu pengesahan Admin Papar.Edu."
+                );
+
+                return;
+            }
+
+
+            /* REJECTED */
+
+            if (user.status === "rejected") {
+
+                alert(
+                    "Permohonan akaun Penyedia Latihan anda telah ditolak. Sila hubungi Admin Papar.Edu."
+                );
+
+                return;
+            }
+
+
+            /* NOT APPROVED */
+
+            if (user.status !== "approved") {
+
+                alert(
+                    "Akaun Penyedia Latihan anda belum diluluskan."
+                );
+
+                return;
+            }
+
+
+            /* =========================
+               PROVIDER APPROVED
+            ========================= */
+
+            localStorage.setItem(
+                "paparEduCurrentUser",
+                JSON.stringify(user)
+            );
+
+
+            window.location.href =
+                "provider-dashboard.html";
+
+            return;
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

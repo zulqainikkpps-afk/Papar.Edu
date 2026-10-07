@@ -1,0 +1,145 @@
+/* =========================
+   COURSE APPROVAL
+========================= */
+
+.admin-section {
+    display: none;
+}
+
+.admin-section.active {
+    display: block;
+}
+
+.course-admin-list {
+    display: grid;
+    gap: 18px;
+}
+
+.course-admin-card {
+    display: grid;
+    grid-template-columns: 150px 1fr auto;
+    gap: 22px;
+    align-items: center;
+
+    padding: 20px;
+
+    background: white;
+    border: 1px solid #e3e8f1;
+    border-radius: 18px;
+
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.course-admin-poster {
+    width: 150px;
+    height: 180px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+    background: #f2f4f8;
+}
+
+.course-admin-info h3 {
+    margin-bottom: 8px;
+
+    font-size: 17px;
+}
+
+.course-admin-info p {
+    margin-top: 6px;
+
+    color: #65738b;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.course-admin-info .provider-name {
+    display: inline-block;
+
+    margin-bottom: 8px;
+    padding: 5px 9px;
+
+    background: #eeeaff;
+    color: #523cff;
+
+    border-radius: 7px;
+
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.course-admin-info .course-status {
+    display: inline-block;
+
+    margin-top: 10px;
+    padding: 6px 10px;
+
+    background: #fff4d6;
+    color: #b46a00;
+
+    border-radius: 8px;
+
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.course-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.course-actions button {
+    min-width: 105px;
+
+    padding: 10px 15px;
+
+    border: none;
+    border-radius: 9px;
+
+    color: white;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.course-approve-btn {
+    background: #13a66a;
+}
+
+.course-reject-btn {
+    background: #ed4a4a;
+}
+
+.whatsapp-admin-link {
+    display: inline-block;
+
+    margin-top: 8px;
+
+    color: #07945b;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    text-decoration: none;
+}
+
+@media (max-width: 900px) {
+
+    .course-admin-card {
+        grid-template-columns: 1fr;
+    }
+
+    .course-admin-poster {
+        width: 100%;
+        height: 250px;
+    }
+
+    .course-actions {
+        flex-direction: row;
+    }
+}

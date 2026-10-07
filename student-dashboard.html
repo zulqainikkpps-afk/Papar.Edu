@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+
+<html lang="ms">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <title>Student Dashboard | Papar.Edu</title>
+
+
+
+    <style>
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f5f7fb;
+
+            color: #101a31;
+
+        }
+
+
+
+        /* SIDEBAR */
+
+
+
+        .sidebar {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+
+
+            width: 230px;
+
+            height: 100vh;
+
+
+
+            padding: 20px 15px;
+
+
+
+            background: #101a31;
+
+            color: white;
+
+        }
+
+
+
+        .profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+
+
+            padding-bottom: 22px;
+
+            margin-bottom: 22px;
+
+
+
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+
+        }
+
+
+
+        .avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+
+
+            border-radius: 12px;
+
+
+
+            background: #533cff;
+
+
+
+            font-weight: bold;
+
+        }
+
+
+
+        .profile h3 {
+
+            font-size: 13px;
+
+        }
+
+
+
+        .profile small {
+
+            display: block;
+
+            margin-top: 4px;
+
+
+
+            color: #8d9aff;
+
+            font-size: 10px;
+
+        }
+
+
+
+        .menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+        }
+
+
+
+        .menu-item {
+
+            width: 100%;
+
+
+
+            padding: 13px 15px;
+
+
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+
+
+            border: none;
+
+            border-radius: 11px;
+
+
+
+            background: transparent;
+
+            color: #b9c4d9;
+
+
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-align: left;
+
+
+
+            cursor: pointer;
+
+        }
+
+
+
+        .menu-item:hover {
+
+            background: rgba(255,255,255,0.07);
+
+            color: white;
+
+        }
+
+
+
+        .menu-item.active {
+
+            background: #533cff;
+
+            color: white;
+
+        }
+
+
+
+        .logout {
+
+            position: absolute;
+
+
+
+            left: 15px;
+
+            right: 15px;
+
+            bottom: 20px;
+
+
+
+            color: #ff9d9d;
+
+        }
+
+
+
+
+
+        /* MAIN */
+
+
+
+        .main {
+
+            margin-left: 230px;
+
+            min-height: 100vh;
+
+            padding: 38px;
+
+        }
+
+
+
+        .header {
+
+            margin-bottom: 28px;
+
+        }
+
+
+
+        .header h1 {
+
+            font-size: 28px;
+
+        }
+
+
+
+        .header p {
+
+            margin-top: 7px;
+
+
+
+            color: #71809a;
+
+            font-size: 12px;
+
+        }
+
+
+
+
+
+        /* WELCOME */
+
+
+
+        .welcome {
+
+            margin-bottom: 30px;
+
+            padding: 27px;
+
+
+
+            border-radius: 20px;
+
+
+
+            color: white;
+
+
+
+            background: linear-gradient(
+
+                135deg,
+
+                #3e32e8,
+
+                #7356ff
+
+            );
+
+        }
+
+
+
+        .welcome small {
+
+            font-size: 10px;
+
+            opacity: 0.8;
+
+        }
+
+
+
+        .welcome h2 {
+
+            margin-top: 8px;
+
+            margin-bottom: 7px;
+
+
+
+            font-size: 23px;
+
+        }
+
+
+
+        .welcome p {
+
+            font-size: 12px;
+
+            opacity: 0.9;
+
+        }
+
+
+
+
+
+        /* SECTION */
+
+
+
+        .section-title {
+
+            margin-bottom: 18px;
+
+        }
+
+
+
+        .section-title h2 {
+
+            font-size: 19px;
+
+        }
+
+
+
+        .section-title p {
+
+            margin-top: 5px;
+
+
+
+            color: #7d8aa1;
+
+            font-size: 11px;
+
+        }
+
+
+
+
+
+        /* COURSE GRID */
+
+
+
+        .course-grid {
+
+            display: grid;
+
+
+
+            grid-template-columns:
+
+                repeat(auto-fit, minmax(260px, 1fr));
+
+
+
+            gap: 20px;
+
+        }
+
+
+
+        .course-card {
+
+            overflow: hidden;
+
+
+
+            background: white;
+
+
+
+            border: 1px solid #e4e9f1;
+
+            border-radius: 18px;
+
+
+
+            box-shadow:
+
+                0 3px 10px rgba(0,0,0,0.05);
+
+
+
+            transition: 0.2s;
+
+        }
+
+
+
+        .course-card:hover {
+
+            transform: translateY(-3px);
+
+
+
+            box-shadow:
+
+                0 8px 20px rgba(0,0,0,0.08);
+
+        }
+
+
+
+
+
+        /* POSTER */
+
+
+
+        .poster {
+
+            width: 100%;
+
+            height: 240px;
+
+
+
+            object-fit: cover;
+
+
+
+            background: #eef1f6;
+
+        }
+
+
+
+        .poster-empty {
+
+            width: 100%;
+
+            height: 240px;
+
+
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+
+
+            background: #eef1f6;
+
+
+
+            font-size: 45px;
+
+        }
+
+
+
+
+
+        /* COURSE CONTENT */
+
+
+
+        .course-content {
+
+            padding: 18px;
+
+        }
+
+
+
+        .category {
+
+            display: inline-block;
+
+
+
+            margin-bottom: 10px;
+
+            padding: 5px 9px;
+
+
+
+            border-radius: 7px;
+
+
+
+            background: #eeeaff;
+
+            color: #523cff;
+
+
+
+            font-size: 9px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .course-content h3 {
+
+            margin-bottom: 10px;
+
+
+
+            font-size: 16px;
+
+        }
+
+
+
+        .provider {
+
+            margin-bottom: 13px;
+
+
+
+            color: #5d6a82;
+
+
+
+            font-size: 11px;
+
+        }
+
+
+
+        .course-info {
+
+            padding-top: 12px;
+
+
+
+            border-top: 1px solid #edf0f5;
+
+        }
+
+
+
+        .course-info p {
+
+            margin-bottom: 7px;
+
+
+
+            color: #65738b;
+
+
+
+            font-size: 11px;
+
+        }
+
+
+
+
+
+        /* CAPACITY */
+
+
+
+        .capacity-box {
+
+            margin-top: 13px;
+
+            padding: 11px;
+
+
+
+            border-radius: 10px;
+
+
+
+            background: #f6f7fb;
+
+        }
+
+
+
+        .capacity-box p {
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .progress {
+
+            width: 100%;
+
+            height: 7px;
+
+
+
+            margin-top: 8px;
+
+
+
+            overflow: hidden;
+
+
+
+            border-radius: 10px;
+
+
+
+            background: #dfe4ec;
+
+        }
+
+
+
+        .progress-bar {
+
+            height: 100%;
+
+
+
+            background: #533cff;
+
+
+
+            border-radius: 10px;
+
+        }
+
+
+
+
+
+        /* FEE */
+
+
+
+        .fee {
+
+            margin-top: 13px;
+
+
+
+            color: #4d38ee;
+
+
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+        }
+
+
+
+
+
+        /* STATUS */
+
+
+
+        .open-status,
+
+        .full-status,
+
+        .closed-status,
+
+        .registered-status {
+
+
+
+            display: inline-block;
+
+
+
+            margin-top: 12px;
+
+            padding: 6px 10px;
+
+
+
+            border-radius: 8px;
+
+
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .open-status {
+
+            background: #dcf8e9;
+
+            color: #087b47;
+
+        }
+
+
+
+        .full-status {
+
+            background: #ffe1e1;
+
+            color: #b21d1d;
+
+        }
+
+
+
+        .closed-status {
+
+            background: #ffe1e1;
+
+            color: #b21d1d;
+
+        }
+
+
+
+        .registered-status {
+
+            background: #e4e0ff;
+
+            color: #4935dc;
+
+        }
+
+
+
+
+
+        /* BUTTON */
+
+
+
+        .register-btn {
+
+            width: 100%;
+
+
+
+            margin-top: 14px;
+
+            padding: 12px;
+
+
+
+            border: none;
+
+            border-radius: 10px;
+
+
+
+            background: #533cff;
+
+            color: white;
+
+
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+
+
+            cursor: pointer;
+
+        }
+
+
+
+        .register-btn:hover {
+
+            background: #402bd7;
+
+        }
+
+
+
+        .register-btn:disabled {
+
+            background: #bcc3cf;
+
+            color: #f5f5f5;
+
+
+
+            cursor: not-allowed;
+
+        }
+
+
+
+
+
+        /* WHATSAPP */
+
+
+
+        .whatsapp-btn {
+
+            width: 100%;
+
+
+
+            margin-top: 9px;
+
+            padding: 11px;
+
+
+
+            display: block;
+
+
+
+            border-radius: 10px;
+
+
+
+            background: #16a765;
+
+            color: white;
+
+
+
+            text-align: center;
+
+            text-decoration: none;
+
+
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .whatsapp-btn:hover {
+
+            background: #108653;
+
+        }
+
+
+
+
+
+        /* EMPTY */
+
+
+
+        .empty {
+
+            grid-column: 1 / -1;
+
+
+
+            padding: 60px 20px;
+
+
+
+            background: white;
+
+
+
+            border: 1px solid #e4e9f1;
+
+            border-radius: 18px;
+
+
+
+            text-align: center;
+
+
+
+            color: #7d8ba4;
+
+        }
+
+
+
+        .empty-icon {
+
+            margin-bottom: 12px;
+
+
+
+            font-size: 42px;
+
+        }
+
+
+
+        .empty h3 {
+
+            color: #17233d;
+
+
+
+            font-size: 15px;
+
+        }
+
+
+
+        .empty p {
+
+            margin-top: 7px;
+
+
+
+            font-size: 11px;
+
+        }
+
+
+
+
+
+        /* RESPONSIVE */
+
+
+
+        @media (max-width: 800px) {
+
+
+
+            .sidebar {
+
+                width: 70px;
+
+            }
+
+
+
+            .profile div:last-child,
+
+            .menu-text {
+
+                display: none;
+
+            }
+
+
+
+            .main {
+
+                margin-left: 70px;
+
+                padding: 25px 18px;
+
+            }
+
+
+
+        }
+
+
+
+    </style>
+
+
+
+</head>
+
+
+
+
+
+<body>
+
+
+
+
+
+<!-- SIDEBAR -->
+
+
+
+<aside class="sidebar">
+
+
+
+    <div class="profile">
+
+
+
+        <div
+
+            class="avatar"
+
+            id="studentInitial">
+
+            S
+
+        </div>
+
+
+
+        <div>
+
+
+
+            <h3 id="studentName">
+
+                Pelajar
+
+            </h3>
+
+
+
+            <small>
+
+                Pelajar Papar.Edu
+
+            </small>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+    <nav class="menu">
+
+
+
+        <button class="menu-item active">
+
+
+
+            <span>🏠</span>
+
+
+
+            <span class="menu-text">
+
+                Papan Pemuka
+
+            </span>
+
+
+
+        </button>
+
+
+
+
+
+        <button
+
+            class="menu-item"
+
+            id="browseCourseButton">
+
+
+
+            <span>📚</span>
+
+
+
+            <span class="menu-text">
+
+                Kursus Tersedia
+
+            </span>
+
+
+
+        </button>
+
+
+
+    </nav>
+
+
+
+
+
+    <button class="menu-item" id="homeButton" type="button">
+        <span>🌐</span><span class="menu-text">Homepage</span>
+    </button>
+
+    <button
+
+        class="menu-item logout"
+
+        id="logoutButton">
+
+
+
+        <span>↪</span>
+
+
+
+        <span class="menu-text">
+
+            Log Keluar
+
+        </span>
+
+
+
+    </button>
+
+
+
+</aside>
+
+
+
+
+
+
+
+<!-- MAIN -->
+
+
+
+<main class="main">
+
+
+
+    <div class="header">
+
+
+
+        <h1>
+
+            Papan Pemuka Pelajar
+
+        </h1>
+
+
+
+        <p>
+
+            Terokai dan daftar kursus komuniti
+
+            yang tersedia di Papar.Edu.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+    <div class="welcome">
+
+
+
+        <small>
+
+            SELAMAT DATANG
+
+        </small>
+
+
+
+        <h2 id="welcomeName">
+
+            Hai! 👋
+
+        </h2>
+
+
+
+        <p>
+
+            Pilih kursus yang sesuai dengan minat anda
+
+            dan daftar sebelum penyertaan penuh.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+    <div
+
+        class="section-title"
+
+        id="courseSection">
+
+
+
+        <h2>
+
+            Kursus Tersedia
+
+        </h2>
+
+
+
+        <p>
+
+            Kursus yang telah diluluskan oleh
+
+            Admin Papar.Edu.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+    <div
+
+        class="course-grid"
+
+        id="studentCourseList">
+
+    </div>
+
+
+
+</main>
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+/* =========================
+
+   CHECK LOGIN
+
+========================= */
+
+
+
+const currentStudent =
+
+    JSON.parse(
+
+        localStorage.getItem(
+
+            "paparEduCurrentUser"
+
+        )
+
+    );
+
+
+
+
+
+if (
+
+    !currentStudent ||
+
+    currentStudent.role !== "student"
+
+) {
+
+
+
+    alert(
+
+        "Sila log masuk sebagai Pelajar."
+
+    );
+
+
+
+    window.location.href =
+
+        "login.html";
+
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+
+   STUDENT NAME
+
+========================= */
+
+
+
+const studentFullName =
+
+    currentStudent.fullName ||
+
+    "Pelajar";
+
+
+
+
+
+document.getElementById(
+
+    "studentName"
+
+).textContent =
+
+    studentFullName;
+
+
+
+
+
+document.getElementById(
+
+    "welcomeName"
+
+).textContent =
+
+    "Hai, " +
+
+    studentFullName +
+
+    "! 👋";
+
+
+
+
+
+document.getElementById(
+
+    "studentInitial"
+
+).textContent =
+
+    studentFullName
+
+        .charAt(0)
+
+        .toUpperCase();
+
+
+
+
+
+
+
+/* =========================
+
+   GET COURSES
+
+========================= */
+
+
+
+let studentCoursesData = [];
+async function loadApprovedCourses() {
+    try {
+        const response = await fetch("https://papar-edu-backend.onrender.com/api/courses/approved");
+        if (!response.ok) throw new Error("Gagal mengambil kursus");
+        studentCoursesData = await response.json();
+        if (!Array.isArray(studentCoursesData)) studentCoursesData = [];
+    } catch (error) {
+        console.error(error);
+        studentCoursesData = [];
+        alert("Kursus gagal dimuatkan. Pastikan backend sedang berjalan.");
+    }
+}
+function getApprovedCourses() { return studentCoursesData; }
+
+
+
+
+
+
+
+/* =========================
+
+   GET ENROLLMENTS
+
+========================= */
+
+
+
+function getEnrollments() {
+
+
+
+    return JSON.parse(
+
+        localStorage.getItem(
+
+            "paparEduEnrollments"
+
+        )
+
+    ) || [];
+
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+
+   CHECK CLOSING DATE
+
+========================= */
+
+
+
+function isCourseClosed(course) {
+
+
+
+    if (!course.closingDate) {
+
+        return false;
+
+    }
+
+
+
+
+
+    const today =
+
+        new Date();
+
+
+
+
+
+    today.setHours(
+
+        0, 0, 0, 0
+
+    );
+
+
+
+
+
+    const closingDate =
+
+        new Date(
+
+            course.closingDate +
+
+            "T23:59:59"
+
+        );
+
+
+
+
+
+    return today > closingDate;
+
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+
+   REGISTER COURSE
+
+========================= */
+
+
+
+function registerCourse(courseId) {
+
+
+
+
+
+    const courses =
+
+        getApprovedCourses();
+
+
+
+
+
+    const course =
+
+        courses.find(
+
+            item =>
+
+                Number(item.id) ===
+
+                Number(courseId)
+
+        );
+
+
+
+
+
+    if (!course) {
+
+
+
+        alert(
+
+            "Kursus tidak dijumpai."
+
+        );
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+    const enrollments =
+
+        getEnrollments();
+
+
+
+
+
+    /* CHECK ALREADY REGISTERED */
+
+
+
+    const alreadyRegistered =
+
+        enrollments.some(
+
+            item =>
+
+                Number(item.courseId) ===
+
+                Number(courseId) &&
+
+                item.studentEmail ===
+
+                currentStudent.email
+
+        );
+
+
+
+
+
+    if (alreadyRegistered) {
+
+
+
+        alert(
+
+            "Anda sudah mendaftar kursus ini."
+
+        );
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+    /* COUNT PARTICIPANTS */
+
+
+
+    const totalJoined =
+
+        enrollments.filter(
+
+            item =>
+
+                Number(item.courseId) ===
+
+                Number(courseId)
+
+        ).length;
+
+
+
+
+
+    const capacity =
+
+        Number(course.capacity) || 0;
+
+
+
+
+
+    /* CHECK FULL */
+
+
+
+    if (
+
+        capacity > 0 &&
+
+        totalJoined >= capacity
+
+    ) {
+
+
+
+        alert(
+
+            "Maaf, penyertaan kursus ini sudah penuh."
+
+        );
+
+
+
+        displayStudentCourses();
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+    /* CHECK DATE */
+
+
+
+    if (
+
+        isCourseClosed(course)
+
+    ) {
+
+
+
+        alert(
+
+            "Maaf, pendaftaran kursus ini telah ditutup."
+
+        );
+
+
+
+        displayStudentCourses();
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+    const confirmation =
+
+        confirm(
+
+            "Adakah anda pasti mahu mendaftar kursus " +
+
+            course.title +
+
+            "?"
+
+        );
+
+
+
+
+
+    if (!confirmation) {
+
+        return;
+
+    }
+
+
+
+
+
+    /* SAVE ENROLLMENT */
+
+
+
+    const newEnrollment = {
+
+
+
+        id: Date.now(),
+
+
+
+        courseId:
+
+            course.id,
+
+
+
+        courseTitle:
+
+            course.title,
+
+
+
+        providerName:
+
+            course.providerName,
+
+
+
+        studentEmail:
+
+    currentStudent.email,
+
+
+
+studentName:
+
+    currentStudent.fullName,
+
+
+
+studentPhone:
+
+    currentStudent.phone || "-",
+
+
+
+registeredAt:
+
+    new Date().toISOString()
+
+    };
+
+
+
+
+
+    enrollments.push(
+
+        newEnrollment
+
+    );
+
+
+
+
+
+    localStorage.setItem(
+
+        "paparEduEnrollments",
+
+        JSON.stringify(enrollments)
+
+    );
+
+
+
+
+
+    alert(
+
+        "Pendaftaran kursus berjaya!"
+
+    );
+
+
+
+
+
+    displayStudentCourses();
+
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+
+   DISPLAY COURSES
+
+========================= */
+
+
+
+function displayStudentCourses() {
+
+
+
+
+
+    const courses =
+
+        getApprovedCourses();
+
+
+
+
+
+    const enrollments =
+
+        getEnrollments();
+
+
+
+
+
+    const courseList =
+
+        document.getElementById(
+
+            "studentCourseList"
+
+        );
+
+
+
+
+
+    if (
+
+        courses.length === 0
+
+    ) {
+
+
+
+
+
+        courseList.innerHTML = `
+
+
+
+            <div class="empty">
+
+
+
+                <div class="empty-icon">
+
+                    📚
+
+                </div>
+
+
+
+                <h3>
+
+                    Belum ada kursus tersedia
+
+                </h3>
+
+
+
+                <p>
+
+                    Kursus yang diluluskan oleh Admin
+
+                    akan dipaparkan di sini.
+
+                </p>
+
+
+
+            </div>
+
+
+
+        `;
+
+
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+    courseList.innerHTML = "";
+
+
+
+
+
+    courses.forEach(course => {
+
+
+
+
+
+        const card =
+
+            document.createElement(
+
+                "div"
+
+            );
+
+
+
+
+
+        card.className =
+
+            "course-card";
+
+
+
+
+
+        /* POSTER */
+
+
+
+        let posterHTML = `
+
+
+
+            <div class="poster-empty">
+
+                🖼️
+
+            </div>
+
+
+
+        `;
+
+
+
+
+
+        if (course.poster) {
+
+
+
+            posterHTML = `
+
+
+
+                <img
+
+                    src="${course.poster}"
+
+                    class="poster"
+
+                    alt="Poster Kursus">
+
+
+
+            `;
+
+
+
+        }
+
+
+
+
+
+        /* FEE */
+
+
+
+        let feeText =
+
+            "PERCUMA";
+
+
+
+
+
+        if (
+
+            Number(course.fee) > 0
+
+        ) {
+
+
+
+            feeText =
+
+                "RM " +
+
+                Number(
+
+                    course.fee
+
+                ).toFixed(2);
+
+
+
+        }
+
+
+
+
+
+        /* PARTICIPANTS */
+
+
+
+        const totalJoined =
+
+            enrollments.filter(
+
+                item =>
+
+                    Number(item.courseId) ===
+
+                    Number(course.id)
+
+            ).length;
+
+
+
+
+
+        const capacity =
+
+            Number(course.capacity) || 0;
+
+
+
+
+
+        const isFull =
+
+            capacity > 0 &&
+
+            totalJoined >= capacity;
+
+
+
+
+
+        const closed =
+
+            isCourseClosed(course);
+
+
+
+
+
+        const alreadyRegistered =
+
+            enrollments.some(
+
+                item =>
+
+                    Number(item.courseId) ===
+
+                    Number(course.id) &&
+
+                    item.studentEmail ===
+
+                    currentStudent.email
+
+            );
+
+
+
+
+
+        /* PROGRESS */
+
+
+
+        let percentage = 0;
+
+
+
+
+
+        if (capacity > 0) {
+
+
+
+            percentage =
+
+                Math.min(
+
+                    (totalJoined / capacity) * 100,
+
+                    100
+
+                );
+
+
+
+        }
+
+
+
+
+
+        /* STATUS */
+
+
+
+        let statusHTML = `
+
+
+
+            <span class="open-status">
+
+                🟢 Pendaftaran Dibuka
+
+            </span>
+
+
+
+        `;
+
+
+
+
+
+        let registerButton = `
+
+
+
+            <button
+
+                class="register-btn"
+
+                onclick="registerCourse(${course.id})">
+
+
+
+                Daftar Kursus
+
+
+
+            </button>
+
+
+
+        `;
+
+
+
+
+
+        if (alreadyRegistered) {
+
+
+
+            statusHTML = `
+
+
+
+                <span class="registered-status">
+
+                    ✓ Anda Sudah Berdaftar
+
+                </span>
+
+
+
+            `;
+
+
+
+
+
+            registerButton = `
+
+
+
+                <button
+
+                    class="register-btn"
+
+                    disabled>
+
+
+
+                    Sudah Berdaftar
+
+
+
+                </button>
+
+
+
+            `;
+
+
+
+        }
+
+
+
+
+
+        else if (isFull) {
+
+
+
+            statusHTML = `
+
+
+
+                <span class="full-status">
+
+                    🔴 PENYERTAAN PENUH
+
+                </span>
+
+
+
+            `;
+
+
+
+
+
+            registerButton = `
+
+
+
+                <button
+
+                    class="register-btn"
+
+                    disabled>
+
+
+
+                    Pendaftaran Ditutup
+
+
+
+                </button>
+
+
+
+            `;
+
+
+
+        }
+
+
+
+
+
+        else if (closed) {
+
+
+
+            statusHTML = `
+
+
+
+                <span class="closed-status">
+
+                    🔴 PENDAFTARAN DITUTUP
+
+                </span>
+
+
+
+            `;
+
+
+
+
+
+            registerButton = `
+
+
+
+                <button
+
+                    class="register-btn"
+
+                    disabled>
+
+
+
+                    Pendaftaran Ditutup
+
+
+
+                </button>
+
+
+
+            `;
+
+
+
+        }
+
+
+
+
+
+        /* WHATSAPP */
+
+
+
+        let whatsappHTML = "";
+
+
+
+
+
+        if (course.whatsapp) {
+
+
+
+
+
+            const message =
+
+                encodeURIComponent(
+
+                    "Hai, saya berminat dengan kursus " +
+
+                    (course.title || "") +
+
+                    " di Papar.Edu."
+
+                );
+
+
+
+
+
+            let whatsappURL =
+
+                course.whatsapp;
+
+
+
+
+
+            if (whatsappURL.startsWith("https://chat.whatsapp.com/")) {
+                // Group invite link digunakan terus.
+            } else if (whatsappURL.includes("?")) {
+                whatsappURL += "&text=" + message;
+            } else {
+                whatsappURL += "?text=" + message;
+            }
+
+
+
+
+
+            whatsappHTML = `
+
+
+
+                <a
+
+                    href="${whatsappURL}"
+
+                    target="_blank"
+
+                    rel="noopener noreferrer"
+
+                    class="whatsapp-btn">
+
+
+
+                    💬 WhatsApp Penyedia
+
+
+
+                </a>
+
+
+
+            `;
+
+
+
+        }
+
+
+
+
+
+        /* CARD */
+
+
+
+        card.innerHTML = `
+
+
+
+            ${posterHTML}
+
+
+
+
+
+            <div class="course-content">
+
+
+
+
+
+                <span class="category">
+
+
+
+                    ${
+
+                        course.category ||
+
+                        "KURSUS"
+
+                    }
+
+
+
+                </span>
+
+
+
+
+
+                <h3>
+
+
+
+                    ${
+
+                        course.title ||
+
+                        "Kursus"
+
+                    }
+
+
+
+                </h3>
+
+
+
+
+
+                <div class="provider">
+
+
+
+                    🏢
+
+                    ${
+
+                        course.providerName ||
+
+                        "Penyedia Latihan"
+
+                    }
+
+
+
+                </div>
+
+
+
+
+
+                <div class="course-info">
+
+
+
+
+
+                    <p>
+
+                        📅
+
+                        <strong>Tarikh:</strong>
+
+
+
+                        ${
+
+                            course.date ||
+
+                            "-"
+
+                        }
+
+                    </p>
+
+
+
+
+
+                    <p>
+
+                        🕐
+
+                        <strong>Masa:</strong>
+
+
+
+                        ${
+
+                            course.time ||
+
+                            "-"
+
+                        }
+
+                    </p>
+
+
+
+
+
+                    <p>
+
+                        📍
+
+                        <strong>Lokasi:</strong>
+
+
+
+                        ${
+
+                            course.location ||
+
+                            "-"
+
+                        }
+
+                    </p>
+
+
+
+
+
+                    <p>
+
+                        ⏳
+
+                        <strong>Tarikh Tutup:</strong>
+
+
+
+                        ${
+
+                            course.closingDate ||
+
+                            "-"
+
+                        }
+
+                    </p>
+
+
+
+
+
+                </div>
+
+
+
+
+
+                <div class="capacity-box">
+
+
+
+                    <p>
+
+
+
+                        👥 Penyertaan:
+
+                        ${totalJoined}
+
+                        /
+
+                        ${
+
+                            capacity > 0
+
+                            ? capacity
+
+                            : "∞"
+
+                        }
+
+
+
+                    </p>
+
+
+
+
+
+                    <div class="progress">
+
+
+
+                        <div
+
+                            class="progress-bar"
+
+                            style="width:${percentage}%">
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+                <div class="fee">
+
+                    ${feeText}
+
+                </div>
+
+
+
+
+
+                ${statusHTML}
+
+
+
+
+
+                ${registerButton}
+
+
+
+
+
+                ${whatsappHTML}
+
+
+
+
+
+            </div>
+
+
+
+        `;
+
+
+
+
+
+        courseList.appendChild(
+
+            card
+
+        );
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+
+   COURSE BUTTON
+
+========================= */
+
+
+
+document
+
+    .getElementById(
+
+        "browseCourseButton"
+
+    )
+
+    .addEventListener(
+
+        "click",
+
+        function () {
+
+
+
+            document
+
+                .getElementById(
+
+                    "courseSection"
+
+                )
+
+                .scrollIntoView({
+
+                    behavior: "smooth"
+
+                });
+
+
+
+        }
+
+    );
+
+
+
+
+
+
+
+document.getElementById("homeButton").addEventListener("click", function () {
+    window.location.href = "index.html";
+});
+
+/* =========================
+
+   LOGOUT
+
+========================= */
+
+
+
+document
+
+    .getElementById(
+
+        "logoutButton"
+
+    )
+
+    .addEventListener(
+
+        "click",
+
+        function () {
+
+
+
+            localStorage.removeItem(
+
+                "paparEduCurrentUser"
+
+            );
+
+
+
+            window.location.href =
+
+                "login.html";
+
+
+
+        }
+
+    );
+
+
+
+
+/* =========================
+
+   START
+
+========================= */
+
+loadApprovedCourses().then(() => {
+    displayStudentCourses();
+});
+
+</script>
+
+</body>
+
+</html>
