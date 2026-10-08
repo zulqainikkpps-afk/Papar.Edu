@@ -2,67 +2,51 @@
    LANGUAGE BM / EN
 ========================= */
 
-const btnBM = document.getElementById("btnBM");
-const btnEN = document.getElementById("btnEN");
-
 function changeLanguage(language) {
 
-    const elements =
-        document.querySelectorAll("[data-bm][data-en]");
+    const elements = document.querySelectorAll("[data-bm][data-en]");
 
     elements.forEach(element => {
-
-        if (language === "en") {
-            element.textContent = element.dataset.en;
-        } else {
-            element.textContent = element.dataset.bm;
-        }
-
+        element.textContent = language === "en"
+            ? element.dataset.en
+            : element.dataset.bm;
     });
 
+    // Tukar placeholder input
+    document.querySelectorAll("[data-placeholder-bm][data-placeholder-en]")
+        .forEach(element => {
+            element.placeholder = language === "en"
+                ? element.dataset.placeholderEn
+                : element.dataset.placeholderBm;
+        });
 
     // Button active
-    if (language === "en") {
-
-        btnEN.classList.add("active");
-        btnBM.classList.remove("active");
-
-        document.documentElement.lang = "en";
-
-    } else {
-
-        btnBM.classList.add("active");
-        btnEN.classList.remove("active");
-
-        document.documentElement.lang = "ms";
-    }
-
-
-    // Simpan pilihan pengguna
-    localStorage.setItem(
-        "paparEduLanguage",
-        language
+    document.getElementById("btnBM")?.classList.toggle(
+        "active", language === "bm"
     );
+
+    document.getElementById("btnEN")?.classList.toggle(
+        "active", language === "en"
+    );
+
+    document.documentElement.lang = language === "en" ? "en" : "ms";
+
+    // Simpan pilihan
+    localStorage.setItem("paparEduLanguage", language);
 }
 
+document.addEventListener("DOMContentLoaded", function () {
 
-/* BM BUTTON */
+    document.getElementById("btnBM")?.addEventListener("click", function () {
+        changeLanguage("bm");
+    });
 
-btnBM.addEventListener("click", function () {
-    changeLanguage("bm");
+    document.getElementById("btnEN")?.addEventListener("click", function () {
+        changeLanguage("en");
+    });
+
+    const savedLanguage =
+        localStorage.getItem("paparEduLanguage") || "bm";
+
+    changeLanguage(savedLanguage);
 });
-
-
-/* EN BUTTON */
-
-btnEN.addEventListener("click", function () {
-    changeLanguage("en");
-});
-
-
-/* KEKALKAN LANGUAGE SELEPAS REFRESH */
-
-const savedLanguage =
-    localStorage.getItem("paparEduLanguage") || "bm";
-
-changeLanguage(savedLanguage);
