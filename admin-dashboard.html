@@ -13121,280 +13121,40 @@ let adminCoursesData = [];
 
 
 
-
 async function loadAdminCourses() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     try {
+        const token = localStorage.getItem("paparEduToken");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        const response = await fetch(
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            "http\://localhost:3000/api/courses"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        const response = await fetch("/api/admin/courses", {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
 
         if (!response.ok) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            throw new Error("Gagal mengambil kursus");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            throw new Error(`Gagal mengambil kursus: ${response.status}`);
         }
 
+        const data = await response.json();
 
+        adminCoursesData = Array.isArray(data)
+            ? data
+            : (data.courses || []);
 
-
-
-
-
-
-
-
-
-
-
-
-
-        adminCoursesData = await response.json();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        console.log("Kursus dari Supabase:", adminCoursesData);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        console.log("Kursus Admin:", adminCoursesData);
 
     } catch (error) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        console.error(error);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        adminCoursesData = [];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        alert(
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            "Gagal mengambil kursus. Pastikan backend sedang berjalan."
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        console.error("Ralat mengambil kursus:", error);
+        alert("Gagal mengambil kursus: " + error.message);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+    
+
+
+
+
+
+
 
 
 
