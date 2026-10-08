@@ -36,33 +36,37 @@ export default function ProviderDashboard({ token, user, lang, onLogout, navigat
   const [editingCourseId, setEditingCourseId] = useState(null);
 
   useEffect(() => {
-    fetchProviderData();
-  }, []);
+    if (token) fetchProviderData();
+  }, [token, user?.provider?.id]);
 
   const fetchProviderData = async () => {
     setLoading(true);
     try {
-      // Fetch provider courses with authorization token
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      if (!token) throw new Error('Sila log masuk semula.');
+      const headers = { Authorization: `Bearer ${token}` };
       const providerId = user?.provider?.id;
-      const url = providerId ? `/api/courses?provider_id=${providerId}&status=all` : '/api/courses';
-      const cRes = await fetch(url, { headers });
+      const query = new URLSearchParams({ status: 'all' });
+      if (providerId) query.set('provider_id', providerId);
+
+      const cRes = await fetch(`/api/courses?${query.toString()}`, { headers });
       const cData = await cRes.json();
+      if (!cRes.ok) throw new Error(cData.message || `HTTP ${cRes.status}`);
+      const allCourses = Array.isArray(cData) ? cData : (cData.courses || []);
+      // If the backend provides a provider ID, show only this provider's courses.
+      setCourses(providerId ? allCourses.filter(c =>
+        String(c.provider_id ?? c.provider?.id ?? '') === String(providerId)
+      ) : allCourses);
 
-      if (cRes.ok && providerId) {
-        setCourses(cData.courses || []);
-      }
-
-      // Fetch participants list
-      const pRes = await fetch('/api/provider/registrations', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const pData = await pRes.json();
+      const pRes = await fetch('/api/provider/registrations', { headers });
       if (pRes.ok) {
-        setParticipants(pData.participants || []);
+        const pData = await pRes.json();
+        setParticipants(Array.isArray(pData) ? pData : (pData.participants || []));
+      } else {
+        console.warn('Tidak dapat mengambil peserta:', pRes.status);
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error('Ralat mengambil data provider:', error);
+      setMsg(error.message || 'Gagal mengambil data provider.');
     } finally {
       setLoading(false);
     }
@@ -72,47 +76,43 @@ export default function ProviderDashboard({ token, user, lang, onLogout, navigat
     e.preventDefault();
     setMsg('');
     setIsSubmitting(true);
-
     try {
+      if (!token) throw new Error('Sesi tamat. Sila log masuk semula.');
       const url = editingCourseId ? `/api/courses/${editingCourseId}` : '/api/courses';
       const method = editingCourseId ? 'PUT' : 'POST';
-
+      const payload = {
+        ...formData,
+        fee: Number(formData.fee),
+        max_seats: Number(formData.max_seats)
+      };
+      // Course status must be set to pending by the BACKEND for provider submissions.
       const res = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || `Gagal menyimpan kursus (HTTP ${res.status})`);
 
-      const data = await res.json();
-      if (res.ok) {
-        setMsg(data.message || (isBm ? 'Kursus berjaya disimpan!' : 'Course saved successfully!'));
-        setFormData({
-          title: '',
-          description: '',
-          category: 'Bakery',
-          course_date: '',
-          course_time: '09:00 AM - 04:00 PM',
-          duration: '1 Hari',
-          location: 'Papar, Sabah',
-          fee: 0,
-          max_seats: 30,
-          registration_deadline: '',
-          contact_phone: user?.phone || '088-911223',
-          registration_link: '',
-          poster_url: '',
-          what_you_will_learn: ''
-        });
-        setEditingCourseId(null);
-        fetchProviderData();
-        setActiveTab('my-courses');
-      } else {
-        setMsg(data.message || (isBm ? 'Ralat menyimpan kursus.' : 'Error saving course.'));
-      }
-    } catch (err) {
-      setMsg(isBm ? 'Ralat sambungan ke pelayan.' : 'Server connection error.');
+      setFormData({
+        title: '', description: '', category: 'Bakery', course_date: '',
+        course_time: '09:00 AM - 04:00 PM', duration: '1 Hari',
+        location: 'Papar, Sabah', fee: 0, max_seats: 30,
+        registration_deadline: '', contact_phone: user?.phone || '088-911223',
+        registration_link: '', poster_url: '', what_you_will_learn: ''
+      });
+      setEditingCourseId(null);
+      setActiveTab('my-courses');
+      await fetchProviderData();
+      setMsg(data.message || (isBm
+        ? 'Kursus berjaya dihantar. Semak status kursus untuk kelulusan Admin.'
+        : 'Course submitted. Check its status for admin approval.'));
+    } catch (error) {
+      console.error('Ralat hantar kursus:', error);
+      setMsg(error.message || 'Ralat sambungan ke pelayan.');
     } finally {
       setIsSubmitting(false);
     }
@@ -154,7 +154,7 @@ export default function ProviderDashboard({ token, user, lang, onLogout, navigat
     setActiveTab('add-course');
   };
 
-  const providerObj = user?.provider || { org_name: user?.full_name, status: 'approved' };
+  const providerObj = user?.provider || { org_name: user?.full_name || 'Provider', status: 'pending' };
   const isPendingVerification = providerObj.status === 'pending';
 
   return (
@@ -167,7 +167,7 @@ export default function ProviderDashboard({ token, user, lang, onLogout, navigat
           <div className="pb-6 border-b border-slate-800">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-indigo-600 font-black text-lg flex items-center justify-center text-white shadow-md">
-                {providerObj.org_name.charAt(0)}
+                {(providerObj.org_name || 'P').charAt(0)}
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-bold text-white truncate">{providerObj.org_name}</p>
@@ -336,6 +336,7 @@ export default function ProviderDashboard({ token, user, lang, onLogout, navigat
         {/* TAB 2: MY COURSES */}
         {activeTab === 'my-courses' && (
           <div className="space-y-6">
+            {msg && <div className="p-4 rounded-xl bg-sky-50 text-sky-800 border border-sky-200 text-xs font-bold">{msg}</div>}
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-black text-slate-900">{isBm ? 'Kursus Saya' : 'My Courses'}</h1>
@@ -393,7 +394,7 @@ export default function ProviderDashboard({ token, user, lang, onLogout, navigat
                           <td className="p-4">{c.available_seats} / {c.max_seats}</td>
                           <td className="p-4">
                             <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase ${
-                              c.status === 'published' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                              c.status === 'published' ? 'bg-emerald-100 text-emerald-800' : c.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'
                             }`}>
                               {c.status}
                             </span>
@@ -612,7 +613,7 @@ export default function ProviderDashboard({ token, user, lang, onLogout, navigat
                   disabled={isSubmitting}
                   className="px-6 py-3 bg-gradient-to-r from-sky-600 to-indigo-600 text-white font-bold text-xs rounded-xl shadow-lg hover:from-sky-700 hover:to-indigo-700 transition"
                 >
-                  {isSubmitting ? (isBm ? 'Menyimpan...' : 'Saving...') : (isBm ? 'Hantar & Terbitkan Kursus' : 'Submit & Publish Course')}
+                  {isSubmitting ? (isBm ? 'Menyimpan...' : 'Saving...') : (isBm ? 'Hantar untuk Kelulusan' : 'Submit for Approval')}
                 </button>
               </div>
             </form>
