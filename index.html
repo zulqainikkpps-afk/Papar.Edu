@@ -76,24 +76,6 @@
 
 </div>
 
-
-
-<div class="language-switch">
-
-
-
-<button class="lang-btn active" id="btnBM" type="button">BM</button>
-
-
-
-<button class="lang-btn" id="btnEN" type="button">EN</button>
-
-
-
-</div>
-
-
-
 </a>
 
 
@@ -2623,7 +2605,7 @@
 
 
 <script src="js/main.js"></script>
-
+<script src="js/language.js"></script>
 
 
 </section></section>
@@ -2766,15 +2748,26 @@ async function loadApprovedCourses() {
 
 
 
-        const response = await fetch(PAPAR_EDU_API + "/api/courses/approved");
+        const response = await fetch("/api/courses");
 
+if (!response.ok) {
+    throw new Error("HTTP " + response.status);
+}
 
+const data = await response.json();
 
-        if (!response.ok) throw new Error("Gagal mengambil kursus");
-
-
-
-        const courses = await response.json();
+const courses = (Array.isArray(data) ? data : data.courses || [])
+    .filter(course => course.status === "published")
+    .map(course => ({
+        ...course,
+        poster: course.poster_url
+    ? "https://papar-edu-api.onrender.com" + course.poster_url
+    : "",
+        providerName: course.provider_name,
+        date: course.course_date,
+        time: course.course_time,
+        capacity: course.max_seats
+    }));
 
 
 
@@ -2956,19 +2949,7 @@ async function loadApprovedCourses() {
 
 }
 
-
-
-document.addEventListener("DOMContentLoaded", loadApprovedCourses);
-
-
-
 </script>
-
-
-
-
-
-
 
 <script>
 
@@ -3122,7 +3103,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  const API = "http\://localhost:3000";
+  const API = "";
 
 
 
